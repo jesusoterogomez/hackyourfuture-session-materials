@@ -1,3 +1,8 @@
+// Fetch leaderboard on start
+fetch("/leaderboard")
+  .then((response) => response.json())
+  .then((data) => console.log("Leaderboard:", data));
+
 // Card data - unique cards with id and emoji
 const cards = [
   { id: 1, emoji: "🐱" },
