@@ -10,7 +10,6 @@ app.use(express.json());
 // Serve frontend files from the app directory
 app.use(express.static("./app"));
 
-
 // Set up database
 const db = knex({
   client: "sqlite3",
