@@ -1,10 +1,7 @@
 # Ignore packages installed by npm/node in any dir
-**/node_modules/
+node_modules/
 
 # Ignore hidden macOS files
 .DS_Store
 
-# Ignore VS Code configuration files
-.vscode/
-*.code-workspace
 
