@@ -3,9 +3,7 @@ import knex from "knex";
 
 // Set up express server
 const app = express();
-
-// Support JSON content types in requests
-app.use(express.json());
+app.use(express.json()); // Support JSON content types in requests
 
 // Serve frontend files from the app directory
 app.use(express.static("./app"));
@@ -16,16 +14,12 @@ const db = knex({
   connection: { filename: "./server/database.db" },
 });
 
-// Serve frontend files
-app.use(express.static("./app"));
-
+// GET endpoint for listing all users from the database table "users"
 app.get("/users", async (request, response) => {
+  // Get all users from the database
   const rows = await db.raw("SELECT * FROM users");
-  response.json(rows);
+  response.json(rows); // Respond with the users list in JSON format
 });
 
-app.get("/leaderboard", async (request, response) => {
-  response.json([]);
-});
-
+// Start the server on port 3000 on your local machine
 app.listen(3000, () => console.log("App running on http://localhost:3000"));
