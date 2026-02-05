@@ -6,12 +6,18 @@ const app = express();
 app.use(express.json()); // Support JSON content types in requests
 
 // Serve frontend files from the app directory
-app.use(express.static("./app"));
+// 👀 Note: This needs to be updated to the path of your frontend directory
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(join(__dirname, "../app")));
 
 // Set up database
 const db = knex({
   client: "sqlite3",
-  connection: { filename: "./server/database.db" },
+  connection: { filename: "./database.db" },
+  useNullAsDefault: true, // Required for SQLite
 });
 
 // GET endpoint for listing all users from the database table "users"
@@ -22,4 +28,6 @@ app.get("/users", async (request, response) => {
 });
 
 // Start the server on port 3000 on your local machine
-app.listen(3000, () => console.log("App running on http://localhost:3000"));
+app.listen(3000, () =>
+  console.log("App running on http://localhost:3000. Type Ctrl+C to stop.")
+);
