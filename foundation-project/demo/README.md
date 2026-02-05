@@ -41,18 +41,19 @@ Then open http://localhost:3000 in your browser.
 
 ## Quick Start (for class)
 
-Copy the server directory to your project to follow along the coding exercises
+Copy the demo to your machine and use your own frontend files.
 
 ```bash
-# Copy the server code
+# Copy the demo server to a new folder on your project
 npx degit jesusoterogomez/hackyourfuture-session-materials/foundation-project/demo/server server
 
-# Go to the server directory
 cd server
 
 # Install dependencies
 npm install
 
-# Start the project
+# Start the server
 npm start
 ```
+
+Then replace the `app/` folder with your own frontend files (or rename your frontend folder to `app/`).
