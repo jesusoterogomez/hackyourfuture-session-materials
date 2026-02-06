@@ -4,6 +4,8 @@ This directory contains teaching materials for the Foundation Project.
 
 [Read the Project Brief](https://program.hackyourfuture.dk/course-content/foundation/final-project/project-brief)
 
+[Presentation](https://docs.google.com/presentation/d/1qrx-g1Y1PtTHadSByRBi19j45KuFnn8cGMaTsxrI994/edit?usp=sharing)
+
 ## Technologies
 
 - 🟢 [Node.js](https://nodejs.org/) - JavaScript runtime for running JS outside the browser

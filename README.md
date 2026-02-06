@@ -5,3 +5,4 @@ Teaching materials and demo code for supporting my sessions as a mentor at HackY
 ## Modules
 
 - `foundation-project/` - Foundation Project (Memory Game)
+- `intro-to-web-architecture/` - Diagrams for Web architeture session
