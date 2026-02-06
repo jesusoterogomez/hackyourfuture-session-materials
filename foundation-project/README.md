@@ -4,6 +4,14 @@ This directory contains teaching materials for the Foundation Project.
 
 [Read the Project Brief](https://program.hackyourfuture.dk/course-content/foundation/final-project/project-brief)
 
+## Technologies
+
+- 🟢 [Node.js](https://nodejs.org/) - JavaScript runtime for running JS outside the browser
+- 📦 [npm](https://www.npmjs.com/) - Package manager for installing JavaScript libraries
+- 🚂 [Express](https://expressjs.com/) - Library for building APIs and serving files
+- 🗄️ [SQLite](https://www.sqlite.org/) - Lightweight database stored in a single file
+- 🔧 [Knex](https://knexjs.org/) - Library for building SQL queries in javascript
+
 ## Contents
 
 - `demo/` - Sample application with a basic memory game
