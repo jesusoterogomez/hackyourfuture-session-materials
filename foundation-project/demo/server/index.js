@@ -17,13 +17,13 @@ const db = knex({
 });
 
 // GET endpoint for listing all users from the database table "users"
-app.get("/users", async (request, response) => {
+app.get("/users", async function (request, response) {
   // Get all users from the database
   const rows = await db.raw("SELECT * FROM users");
   response.json(rows); // Respond with the users list in JSON format
 });
 
 // Start the server on port 3000 on your local machine
-app.listen(3000, () =>
-  console.log("App running on http://localhost:3000. Type Ctrl+C to stop.")
-);
+app.listen(3000, () => {
+  console.log("App running on http://localhost:3000. Type Ctrl+C to stop.");
+});
