@@ -101,8 +101,3 @@ function checkMatch() {
     }, 1000);
   }
 }
-
-// Fetch leaderboard on start
-// fetch("/users")
-//   .then((response) => response.json())
-//   .then((data) => console.log("Users:", data));
