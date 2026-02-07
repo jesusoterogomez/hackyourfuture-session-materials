@@ -9,7 +9,8 @@ app.use(express.json()); // Support JSON content types in requests
 // 👀 Note: This needs to be updated to the path of your frontend directory
 app.use(express.static("../app"));
 
-// Set up database
+// Set up database - Creates an instance of the Knex library
+// connected to our SQLite database file.
 const db = knex({
   client: "sqlite3",
   connection: { filename: "./database.db" },
