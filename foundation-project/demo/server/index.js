@@ -24,6 +24,11 @@ app.get("/users", async function (request, response) {
 });
 
 // Start the server on port 3000 on your local machine
-app.listen(3000, () => {
+const server = app.listen(3000, function () {
   console.log("App running on http://localhost:3000. Type Ctrl+C to stop.");
+});
+
+// Show errors when the server fails to start
+server.on("error", function (error) {
+  console.error("Server error:", error.message);
 });
