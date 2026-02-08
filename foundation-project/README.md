@@ -2,9 +2,12 @@
 
 This directory contains teaching materials for the Foundation Project.
 
-[Read the Project Brief](https://program.hackyourfuture.dk/course-content/foundation/final-project/project-brief)
+### Presentation
+- [🖼️ Google Slides](https://docs.google.com/presentation/d/1qrx-g1Y1PtTHadSByRBi19j45KuFnn8cGMaTsxrI994/edit?usp=sharing)
 
-[Presentation](https://docs.google.com/presentation/d/1qrx-g1Y1PtTHadSByRBi19j45KuFnn8cGMaTsxrI994/edit?usp=sharing)
+### Project Brief
+- [🎯 HackYourFuture Program - Milestones Week 2](https://program.hackyourfuture.dk/course-content/foundation/final-project/project-brief)
+
 
 ## Technologies
 
