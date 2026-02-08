@@ -1,4 +1,24 @@
-// Card data - unique cards with id and emoji
+/**
+ * Examples of how to call a GET endpoint in the server.
+ */
+
+// Call a GET endpoint in the server
+async function fetchUsers() {
+  const response = await fetch("/users");
+  const data = await response.json();
+
+  console.log(data);
+  return data;
+}
+
+// This function runs when the page loads.
+fetchUsers();
+
+/**
+ * Game logic
+ */
+
+// Card data - unique cards with id and emoji.
 const cards = [
   { id: 1, emoji: "🐱" },
   { id: 2, emoji: "🐶" },
@@ -10,15 +30,15 @@ const cards = [
   { id: 8, emoji: "🐷" },
 ];
 
-// Duplicate and shuffle
-const pairs = [...cards, ...cards];
-pairs.sort(() => Math.random() - 0.5);
-
 // Game state
 const gameState = {
   flippedCards: [],
   matchedIds: [],
 };
+
+// Duplicate and shuffle the cards
+const pairs = [...cards, ...cards];
+pairs.sort(() => Math.random() - 0.5);
 
 // Create the grid
 const grid = document.getElementById("grid");

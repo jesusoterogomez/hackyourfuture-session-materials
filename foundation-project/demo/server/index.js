@@ -17,11 +17,10 @@ const db = knex({
   useNullAsDefault: true, // Required for SQLite
 });
 
-// GET endpoint for listing all users from the database table "users"
+// GET endpoint for listing data from a database
 app.get("/users", async function (request, response) {
-  // Get all users from the database
   const rows = await db.raw("SELECT * FROM users");
-  response.json(rows); // Respond with the users list in JSON format
+  response.json(rows); // Respond with the data in JSON format
 });
 
 // Start the server on port 3000 on your local machine

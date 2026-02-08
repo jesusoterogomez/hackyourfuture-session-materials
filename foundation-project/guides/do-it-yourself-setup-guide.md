@@ -2,7 +2,7 @@
 
 How to set up an Express server from scratch.
 
-## 1. Create the project folder
+## 1. Create the server folder in your project
 
 ```bash
 mkdir server
