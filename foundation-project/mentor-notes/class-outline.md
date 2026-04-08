@@ -57,12 +57,11 @@ No manual seeding required.
 
 ## 6. Hands-on time
 
-- Students connect their frontend to the backend
+- Trainees connect their frontend to the backend
 - Help with:
   - fetching data
   - game logic
   - backend questions
-- Faster students can extend functionality
 
 ---
 
