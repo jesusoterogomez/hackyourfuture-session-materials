@@ -1,0 +1,1571 @@
+<style>
+  /* ============================================================
+     DESIGN TOKENS — edit these to restyle the whole deck
+     ============================================================ */
+  :root {
+    /* Colors */
+    --color-bg: #0f1523;
+    --color-card: #1a2540;
+    --color-card-border: #2d3d6a;
+    --color-deep: #090e1a;
+    --color-deep-border: #1e2d50;
+    --color-hbox: #111c30;
+    --color-hbox-feat: #0d1e30;
+
+    --color-white: #ffffff;
+    --color-cyan: #4cc9f0;
+    --color-blue: #4361ee;
+    --color-muted: #8899bb;
+    --color-light: #c8d4ee;
+    --color-green: #22c55e;
+    --color-red: #ef4444;
+    --color-amber: #f9a875;
+    --color-code-blue: #7b9ef0;
+    --color-code-dim: #4b5e82;
+
+    /* Typography */
+    --font-ui: var(--font-sans, "Helvetica Neue", sans-serif);
+    --font-code: var(--font-mono, monospace);
+
+    --text-tag: clamp(12px, 1.5vw, 17px);
+    --text-headline: clamp(27px, 5.7vw, 70px);
+    --text-sub: clamp(15px, 2.1vw, 28px);
+    --text-body: clamp(13px, 1.6vw, 20px);
+    --text-small: clamp(12px, 1.4vw, 17px);
+    --text-code: clamp(12px, 1.45vw, 18px);
+    --text-label: clamp(12px, 1.5vw, 18px);
+
+    /* Spacing */
+    --slide-padding: 6% 8%;
+    --gap-sm: 2%;
+    --gap-md: 3%;
+    --gap-lg: 4%;
+    --gap-xl: 5%;
+
+    /* Slide transition */
+    --transition-speed: 0.45s;
+  }
+
+  /* ============================================================
+     RESET
+     ============================================================ */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+  }
+
+  /* ============================================================
+     DECK + SLIDES
+     ============================================================ */
+  #deck {
+    width: min(100vw, calc(100dvh * 16 / 9));
+    height: 100dvh;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bg);
+    border-radius: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--slide-padding);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--transition-speed) ease,
+      transform var(--transition-speed) ease;
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .slide.exit {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  /* ============================================================
+     TYPOGRAPHY
+     ============================================================ */
+  .tag {
+    font-family: var(--font-ui);
+    font-size: var(--text-tag);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-cyan);
+    margin-bottom: 0.8em;
+  }
+
+  .headline {
+    font-family: var(--font-ui);
+    font-size: var(--text-headline);
+    font-weight: 600;
+    color: var(--color-white);
+    line-height: 1.1;
+    margin-bottom: 0.5em;
+  }
+
+  .sub {
+    font-family: var(--font-ui);
+    font-size: var(--text-sub);
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  .headline-section {
+    font-size: clamp(21px, 3.9vw, 50px);
+  }
+
+  .headline-closing {
+    font-size: clamp(25px, 5.6vw, 70px);
+  }
+
+  .headline-with-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.22em;
+    flex-wrap: wrap;
+  }
+
+  .headline-logo {
+    width: 0.9em;
+    height: 0.9em;
+    object-fit: contain;
+    flex-shrink: 0;
+    transform: translateY(0.03em);
+  }
+
+  .text-sm {
+    font-size: clamp(13px, 1.5vw, 19px);
+  }
+
+  .text-md {
+    font-size: clamp(14px, 1.7vw, 21px);
+  }
+
+  .text-lg {
+    font-size: clamp(15px, 1.9vw, 23px);
+  }
+
+  .text-arrow {
+    font-size: clamp(19px, 2.6vw, 34px);
+  }
+
+  .text-caption {
+    font-size: clamp(12px, 1.4vw, 17px);
+  }
+
+  .accent {
+    color: var(--color-cyan);
+  }
+
+  /* ============================================================
+     LAYOUT HELPERS
+     ============================================================ */
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap-lg);
+  }
+
+  .cols3 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap-md);
+    row-gap: 5%;
+  }
+
+  /* ============================================================
+     CARDS
+     ============================================================ */
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+    padding: 5% 6%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+  }
+
+  .card-title {
+    font-family: var(--font-ui);
+    font-size: clamp(14px, 1.9vw, 23px);
+    font-weight: 500;
+    color: var(--color-white);
+  }
+
+  .card-body {
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  /* ============================================================
+     HIGHLIGHT BOXES (left-border callouts)
+     ============================================================ */
+  .hbox {
+    border-left: 4px solid var(--color-blue);
+    background: var(--color-hbox);
+    border-radius: 0 8px 8px 0;
+    padding: 3% 5%;
+    margin: 0.4em 0;
+  }
+
+  .hbox.feat {
+    border-left-color: var(--color-cyan);
+    background: var(--color-hbox-feat);
+  }
+
+  .hbox-title {
+    font-family: var(--font-ui);
+    font-size: clamp(14px, 1.7vw, 21px);
+    font-weight: 500;
+    color: var(--color-cyan);
+    margin-bottom: 0.3em;
+  }
+
+  .title-with-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+  }
+
+  .title-logo {
+    width: clamp(16px, 1.8vw, 22px);
+    height: clamp(16px, 1.8vw, 22px);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .diagram-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 2% 0;
+    padding: 0.55em 0.95em;
+    border: 1px solid var(--color-deep-border);
+    border-radius: 999px;
+    background: var(--color-deep);
+    color: var(--color-light);
+    font-family: var(--font-code);
+    font-size: clamp(13px, 1.5vw, 18px);
+    letter-spacing: 0.01em;
+  }
+
+  .diagram-logo {
+    width: clamp(15px, 1.6vw, 19px);
+    height: clamp(15px, 1.6vw, 19px);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .tool-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55em;
+    margin-top: 3%;
+    color: var(--color-muted);
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    line-height: 1.45;
+  }
+
+  .tool-note-logo {
+    width: clamp(15px, 1.6vw, 19px);
+    height: clamp(15px, 1.6vw, 19px);
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-top: 0.1em;
+  }
+
+  .tool-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 4%;
+    justify-content: center;
+  }
+
+  .flow-card {
+    background: var(--color-deep);
+    border: 1px solid var(--color-deep-border);
+    border-radius: 12px;
+    padding: 5% 6%;
+  }
+
+  .flow-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-bottom: 0.5em;
+    font-family: var(--font-ui);
+    font-size: clamp(15px, 1.9vw, 23px);
+    font-weight: 600;
+    color: var(--color-white);
+  }
+
+  .flow-logo {
+    width: clamp(18px, 2vw, 24px);
+    height: clamp(18px, 2vw, 24px);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .flow-body {
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    color: var(--color-muted);
+    line-height: 1.45;
+  }
+
+  .hbox.feat .hbox-title {
+    color: var(--color-white);
+    font-size: clamp(16px, 2vw, 25px);
+  }
+
+  .hbox-body {
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+
+  /* Small callout variant used in JSX fundamentals */
+  .hlt {
+    background: var(--color-hbox);
+    border-left: 3px solid var(--color-blue);
+    border-radius: 0 8px 8px 0;
+    padding: 2.5% 4%;
+    margin: 0.35em 0;
+  }
+
+  .hlt-title {
+    font-family: var(--font-ui);
+    font-size: clamp(13px, 1.6vw, 20px);
+    font-weight: 500;
+    color: var(--color-cyan);
+    margin-bottom: 0.2em;
+  }
+
+  .hlt-body {
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+
+  /* ============================================================
+     CODE BLOCKS
+     ============================================================ */
+  .code {
+    background: var(--color-deep);
+    border: 1px solid var(--color-deep-border);
+    border-radius: 8px;
+    padding: 4% 5%;
+    font-family: var(--font-code);
+    font-size: var(--text-code);
+    color: #e2e8f0;
+    line-height: 1.85;
+  }
+
+  /* Syntax token colors */
+  .cm {
+    color: var(--color-code-dim);
+  } /* comment  */
+  .ck {
+    color: var(--color-code-blue);
+  } /* keyword  */
+  .cs {
+    color: var(--color-cyan);
+  } /* symbol   */
+  .cp {
+    color: var(--color-amber);
+  } /* string   */
+
+  /* ============================================================
+     FRAMEWORK LIST
+     ============================================================ */
+  .fw-row {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-lg);
+    padding: 3% 0;
+    border-bottom: 1px solid var(--color-card);
+  }
+  .fw-row:last-child {
+    border: none;
+  }
+
+  .fw-dot {
+    width: clamp(8px, 1vw, 13px);
+    height: clamp(8px, 1vw, 13px);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .fw-name {
+    font-family: var(--font-ui);
+    font-size: clamp(14px, 1.9vw, 23px);
+    font-weight: 600;
+    color: var(--color-white);
+    min-width: 22%;
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+    flex-wrap: wrap;
+  }
+
+  .fw-logo {
+    width: clamp(14px, 1.6vw, 20px);
+    height: clamp(14px, 1.6vw, 20px);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .fw-note {
+    font-family: var(--font-ui);
+    font-size: clamp(13px, 1.6vw, 20px);
+    color: var(--color-muted);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.15em 0.55em;
+    border-radius: 4px;
+    font-size: clamp(11px, 1.2vw, 15px);
+    font-weight: 500;
+    margin-left: 0.6em;
+    background: #162040;
+    color: var(--color-code-blue);
+    border: 1px solid #2d4080;
+  }
+
+  .badge.muted {
+    background: #1b2336;
+    color: var(--color-muted);
+    border-color: #36425f;
+  }
+
+  /* ============================================================
+     BULLET ROWS (pain / green checkmarks)
+     ============================================================ */
+  .pain-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 3%;
+    padding: 3% 0;
+    border-bottom: 1px solid var(--color-card);
+    font-family: var(--font-ui);
+    font-size: var(--text-sub);
+    color: var(--color-light);
+    line-height: 1.4;
+  }
+  .pain-row:last-child {
+    border: none;
+  }
+
+  .dot-r {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-red);
+    flex-shrink: 0;
+    margin-top: 0.45em;
+  }
+  .dot-g {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-green);
+    flex-shrink: 0;
+    margin-top: 0.45em;
+  }
+
+  /* ============================================================
+     AGENDA ROWS
+     ============================================================ */
+  .step-row {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-lg);
+    margin: 0.6em 0;
+  }
+
+  .step-num {
+    min-width: clamp(28px, 3.5vw, 46px);
+    height: clamp(28px, 3.5vw, 46px);
+    border-radius: 50%;
+    background: var(--color-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(14px, 1.7vw, 21px);
+    font-weight: 600;
+    color: var(--color-white);
+    flex-shrink: 0;
+  }
+
+  .step-text {
+    font-family: var(--font-ui);
+    font-size: clamp(14px, 1.8vw, 23px);
+    color: var(--color-light);
+    line-height: 1.4;
+  }
+
+  /* ============================================================
+     FILE PILLS
+     ============================================================ */
+  .pill {
+    display: inline-block;
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 6px;
+    padding: 0.3em 0.9em;
+    font-family: var(--font-ui);
+    font-size: clamp(13px, 1.5vw, 19px);
+    color: var(--color-muted);
+    margin: 0.2em 0.15em;
+  }
+  .pill.hi {
+    background: #162040;
+    border-color: var(--color-blue);
+    color: var(--color-code-blue);
+  }
+
+  .file-pill {
+    display: inline-block;
+    background: var(--color-hbox);
+    border: 1px solid var(--color-card-border);
+    border-radius: 6px;
+    padding: 0.3em 0.8em;
+    font-family: var(--font-code);
+    font-size: clamp(13px, 1.6vw, 20px);
+    color: var(--color-amber);
+    margin: 0.2em 0.15em;
+  }
+  .file-pill.new {
+    border-color: var(--color-blue);
+    color: var(--color-cyan);
+    background: #0d1525;
+  }
+
+  /* ============================================================
+     RULE LABEL (used above code blocks in JSX rules slides)
+     ============================================================ */
+  .rule-label {
+    font-family: var(--font-ui);
+    font-size: var(--text-label);
+    font-weight: 500;
+    margin-bottom: 3%;
+  }
+
+  /* ============================================================
+     PROGRESS BAR + NAV DOTS + HINT
+     ============================================================ */
+  #progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--color-blue);
+    transition: width var(--transition-speed) ease;
+    border-radius: 0 2px 2px 0;
+  }
+
+  #nav-dots {
+    position: absolute;
+    bottom: 3%;
+    right: 3%;
+    display: flex;
+    gap: 1.2%;
+    align-items: center;
+  }
+
+  .nav-dot {
+    width: clamp(6px, 0.8vw, 10px);
+    height: clamp(6px, 0.8vw, 10px);
+    border-radius: 50%;
+    background: var(--color-card-border);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .nav-dot.on {
+    background: var(--color-blue);
+    transform: scale(1.3);
+  }
+
+  #hint {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-ui);
+    font-size: clamp(11px, 1.2vw, 15px);
+    color: var(--color-code-dim);
+    letter-spacing: 0.05em;
+  }
+</style>
+
+<div id="deck">
+  <div id="progress"></div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 0 — Title
+    ════════════════════════════════════════════ -->
+  <div class="slide active">
+    <div class="tag">HackYourFuture Denmark</div>
+    <div class="headline">
+      Introduction<br />to
+      <span class="headline-with-logo">
+        <span class="accent">React</span>
+        <img
+          class="headline-logo"
+          src="https://cdn.simpleicons.org/react/61DAFB"
+          alt=""
+        />
+      </span>
+    </div>
+    <div class="sub">Your first look at the most popular UI library</div>
+    <div style="margin-top: 7%; display: flex; gap: 1.5%">
+      <span class="pill hi">JSX</span>
+      <span class="pill hi">Components</span>
+      <span class="pill hi">Composition</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 1 — Agenda
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Today</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      What we're covering
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2%">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-text">What is a frontend framework?</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-text">Why React? The problem it solves</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-text">JSX fundamentals</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-text">Thinking in components</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-text">Exercises</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 2 — Frontend frameworks
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 01 · What is a frontend framework?</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      Frontend libraries &amp; frameworks
+    </div>
+    <div class="sub" style="margin-bottom: 5%">
+      Tools that help you build UIs faster, with structure, reusability, and
+      less repetition.
+    </div>
+    <div class="cols">
+      <div class="card">
+        <div class="card-title">Without a framework</div>
+        <div class="card-body">
+          Raw HTML, CSS and JS. You manage everything yourself. Fine for small
+          sites.
+        </div>
+      </div>
+      <div class="card" style="border-color: var(--color-blue)">
+        <div class="card-title" style="color: var(--color-cyan)">
+          With a framework
+        </div>
+        <div class="card-body">
+          You get conventions, patterns, and tools. Scales to big apps and big
+          teams.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 3 — The main options
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 01 · What is a frontend framework?</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      The main options today
+    </div>
+    <div
+      style="
+        background: var(--color-deep);
+        border: 1px solid var(--color-deep-border);
+        border-radius: 10px;
+        padding: 3% 5%;
+      "
+    >
+      <div class="fw-row">
+        <div class="fw-dot" style="background: #4361ee"></div>
+        <div class="fw-name">
+          <img
+            class="fw-logo"
+            src="https://cdn.simpleicons.org/react/61DAFB"
+            alt=""
+          />
+          React<span class="badge">in this session</span>
+        </div>
+        <div class="fw-note">Meta/Facebook · 2013 · Massive ecosystem</div>
+      </div>
+      <div class="fw-row">
+        <div class="fw-dot" style="background: #22c55e"></div>
+        <div class="fw-name">
+          <img
+            class="fw-logo"
+            src="https://cdn.simpleicons.org/vuedotjs/4FC08D"
+            alt=""
+          />
+          Vue
+        </div>
+        <div class="fw-note">
+          2014 · Beginner-friendly and easy to get started with
+        </div>
+      </div>
+      <div class="fw-row">
+        <div class="fw-dot" style="background: #f97316"></div>
+        <div class="fw-name">
+          <img
+            class="fw-logo"
+            src="https://cdn.simpleicons.org/svelte/FF3E00"
+            alt=""
+          />
+          Svelte
+        </div>
+        <div class="fw-note">
+          2016 · Performance-first with a lightweight runtime
+        </div>
+      </div>
+      <div class="fw-row">
+        <div class="fw-dot" style="background: #ef4444"></div>
+        <div class="fw-name">
+          <img
+            class="fw-logo"
+            src="https://cdn.simpleicons.org/angular/DD0031"
+            alt=""
+          />
+          Angular
+        </div>
+        <div class="fw-note">
+          Google · 2016 · Full framework, TypeScript-first
+        </div>
+      </div>
+      <div class="fw-row">
+        <div class="fw-dot" style="background: #8899bb"></div>
+        <div class="fw-name">
+          <img
+            class="fw-logo"
+            src="https://cdn.simpleicons.org/nextdotjs/ffffff"
+            alt=""
+          />
+          Next.js<span class="badge muted">soon</span>
+        </div>
+        <div class="fw-note">
+          Vercel · 2016 · React-based framework. We will use it later in the
+          program
+        </div>
+      </div>
+    </div>
+    <div class="sub text-sm" style="margin-top: 4%">
+      The concepts you learn today transfer. React first because it's where the
+      jobs are.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 4 — You already know
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 02 · Why React?</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      You already know how to build things
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 1%">
+      <div class="pain-row">
+        <div class="dot-g"></div>
+        <div>HTML gives you structure: headings, divs, buttons</div>
+      </div>
+      <div class="pain-row">
+        <div class="dot-g"></div>
+        <div>CSS gives you style: classes, selectors, layouts</div>
+      </div>
+      <div class="pain-row">
+        <div class="dot-g"></div>
+        <div>JavaScript adds behavior: event listeners, DOM updates</div>
+      </div>
+    </div>
+    <div class="sub text-md" style="margin-top: 6%">
+      So… what's the problem?
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 5 — Where it breaks down
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 02 · Why React?</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      Where it starts to break down
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 1%">
+      <div class="pain-row">
+        <div class="dot-r"></div>
+        <div>
+          Same card layout is needed in 10 places. You copy and paste HTML 10
+          times.
+        </div>
+      </div>
+      <div class="pain-row">
+        <div class="dot-r"></div>
+        <div>
+          If something changes (e.g. a title), you have to update every copy
+          through the codebase.
+        </div>
+      </div>
+      <div class="pain-row">
+        <div class="dot-r"></div>
+        <div>
+          You write a lot of code to update the DOM, to reflect the changes in
+          the data.
+        </div>
+      </div>
+      <div class="pain-row">
+        <div class="dot-r"></div>
+        <div>
+          When the codebase grows, without structure, changes become harder to
+          maintain.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 6 — What React gives you
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 02 · Why React?</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      What React gives you
+    </div>
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 3%">
+        <div class="hbox feat">
+          <div class="hbox-title">Components</div>
+          <div class="hbox-body">
+            Build a piece of UI once. Reuse it anywhere, with no copy-pasting
+            HTML ever again.
+          </div>
+        </div>
+        <div class="hbox">
+          <div class="hbox-title">Automatic updates</div>
+          <div class="hbox-body">
+            When your data changes, the UI updates. No manual DOM work.
+          </div>
+        </div>
+        <div class="hbox">
+          <div class="hbox-title">Structure for teams</div>
+          <div class="hbox-body">Everyone works on separate components.</div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 3%">
+        <div class="card">
+          <div class="card-title" style="color: var(--color-green)">
+            Strengths
+          </div>
+          <div
+            class="card-body"
+            style="display: flex; flex-direction: column; gap: 6%"
+          >
+            <div>+ Great for teams &amp; big apps</div>
+            <div>+ Huge ecosystem &amp; community</div>
+            <div>+ Design systems: write once</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color: var(--color-red)">
+            Trade-offs
+          </div>
+          <div
+            class="card-body"
+            style="display: flex; flex-direction: column; gap: 6%"
+          >
+            <div>– Overhead for tiny projects</div>
+            <div>– New concepts to learn</div>
+            <div>– Not a full framework (no router)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 7 — .jsx bridge
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 03 · JSX</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      A new way to write your UI
+    </div>
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 4%">
+        <div class="sub text-md">
+          Until now, you've kept your files separate.
+        </div>
+        <div style="display: flex; gap: 2%; flex-wrap: wrap; margin-top: 1%">
+          <span class="file-pill">index.html</span>
+          <span class="file-pill">style.css</span>
+          <span class="file-pill">script.js</span>
+        </div>
+        <div class="sub text-md" style="margin-top: 3%">
+          In React, you write components in
+          <span style="color: var(--color-amber); font-family: var(--font-code)"
+            >.jsx</span
+          >
+          files, which let you write HTML-like syntax directly inside
+          JavaScript.
+        </div>
+        <div style="display: flex; gap: 2%; flex-wrap: wrap; margin-top: 1%">
+          <span class="file-pill new">Card.jsx</span>
+          <span class="file-pill new">App.jsx</span>
+          <span class="file-pill new">Header.jsx</span>
+        </div>
+      </div>
+      <div class="card" style="justify-content: center">
+        <div
+          class="card-title"
+          style="color: var(--color-cyan); margin-bottom: 4%"
+        >
+          One file per component
+        </div>
+        <div
+          class="card-body"
+          style="display: flex; flex-direction: column; gap: 8%"
+        >
+          <div>Structure: defined in JSX</div>
+          <div>Style: imported CSS or inline</div>
+          <div>Behavior: JavaScript logic</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 8 — JSX fundamentals
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 03 · JSX</div>
+    <div class="headline headline-section" style="margin-bottom: 3%">
+      JSX fundamentals
+    </div>
+    <div class="cols">
+      <div class="code">
+        <span class="ck">function</span> <span class="cs">Greeting</span>() {<br />
+        &nbsp;&nbsp;<span class="ck">const</span> name =
+        <span class="cp">'HackYourFuture'</span>;<br />
+        &nbsp;&nbsp;<span class="ck">const</span> isSunday =<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;new Date().<span class="cs">getDay</span>() ===
+        0;<br /><br />
+        &nbsp;&nbsp;<span class="ck">return</span> (<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">div</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">h1</span
+        >&gt;Hello {name}!&lt;/<span class="cp">h1</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{isSunday<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;? &lt;<span class="cp"
+          >p</span
+        >&gt;Happy Sunday!&lt;/<span class="cp">p</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+        <span class="ck">null</span>}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">div</span>&gt;<br />
+        &nbsp;&nbsp;);<br />
+        }
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 3%">
+        <div class="hlt">
+          <div class="hlt-title">{ expressions }</div>
+          <div class="hlt-body">
+            Any valid JS: variables, ternaries, function calls
+          </div>
+        </div>
+        <div class="hlt">
+          <div class="hlt-title">null renders nothing</div>
+          <div class="hlt-body">
+            Return null to hide an element conditionally
+          </div>
+        </div>
+        <div class="hlt">
+          <div class="hlt-title">Looks like HTML</div>
+          <div class="hlt-body">
+            But it's JavaScript, with a few different rules
+          </div>
+        </div>
+        <div class="hlt">
+          <div class="hlt-title">Must return one element</div>
+          <div class="hlt-body">
+            Everything must be wrapped in a single parent node
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 9 — Vite / tooling
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 03 · JSX</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      Browsers don't understand JSX
+    </div>
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 4%">
+        <div class="sub text-md">
+          Browsers cannot run JSX directly. We need tools to turn it into
+          regular JavaScript before the browser can run it.
+        </div>
+        <div class="hbox" style="margin-top: 2%">
+          <div class="hbox-title title-with-logo">
+            <img
+              class="title-logo"
+              src="https://cdn.simpleicons.org/vite/646CFF"
+              alt=""
+            />
+            We will use Vite for this
+          </div>
+          <div class="hbox-body">
+            Vite starts your project and turns JSX into browser-ready
+            JavaScript. While you work, it updates the app very quickly when you
+            save.
+          </div>
+          <div class="tool-note">
+            <img
+              class="tool-note-logo"
+              src="https://cdn.simpleicons.org/nodedotjs/5FA04E"
+              alt=""
+            />
+            <div>Vite runs as a local development tool through Node.js.</div>
+          </div>
+        </div>
+        <div class="hbox">
+          <div class="hbox-title">Other options exist</div>
+          <div class="hbox-body">
+            Other tools exist, like Create React App, Webpack, and Parcel. Vite
+            is the modern option, and it is what we will use in this session.
+          </div>
+        </div>
+      </div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 5%;
+        "
+      >
+        <div style="text-align: center">
+          <div
+            class="text-md"
+            style="
+              font-family: var(--font-code);
+              color: var(--color-amber);
+              background: var(--color-deep);
+              border: 1px solid var(--color-deep-border);
+              border-radius: 8px;
+              padding: 4% 8%;
+              margin-bottom: 5%;
+            "
+          >
+            Card.jsx
+          </div>
+          <div class="text-arrow" style="color: var(--color-code-dim)">↓</div>
+          <div class="diagram-step">
+            <img
+              class="diagram-logo"
+              src="https://cdn.simpleicons.org/vite/646CFF"
+              alt=""
+            />
+            vite transforms jsx
+          </div>
+          <div class="text-arrow" style="color: var(--color-code-dim)">↓</div>
+          <div
+            style="
+              display: flex;
+              gap: 4%;
+              justify-content: center;
+              margin-top: 5%;
+            "
+          >
+            <span class="file-pill">html</span>
+            <span class="file-pill">css</span>
+            <span class="file-pill">js</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 10 — Tooling extra information
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 03 · JSX</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      Tooling
+    </div>
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 3%">
+        <div class="hbox feat">
+          <div class="hbox-title">A simple mental model</div>
+          <div class="hbox-body">
+            Node.js lets developer tools run on your computer. One of those
+            tools is Vite.
+          </div>
+        </div>
+        <div class="hbox">
+          <div class="hbox-title">What Vite does while you work</div>
+          <div class="hbox-body">
+            It starts a local development server, transforms JSX into regular
+            JavaScript, and updates the page when you save.
+          </div>
+        </div>
+        <div class="hbox">
+          <div class="hbox-title">Later on</div>
+          <div class="hbox-body">
+            The same tooling can also build an optimized version of your app for
+            production.
+          </div>
+        </div>
+      </div>
+      <div class="tool-flow">
+        <div class="flow-card">
+          <div class="flow-head">
+            <img
+              class="flow-logo"
+              src="https://cdn.simpleicons.org/nodedotjs/5FA04E"
+              alt=""
+            />
+            Node.js
+          </div>
+          <div class="flow-body">Runs development tools on your machine.</div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-head">
+            <img
+              class="flow-logo"
+              src="https://cdn.simpleicons.org/vite/646CFF"
+              alt=""
+            />
+            Vite
+          </div>
+          <div class="flow-body">
+            Uses Node.js to serve, build, and update your app.
+          </div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-head">During development</div>
+          <div class="flow-body">
+            Serve locally -> transform JSX -> update the browser when you save.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 11 — JSX camelCase attributes
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 03 · JSX rules</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      JSX uses camelCase attributes
+    </div>
+    <div class="cols">
+      <div>
+        <div class="rule-label" style="color: var(--color-red)">In HTML</div>
+        <div class="code">
+          &lt;button <span class="cs">class</span>=<span class="cp">"btn"</span
+          >&gt;<br /><br />
+          &lt;label <span class="cs">for</span>=<span class="cp">"email"</span
+          >&gt;<br /><br />
+          &lt;button <span class="cs">onclick</span>=<span class="cp"
+            >"fn()"</span
+          >&gt;
+        </div>
+      </div>
+      <div>
+        <div class="rule-label" style="color: var(--color-green)">In React</div>
+        <div class="code">
+          &lt;button <span class="cs">className</span>=<span class="cp"
+            >"btn"</span
+          >&gt;<br /><br />
+          &lt;label <span class="cs">htmlFor</span>=<span class="cp"
+            >"email"</span
+          >&gt;<br /><br />
+          &lt;button <span class="cs">onClick</span>=<span class="cp">{fn}</span
+          >&gt;
+        </div>
+      </div>
+    </div>
+    <div class="sub text-sm" style="margin-top: 4%">
+      HTML attributes that clash with JavaScript reserved words get renamed.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 11 — Single root + Fragments
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 03 · JSX rules</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      Everything needs a single root
+    </div>
+    <div class="cols">
+      <div>
+        <div class="rule-label" style="color: var(--color-red)">Won't work</div>
+        <div class="code">
+          <span class="cm">// two siblings — no parent</span><br />
+          <span class="ck">return</span> (<br />
+          &nbsp;&nbsp;&lt;<span class="cp">h1</span>&gt;Title&lt;/<span
+            class="cp"
+            >h1</span
+          >&gt;<br />
+          &nbsp;&nbsp;&lt;<span class="cp">p</span>&gt;Body&lt;/<span class="cp"
+            >p</span
+          >&gt;<br />
+          );
+        </div>
+      </div>
+      <div>
+        <div class="rule-label" style="color: var(--color-green)">
+          Use a Fragment
+        </div>
+        <div class="code">
+          <span class="cm">// wraps without adding a DOM node</span><br />
+          <span class="ck">return</span> (<br />
+          &nbsp;&nbsp;&lt;<span class="cp">&gt;</span><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">h1</span
+          >&gt;Title&lt;/<span class="cp">h1</span>&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">p</span
+          >&gt;Body&lt;/<span class="cp">p</span>&gt;<br />
+          &nbsp;&nbsp;&lt;/<span class="cp">&gt;</span><br />
+          );
+        </div>
+      </div>
+    </div>
+    <div class="sub text-sm" style="margin-top: 4%">
+      <span style="color: var(--color-amber); font-family: var(--font-code)"
+        >&lt;&gt;&lt;/&gt;</span
+      >
+      is a Fragment. It renders its children without adding an extra element to
+      the DOM.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 12 — What is a component?
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 04 · Components</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      What is a component?
+    </div>
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 4%">
+        <div class="sub text-lg">
+          A component is a
+          <strong style="color: var(--color-white)"
+            >reusable piece of UI.</strong
+          >
+        </div>
+        <div class="sub text-lg">
+          Think of it like a custom HTML element you define once and use
+          anywhere.
+        </div>
+        <div class="sub text-lg" style="color: var(--color-cyan)">
+          In React, a component is a function that returns JSX.
+        </div>
+      </div>
+      <div class="code" style="align-self: center">
+        <span class="ck">function</span> <span class="cs">Card</span>() {<br />
+        &nbsp;&nbsp;<span class="ck">return</span> (<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">article</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">h2</span
+        >&gt;Title&lt;/<span class="cp">h2</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">p</span
+        >&gt;Content&lt;/<span class="cp">p</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">article</span>&gt;<br />
+        &nbsp;&nbsp;);<br />
+        }<br /><br />
+        <span class="cm">// use it like an HTML tag</span><br />
+        &lt;<span class="cs">Card</span> /&gt;
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 13 — Composition
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 04 · Components</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      Components inside components
+    </div>
+    <div class="cols">
+      <div class="code">
+        <span class="ck">function</span> <span class="cs">Card</span>() {<br />
+        &nbsp;&nbsp;<span class="ck">return</span> &lt;<span class="cp"
+          >article</span
+        >&gt;...&lt;/<span class="cp">article</span>&gt;;<br />
+        }<br /><br />
+        <span class="ck">function</span> <span class="cs">Cards</span>() {<br />
+        &nbsp;&nbsp;<span class="ck">return</span> (<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">section</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cs">Card</span>
+        /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cs">Card</span>
+        /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cs">Card</span>
+        /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">section</span>&gt;<br />
+        &nbsp;&nbsp;);<br />
+        }
+      </div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 5%;
+        "
+      >
+        <div class="card">
+          <div class="card-title" style="color: var(--color-cyan)">
+            Write once, use anywhere
+          </div>
+          <div class="card-body">Change Card once. It updates everywhere.</div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color: var(--color-cyan)">
+            Each component, one job
+          </div>
+          <div class="card-body">
+            Card shows one card. Cards shows the list.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 14 — Exercises
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 05 · Exercises</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      Today's challenges
+    </div>
+    <div class="cols3">
+      <div class="card">
+        <div class="card-title">1. Setup</div>
+        <div class="card-body">Scaffold Vite + React</div>
+      </div>
+      <div class="card">
+        <div class="card-title">2. Static components</div>
+        <div class="card-body">Greeting and Card</div>
+      </div>
+      <div class="card">
+        <div class="card-title">3. Nesting</div>
+        <div class="card-body">Cards inside Cards</div>
+      </div>
+      <div class="card">
+        <div class="card-title">4. JS in JSX</div>
+        <div class="card-body">Adult or minor?</div>
+      </div>
+      <div class="card">
+        <div class="card-title">5. Attributes</div>
+        <div class="card-body">className, inputs, images</div>
+      </div>
+      <div class="card">
+        <div class="card-title">6. Styling</div>
+        <div class="card-body">Global + scoped CSS</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 15 — Closing
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div style="text-align: center">
+      <div
+        class="tag"
+        style="display: block; text-align: center; margin-bottom: 5%"
+      >
+        Key takeaway
+      </div>
+      <div class="headline headline-closing" style="line-height: 1.1">
+        A component is a function<br />that returns
+        <span class="accent">JSX.</span>
+      </div>
+      <div class="sub" style="margin-top: 5%">
+        Everything else builds on that.
+      </div>
+    </div>
+  </div>
+
+  <div id="nav-dots"></div>
+  <div id="hint">click anywhere to advance</div>
+</div>
+
+<script>
+  // ============================================================
+  // PRESENTATION CONTROLLER
+  // ============================================================
+
+  const TOTAL_SLIDES = 17;
+  const STORAGE_KEY = "react-intro-current-slide";
+  const SECTION_SLIDES = {
+    0: 1,
+    1: 2,
+    2: 4,
+    3: 7,
+    4: 13,
+    5: 15,
+  };
+
+  const deck = document.getElementById("deck");
+  const bar = document.getElementById("progress");
+  const hint = document.getElementById("hint");
+  const dotsEl = document.getElementById("nav-dots");
+  const slides = () => document.querySelectorAll(".slide");
+  const dots = () => document.querySelectorAll(".nav-dot");
+
+  let current = 0;
+
+  // Build nav dots
+  for (let i = 0; i < TOTAL_SLIDES; i++) {
+    const dot = document.createElement("div");
+    dot.className = "nav-dot" + (i === 0 ? " on" : "");
+    dotsEl.appendChild(dot);
+  }
+
+  const savedSlide = Number(localStorage.getItem(STORAGE_KEY));
+  if (
+    Number.isInteger(savedSlide) &&
+    savedSlide > 0 &&
+    savedSlide < TOTAL_SLIDES
+  ) {
+    goTo(savedSlide);
+  }
+
+  function goTo(n) {
+    if (n < 0 || n >= TOTAL_SLIDES || n === current) {
+      return;
+    }
+
+    const allSlides = slides();
+    const allDots = dots();
+
+    // Exit current slide
+    allSlides[current].classList.remove("active");
+    allSlides[current].classList.add("exit");
+    setTimeout(() => allSlides[current].classList.remove("exit"), 500);
+
+    // Clamp and update
+    current = Math.max(0, Math.min(TOTAL_SLIDES - 1, n));
+
+    // Enter new slide
+    allSlides[current].classList.add("active");
+
+    // Update dots
+    allDots.forEach((d, i) => d.classList.toggle("on", i === current));
+
+    // Update progress bar
+    bar.style.width = (current / (TOTAL_SLIDES - 1)) * 100 + "%";
+
+    localStorage.setItem(STORAGE_KEY, String(current));
+
+    // Update hint
+    if (current === TOTAL_SLIDES - 1) {
+      hint.textContent = "";
+    } else if (current === 0) {
+      hint.textContent = "click anywhere to advance";
+    } else {
+      hint.textContent = `${current + 1} / ${TOTAL_SLIDES}`;
+    }
+  }
+
+  // Click to advance
+  deck.addEventListener("click", () => {
+    if (current < TOTAL_SLIDES - 1) goTo(current + 1);
+  });
+
+  // Keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    if (e.key in SECTION_SLIDES) {
+      goTo(SECTION_SLIDES[e.key]);
+      return;
+    }
+
+    if (e.key === " " || e.code === "Space") {
+      e.preventDefault();
+
+      if (e.shiftKey) {
+        goTo(current - 1);
+        return;
+      }
+
+      goTo(current + 1);
+      return;
+    }
+
+    if (e.key === "ArrowRight") {
+      goTo(current + 1);
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      goTo(current - 1);
+    }
+  });
+</script>
