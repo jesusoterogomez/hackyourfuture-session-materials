@@ -944,7 +944,7 @@
   <div class="slide">
     <div class="tag">Part 03 · JSX</div>
     <div class="headline headline-section" style="margin-bottom: 5%">
-      A new way to write your UI
+      JSX: A new way to write your UI
     </div>
     <div class="cols">
       <div style="display: flex; flex-direction: column; gap: 4%">
@@ -975,15 +975,15 @@
           class="card-title"
           style="color: var(--color-cyan); margin-bottom: 4%"
         >
-          One file per component
+          JSX contains:
         </div>
         <div
           class="card-body"
           style="display: flex; flex-direction: column; gap: 8%"
         >
-          <div>Structure: defined in JSX</div>
-          <div>Style: imported CSS or inline</div>
-          <div>Behavior: JavaScript logic</div>
+          <div>🏠 Structure: HTML-like syntax</div>
+          <div>💅🏼 Style: imported CSS or inline CSS-like syntax</div>
+          <div>⚙️ Behavior: JavaScript logic (variables, functions, etc.)</div>
         </div>
       </div>
     </div>
@@ -1348,48 +1348,58 @@
   <div class="slide">
     <div class="tag">Part 04 · Components</div>
     <div class="headline headline-section" style="margin-bottom: 4%">
-      Components inside components
+      Components = UI building blocks 🧱
     </div>
     <div class="cols">
       <div class="code">
-        <span class="ck">function</span> <span class="cs">Card</span>() {<br />
+        <span class="ck">function</span> <span class="cs">Button</span>() {<br />
         &nbsp;&nbsp;<span class="ck">return</span> &lt;<span class="cp"
-          >article</span
-        >&gt;...&lt;/<span class="cp">article</span>&gt;;<br />
+          >button</span
+        >&gt;Save&lt;/<span class="cp">button</span>&gt;;<br />
         }<br /><br />
-        <span class="ck">function</span> <span class="cs">Cards</span>() {<br />
+        <span class="ck">function</span> <span class="cs">Form</span>() {<br />
         &nbsp;&nbsp;<span class="ck">return</span> (<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">section</span>&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cs">Card</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">input</span>
         /&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cs">Card</span>
-        /&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cs">Card</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cs">Button</span>
         /&gt;<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">section</span>&gt;<br />
         &nbsp;&nbsp;);<br />
-        }
+        }<br /><br />
+        <span class="cm">// small parts can build bigger screens</span><br />
+        &lt;<span class="cs">ProfilePage</span> /&gt;
       </div>
       <div
         style="
           display: flex;
           flex-direction: column;
           justify-content: center;
-          gap: 5%;
+          gap: 3%;
         "
       >
         <div class="card">
           <div class="card-title" style="color: var(--color-cyan)">
-            Write once, use anywhere
+            Reusable
           </div>
-          <div class="card-body">Change Card once. It updates everywhere.</div>
+          <div class="card-body">
+            Build a component once, then use it in many places across your app.
+          </div>
         </div>
         <div class="card">
           <div class="card-title" style="color: var(--color-cyan)">
-            Each component, one job
+            Combine them
           </div>
           <div class="card-body">
-            Card shows one card. Cards shows the list.
+            A bigger UI can be made from smaller components working together.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color: var(--color-cyan)">
+            They can be small or big
+          </div>
+          <div class="card-body">
+            Components can be buttons, inputs, cards, forms, or entire pages.
           </div>
         </div>
       </div>
