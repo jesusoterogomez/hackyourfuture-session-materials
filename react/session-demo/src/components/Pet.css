@@ -1,6 +1,6 @@
 .pet-card {
   background: white;
-  border: 1px solid var(--border);
+  border: 6px solid var(--border);
   border-radius: 20px;
   padding: 24px 12px;
   width: 240px;
@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 6px;
+  gap: 0;
 }
 
 .pet-card img {
@@ -16,13 +16,14 @@
   height: 200px;
   object-fit: cover;
   border-radius: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .pet-card h2 {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
 }
 
 .pet-info {
@@ -31,16 +32,17 @@
   color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-bottom: 10px;
 }
 
 .pet-desc {
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--text);
   font-style: italic;
 }
 
 .pet-card button {
-  margin-top: 12px;
+  margin-top: 16px;
   padding: 12px 32px;
   background: var(--button);
   color: var(--button-text);
