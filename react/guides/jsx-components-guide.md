@@ -7,8 +7,8 @@ How to write UI in React using JSX and reusable components.
 JSX lets you write HTML-like syntax inside JavaScript.
 
 ```javascript
-function Greeting() {
-  return <h1>Hello class</h1>;
+function WelcomeBanner() {
+  return <h1>Welcome to the React session</h1>;
 }
 ```
 
@@ -19,14 +19,14 @@ A React component is a function that returns JSX.
 Use curly braces to put JavaScript expressions into your UI.
 
 ```javascript
-function Greeting() {
-  const name = "HackYourFuture";
-  const isSunday = true;
+function WeatherBanner() {
+  const city = "Amsterdam";
+  const isRaining = true;
 
   return (
     <div>
-      <h1>Hello {name}!</h1>
-      {isSunday ? <p>Happy Sunday!</p> : null}
+      <h2>Today in {city}</h2>
+      {isRaining ? <p>Bring an umbrella ☔</p> : <p>Enjoy the sun ☀️</p>}
     </div>
   );
 }
@@ -63,27 +63,27 @@ return (
 In JSX, a few common attributes change:
 
 ```javascript
-<button className="btn">Save</button>
+<div className="banner">Hello</div>
 <label htmlFor="email">Email</label>
-<button onClick={handleClick}>Click me</button>
+<input onChange={handleChange} />
 ```
 
 Use:
 
 - `className` instead of `class`
 - `htmlFor` instead of `for`
-- `onClick` instead of `onclick`
+- `onClick` / `onChange` instead of `onclick` / `onchange`
 
 ## Components
 
 A component is a reusable piece of UI.
 
 ```javascript
-function Card() {
+function Recipe() {
   return (
     <article>
-      <h2>Title</h2>
-      <p>Content</p>
+      <h2>Pasta Carbonara</h2>
+      <p>A classic Italian dish with eggs and cheese.</p>
     </article>
   );
 }
@@ -92,7 +92,7 @@ function Card() {
 You use a component like this:
 
 ```javascript
-<Card />
+<Recipe />
 ```
 
 ## Components inside components
@@ -100,20 +100,30 @@ You use a component like this:
 Small components can be combined into bigger ones.
 
 ```javascript
-function Card() {
-  return <article>One card</article>;
+function Logo() {
+  return <span>🐾 Paws</span>;
 }
 
-function Cards() {
+function Menu() {
   return (
-    <section>
-      <Card />
-      <Card />
-      <Card />
-    </section>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Pets</a>
+    </nav>
+  );
+}
+
+function Header() {
+  return (
+    <header>
+      <Logo />
+      <Menu />
+    </header>
   );
 }
 ```
+
+`Logo` and `Menu` are their own components. `Header` uses them like regular HTML tags.
 
 This helps because:
 
