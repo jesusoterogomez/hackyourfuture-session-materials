@@ -1050,15 +1050,24 @@
           </div>
         </div>
         <div class="hlt">
-          <div class="hlt-title">Looks like HTML</div>
-          <div class="hlt-body">
-            But it's JavaScript, with a few different rules
-          </div>
-        </div>
-        <div class="hlt">
           <div class="hlt-title">Must return one element</div>
           <div class="hlt-body">
             Everything must be wrapped in a single parent node
+          </div>
+        </div>
+        <div
+          class="hlt"
+          style="
+            background: rgba(249, 168, 117, 0.1);
+            border-left-color: var(--color-amber);
+          "
+        >
+          <div class="hlt-title" style="color: var(--color-amber)">
+            Components start with a capital letter
+          </div>
+          <div class="hlt-body">
+            React uses capitalized names to indicate a component, lowercase for
+            HTML elements
           </div>
         </div>
       </div>
@@ -1234,7 +1243,7 @@
   <div class="slide">
     <div class="tag">Part 03 · JSX rules</div>
     <div class="headline headline-section" style="margin-bottom: 4%">
-      JSX uses camelCase attributes
+      JSX uses camelCase attributes 🐪
     </div>
     <div class="cols">
       <div>
@@ -1424,7 +1433,240 @@
   </div>
 
   <!-- ═══════════════════════════════════════════
-         SLIDE 14 — Exercises
+         SLIDE 14 — Component tree
+    ════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="tag">Part 04 · Components</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      A page is just components all the way down
+    </div>
+    <div
+      style="display: grid; grid-template-columns: 3fr 2fr; gap: var(--gap-lg)"
+    >
+      <!-- LEFT: wireframe -->
+      <div
+        style="display: flex; flex-direction: column; justify-content: center"
+      >
+        <!-- App -->
+        <div
+          style="
+            border: 2px solid var(--color-cyan);
+            border-radius: 12px;
+            padding: 4% 5%;
+            position: relative;
+          "
+        >
+          <span
+            style="
+              position: absolute;
+              top: -0.7em;
+              left: 1em;
+              background: var(--color-bg);
+              padding: 0 0.5em;
+              font-family: var(--font-code);
+              font-size: clamp(12px, 1.4vw, 17px);
+              color: var(--color-cyan);
+            "
+            >&lt;App /&gt;</span
+          >
+
+          <!-- Header -->
+          <div
+            style="
+              border: 2px solid #f472b6;
+              border-radius: 8px;
+              padding: 3.5% 4%;
+              margin-bottom: 5%;
+              position: relative;
+            "
+          >
+            <span
+              style="
+                position: absolute;
+                top: -0.7em;
+                left: 0.8em;
+                background: var(--color-bg);
+                padding: 0 0.5em;
+                font-family: var(--font-code);
+                font-size: clamp(12px, 1.4vw, 17px);
+                color: #f472b6;
+              "
+              >&lt;Header /&gt;</span
+            >
+            <div style="display: flex; gap: 3%">
+              <div
+                style="
+                  border: 1px solid var(--color-muted);
+                  border-radius: 6px;
+                  padding: 2% 4%;
+                  font-family: var(--font-code);
+                  font-size: clamp(11px, 1.2vw, 15px);
+                  color: var(--color-muted);
+                "
+              >
+                &lt;Logo /&gt;
+              </div>
+              <div
+                style="
+                  border: 1px solid var(--color-muted);
+                  border-radius: 6px;
+                  padding: 2% 4%;
+                  font-family: var(--font-code);
+                  font-size: clamp(11px, 1.2vw, 15px);
+                  color: var(--color-muted);
+                "
+              >
+                &lt;Nav /&gt;
+              </div>
+            </div>
+          </div>
+
+          <!-- Main -->
+          <div
+            style="
+              border: 2px solid var(--color-green);
+              border-radius: 8px;
+              padding: 3.5% 4%;
+              margin-bottom: 5%;
+              position: relative;
+            "
+          >
+            <span
+              style="
+                position: absolute;
+                top: -0.7em;
+                left: 0.8em;
+                background: var(--color-bg);
+                padding: 0 0.5em;
+                font-family: var(--font-code);
+                font-size: clamp(12px, 1.4vw, 17px);
+                color: var(--color-green);
+              "
+              >&lt;Feed /&gt;</span
+            >
+            <div style="display: flex; gap: 3%">
+              <div
+                style="
+                  border: 1px solid var(--color-amber);
+                  border-radius: 6px;
+                  padding: 2% 4%;
+                  font-family: var(--font-code);
+                  font-size: clamp(11px, 1.2vw, 15px);
+                  color: var(--color-amber);
+                "
+              >
+                &lt;Article /&gt;
+              </div>
+              <div
+                style="
+                  border: 1px solid var(--color-amber);
+                  border-radius: 6px;
+                  padding: 2% 4%;
+                  font-family: var(--font-code);
+                  font-size: clamp(11px, 1.2vw, 15px);
+                  color: var(--color-amber);
+                "
+              >
+                &lt;Article /&gt;
+              </div>
+              <div
+                style="
+                  border: 1px solid var(--color-amber);
+                  border-radius: 6px;
+                  padding: 2% 4%;
+                  font-family: var(--font-code);
+                  font-size: clamp(11px, 1.2vw, 15px);
+                  color: var(--color-amber);
+                "
+              >
+                &lt;Article /&gt;
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div
+            style="
+              border: 2px solid #a855f7;
+              border-radius: 8px;
+              padding: 3.5% 4%;
+              position: relative;
+            "
+          >
+            <span
+              style="
+                position: absolute;
+                top: -0.7em;
+                left: 0.8em;
+                background: var(--color-bg);
+                padding: 0 0.5em;
+                font-family: var(--font-code);
+                font-size: clamp(12px, 1.4vw, 17px);
+                color: #a855f7;
+              "
+              >&lt;Footer /&gt;</span
+            >
+            <div
+              style="
+                border: 1px solid var(--color-muted);
+                border-radius: 6px;
+                padding: 2% 4%;
+                display: inline-block;
+                font-family: var(--font-code);
+                font-size: clamp(11px, 1.2vw, 15px);
+                color: var(--color-muted);
+              "
+            >
+              &lt;Links /&gt;
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: tree -->
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          font-family: var(--font-code);
+          font-size: clamp(13px, 1.5vw, 19px);
+          line-height: 2.1;
+          gap: 0;
+        "
+      >
+        <div style="color: var(--color-cyan)">&lt;App&gt;</div>
+        <div style="padding-left: 1.4em; color: #f472b6">&lt;Header&gt;</div>
+        <div style="padding-left: 2.8em; color: var(--color-muted)">
+          &lt;Logo /&gt;
+        </div>
+        <div style="padding-left: 2.8em; color: var(--color-muted)">
+          &lt;Nav /&gt;
+        </div>
+        <div style="padding-left: 1.4em; color: #f472b6">&lt;/Header&gt;</div>
+        <div style="padding-left: 1.4em; color: var(--color-green)">
+          &lt;Feed&gt;
+        </div>
+        <div style="padding-left: 2.8em; color: var(--color-amber)">
+          &lt;Article /&gt;
+        </div>
+        <div style="padding-left: 2.8em; color: var(--color-amber)">
+          &lt;Article /&gt;
+        </div>
+        <div style="padding-left: 2.8em; color: var(--color-amber)">
+          &lt;Article /&gt;
+        </div>
+        <div style="padding-left: 1.4em; color: var(--color-green)">
+          &lt;/Feed&gt;
+        </div>
+        <div style="padding-left: 1.4em; color: #a855f7">&lt;Footer /&gt;</div>
+        <div style="color: var(--color-cyan)">&lt;/App&gt;</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+         SLIDE 15 — Exercises
     ════════════════════════════════════════════ -->
   <div class="slide">
     <div class="tag">Part 05 · Exercises</div>
@@ -1460,22 +1702,29 @@
   </div>
 
   <!-- ═══════════════════════════════════════════
-         SLIDE 15 — Closing
+         SLIDE 16 — Closing
     ════════════════════════════════════════════ -->
   <div class="slide">
-    <div style="text-align: center">
-      <div
-        class="tag"
-        style="display: block; text-align: center; margin-bottom: 5%"
-      >
-        Key takeaway
+    <div class="tag">Key takeaways</div>
+    <div class="headline headline-section" style="margin-bottom: 6%">
+      What we learned today
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6%">
+      <div class="sub">● Components are functions that return JSX</div>
+      <div class="sub">
+        ● In React, the UI is built with reusable components
       </div>
-      <div class="headline headline-closing" style="line-height: 1.1">
-        A component is a function<br />that returns
-        <span class="accent">JSX.</span>
-      </div>
-      <div class="sub" style="margin-top: 5%">
-        Everything else builds on that.
+      <div style="display: flex; flex-direction: column; gap: 1.5%">
+        <div class="sub">
+          ● Components can live inside other components — that's how pages are
+          built
+        </div>
+        <div
+          class="sub text-sm"
+          style="padding-left: 1.4em; color: var(--color-muted)"
+        >
+          * we'll learn more composition techniques next week
+        </div>
       </div>
     </div>
   </div>
@@ -1489,7 +1738,7 @@
   // PRESENTATION CONTROLLER
   // ============================================================
 
-  const TOTAL_SLIDES = 17;
+  const TOTAL_SLIDES = 18;
   const STORAGE_KEY = "react-intro-current-slide";
   const SECTION_SLIDES = {
     0: 1,
