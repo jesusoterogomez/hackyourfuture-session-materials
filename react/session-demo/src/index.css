@@ -1,0 +1,19 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #e9f5f1;
+  --text: #1a2e25;
+  --text-muted: #4a7a65;
+  --accent: #5bb5a0;
+  --border: #c8e8df;
+}
+
+body {
+  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}

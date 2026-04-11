@@ -1,0 +1,66 @@
+/* ── Header ───────────────────────────── */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 48px;
+  background: var(--bg);
+}
+
+.app-header .logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.app-header nav {
+  display: flex;
+  gap: 32px;
+}
+
+.app-header nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.app-header nav a:hover {
+  color: var(--text);
+}
+
+/* ── Hero ─────────────────────────────── */
+.hero {
+  padding: 64px 48px 48px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.hero p {
+  font-size: 16px;
+  color: var(--text-muted);
+  max-width: 360px;
+}
+
+/* ── Pets section ─────────────────────── */
+.pets-section {
+  padding: 0 48px 64px;
+}
+
+.pets-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--text);
+}
+
+.card-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
