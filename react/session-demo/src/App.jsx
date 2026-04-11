@@ -1,26 +1,36 @@
 import "./App.css";
-import Cat from "./week1/Cat";
-import Dog from "./week1/Dog";
-import Rabbit from "./week1/Rabbit";
+import Cat from "./components/Cat";
+import Dog from "./components/Dog";
+import Rabbit from "./components/Rabbit";
+import Frog from "./components/Frog";
 
 function App() {
   return (
     <>
       <header className="app-header">
-        <h1>Paw & Co.</h1>
-        <p>Find your new best friend</p>
+        <span className="logo">🐾 Paws</span>
+        <nav>
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Pets</a>
+          <a href="#">Contact</a>
+        </nav>
       </header>
 
-      <main>
-        <section id="week1-simple">
-          <h2>Pets available for adoption</h2>
-          <div className="card-grid">
-            <Cat />
-            <Dog />
-            <Rabbit name="Thumper" />
-          </div>
-        </section>
-      </main>
+      <div className="hero">
+        <h1>Find your new best friend</h1>
+        <p>Give a loving home to a pet who needs one</p>
+      </div>
+
+      <div className="pets-section">
+        <h2>Available for adoption</h2>
+        <div className="card-grid">
+          <Cat />
+          <Dog />
+          <Rabbit />
+          <Frog />
+        </div>
+      </div>
     </>
   );
 }

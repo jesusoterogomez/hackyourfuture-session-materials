@@ -1,0 +1,53 @@
+.pet-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px 12px;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+
+.pet-card img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.pet-card h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.pet-info {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pet-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.pet-card button {
+  margin-top: 12px;
+  padding: 12px 32px;
+  background: var(--button);
+  color: var(--button-text);
+  border: none;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 80%;
+}
