@@ -78,7 +78,7 @@ export default App;
 
 ## Common mistakes
 
-❌ Forgetting to run `npm install`
-❌ Running `npm run dev` outside the project folder
-❌ Closing the terminal that is running Vite
-❌ Expecting the browser to understand `.jsx` without tooling
+- ❌ Forgetting to run `npm install`
+- ❌ Running `npm run dev` outside the project folder
+- ❌ Closing the terminal that is running Vite (this closes the server and you can't connect anymore)
+- ❌ Expecting the browser to understand `.jsx` without tooling

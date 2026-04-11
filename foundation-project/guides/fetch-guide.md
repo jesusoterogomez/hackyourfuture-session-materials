@@ -44,5 +44,5 @@ async function saveData() {
 
 ## Common Mistakes
 
-❌ Forgetting `Content-Type` header (server won't parse the body)
-❌ Forgetting `JSON.stringify` (sends `[object Object]`)
+- ❌ Forgetting `Content-Type` header (server won't parse the body)
+- ❌ Forgetting `JSON.stringify` (sends `[object Object]`)

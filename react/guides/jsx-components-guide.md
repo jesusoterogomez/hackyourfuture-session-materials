@@ -133,7 +133,7 @@ This helps because:
 
 ## Common mistakes
 
-❌ Forgetting curly braces around JavaScript expressions
-❌ Returning two sibling elements without a wrapper
-❌ Using `class` instead of `className`
-❌ Writing HTML-style `onclick` instead of React `onClick`
+- ❌ Forgetting curly braces around JavaScript expressions
+- ❌ Returning two sibling elements without a wrapper
+- ❌ Using `class` instead of `className`
+- ❌ Writing HTML-style `onclick` instead of React `onClick`
