@@ -1,10 +1,12 @@
 /* ── Header ───────────────────────────── */
 .app-header {
+  background: var(--bg);
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 20px 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 48px;
-  background: var(--bg);
 }
 
 .app-header .logo {
@@ -30,7 +32,9 @@
 
 /* ── Hero ─────────────────────────────── */
 .hero {
-  padding: 48px 48px 48px;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 48px 48px;
 }
 
 .hero h1 {
@@ -49,6 +53,8 @@
 
 /* ── Pets section ─────────────────────── */
 .pets-section {
+  max-width: var(--content-width);
+  margin: 0 auto;
   padding: 0 48px 64px;
 }
 

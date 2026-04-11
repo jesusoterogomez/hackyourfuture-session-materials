@@ -5,6 +5,7 @@
 }
 
 :root {
+  --content-width: 1200px;
   --bg: #e9f5f1;
   --text: #1a2e25;
   --text-muted: #4a7a65;
