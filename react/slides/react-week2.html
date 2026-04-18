@@ -1,0 +1,1342 @@
+<meta charset="UTF-8" />
+<style>
+  /* ============================================================
+     DESIGN TOKENS — edit these to restyle the whole deck
+     ============================================================ */
+  :root {
+    /* Colors */
+    --color-bg: #0f1523;
+    --color-card: #1a2540;
+    --color-card-border: #2d3d6a;
+    --color-deep: #090e1a;
+    --color-deep-border: #1e2d50;
+    --color-hbox: #111c30;
+    --color-hbox-feat: #0d1e30;
+
+    --color-white: #ffffff;
+    --color-cyan: #4cc9f0;
+    --color-blue: #4361ee;
+    --color-muted: #8899bb;
+    --color-light: #c8d4ee;
+    --color-green: #22c55e;
+    --color-red: #ef4444;
+    --color-amber: #f9a875;
+    --color-code-blue: #7b9ef0;
+    --color-code-dim: #4b5e82;
+
+    /* Typography */
+    --font-ui: var(--font-sans, "Helvetica Neue", sans-serif);
+    --font-code: var(--font-mono, monospace);
+
+    --text-tag: clamp(12px, 1.5vw, 17px);
+    --text-headline: clamp(27px, 5.7vw, 70px);
+    --text-sub: clamp(15px, 2.1vw, 28px);
+    --text-body: clamp(13px, 1.6vw, 20px);
+    --text-small: clamp(12px, 1.4vw, 17px);
+    --text-code: clamp(12px, 1.45vw, 18px);
+    --text-label: clamp(12px, 1.5vw, 18px);
+
+    /* Spacing */
+    --slide-padding: 6% 8%;
+    --gap-sm: 2%;
+    --gap-md: 3%;
+    --gap-lg: 4%;
+    --gap-xl: 5%;
+
+    /* Slide transition */
+    --transition-speed: 0.45s;
+  }
+
+  /* ============================================================
+     RESET
+     ============================================================ */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+  }
+
+  /* ============================================================
+     DECK + SLIDES
+     ============================================================ */
+  #deck {
+    width: min(100vw, calc(100dvh * 16 / 9));
+    height: 100dvh;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bg);
+    border-radius: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--slide-padding);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--transition-speed) ease,
+      transform var(--transition-speed) ease;
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .slide.exit {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  /* ============================================================
+     TYPOGRAPHY
+     ============================================================ */
+  .tag {
+    font-family: var(--font-ui);
+    font-size: var(--text-tag);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-cyan);
+    margin-bottom: 0.8em;
+  }
+
+  .headline {
+    font-family: var(--font-ui);
+    font-size: var(--text-headline);
+    font-weight: 600;
+    color: var(--color-white);
+    line-height: 1.1;
+    margin-bottom: 0.5em;
+  }
+
+  .sub {
+    font-family: var(--font-ui);
+    font-size: var(--text-sub);
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  .headline-section {
+    font-size: clamp(21px, 3.9vw, 50px);
+  }
+
+  .headline-closing {
+    font-size: clamp(25px, 5.6vw, 70px);
+  }
+
+  .headline-with-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.22em;
+    flex-wrap: wrap;
+  }
+
+  .headline-logo {
+    width: 0.9em;
+    height: 0.9em;
+    object-fit: contain;
+    flex-shrink: 0;
+    transform: translateY(0.03em);
+  }
+
+  .text-sm {
+    font-size: clamp(13px, 1.5vw, 19px);
+  }
+
+  .text-md {
+    font-size: clamp(14px, 1.7vw, 21px);
+  }
+
+  .text-lg {
+    font-size: clamp(15px, 1.9vw, 23px);
+  }
+
+  .text-arrow {
+    font-size: clamp(19px, 2.6vw, 34px);
+  }
+
+  .text-caption {
+    font-size: clamp(12px, 1.4vw, 17px);
+  }
+
+  .accent {
+    color: var(--color-cyan);
+  }
+
+  /* ============================================================
+     LAYOUT HELPERS
+     ============================================================ */
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap-lg);
+  }
+
+  .cols3 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap-md);
+    row-gap: 5%;
+  }
+
+  /* ============================================================
+     CARDS
+     ============================================================ */
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+    padding: 5% 6%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+  }
+
+  .card-title {
+    font-family: var(--font-ui);
+    font-size: clamp(14px, 1.9vw, 23px);
+    font-weight: 500;
+    color: var(--color-white);
+  }
+
+  .card-body {
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  /* ============================================================
+     HIGHLIGHT BOXES (left-border callouts)
+     ============================================================ */
+  .hbox {
+    border-left: 4px solid var(--color-blue);
+    background: var(--color-hbox);
+    border-radius: 0 8px 8px 0;
+    padding: 3% 5%;
+    margin: 0.4em 0;
+  }
+
+  .hbox.feat {
+    border-left-color: var(--color-cyan);
+    background: var(--color-hbox-feat);
+  }
+
+  .hbox-title {
+    font-family: var(--font-ui);
+    font-size: clamp(14px, 1.7vw, 21px);
+    font-weight: 500;
+    color: var(--color-cyan);
+    margin-bottom: 0.3em;
+  }
+
+  .title-with-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+  }
+
+  .title-logo {
+    width: clamp(16px, 1.8vw, 22px);
+    height: clamp(16px, 1.8vw, 22px);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .diagram-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 2% 0;
+    padding: 0.55em 0.95em;
+    border: 1px solid var(--color-deep-border);
+    border-radius: 999px;
+    background: var(--color-deep);
+    color: var(--color-light);
+    font-family: var(--font-code);
+    font-size: clamp(13px, 1.5vw, 18px);
+    letter-spacing: 0.01em;
+  }
+
+  .diagram-logo {
+    width: clamp(15px, 1.6vw, 19px);
+    height: clamp(15px, 1.6vw, 19px);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .tool-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55em;
+    margin-top: 3%;
+    color: var(--color-muted);
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    line-height: 1.45;
+  }
+
+  .tool-note-logo {
+    width: clamp(15px, 1.6vw, 19px);
+    height: clamp(15px, 1.6vw, 19px);
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-top: 0.1em;
+  }
+
+  .tool-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 4%;
+    justify-content: center;
+  }
+
+  .flow-card {
+    background: var(--color-deep);
+    border: 1px solid var(--color-deep-border);
+    border-radius: 12px;
+    padding: 5% 6%;
+  }
+
+  .flow-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-bottom: 0.5em;
+    font-family: var(--font-ui);
+    font-size: clamp(15px, 1.9vw, 23px);
+    font-weight: 600;
+    color: var(--color-white);
+  }
+
+  .flow-logo {
+    width: clamp(18px, 2vw, 24px);
+    height: clamp(18px, 2vw, 24px);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .flow-body {
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    color: var(--color-muted);
+    line-height: 1.45;
+  }
+
+  .hbox.feat .hbox-title {
+    color: var(--color-white);
+    font-size: clamp(16px, 2vw, 25px);
+  }
+
+  .hbox-body {
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+
+  /* Small callout variant used in JSX fundamentals */
+  .hlt {
+    background: var(--color-hbox);
+    border-left: 3px solid var(--color-blue);
+    border-radius: 0 8px 8px 0;
+    padding: 2.5% 4%;
+    margin: 0.35em 0;
+  }
+
+  .hlt-title {
+    font-family: var(--font-ui);
+    font-size: clamp(13px, 1.6vw, 20px);
+    font-weight: 500;
+    color: var(--color-cyan);
+    margin-bottom: 0.2em;
+  }
+
+  .hlt-body {
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+
+  /* ============================================================
+     CODE BLOCKS
+     ============================================================ */
+  .code {
+    background: var(--color-deep);
+    border: 1px solid var(--color-deep-border);
+    border-radius: 8px;
+    padding: 4% 5%;
+    font-family: var(--font-code);
+    font-size: var(--text-code);
+    color: #e2e8f0;
+    line-height: 1.85;
+  }
+
+  /* Syntax token colors */
+  .cm {
+    color: var(--color-code-dim);
+  } /* comment  */
+  .ck {
+    color: var(--color-code-blue);
+  } /* keyword  */
+  .cs {
+    color: var(--color-cyan);
+  } /* symbol   */
+  .cp {
+    color: var(--color-amber);
+  } /* string   */
+
+  /* ============================================================
+     FRAMEWORK LIST
+     ============================================================ */
+  .fw-row {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-lg);
+    padding: 3% 0;
+    border-bottom: 1px solid var(--color-card);
+  }
+  .fw-row:last-child {
+    border: none;
+  }
+
+  .fw-dot {
+    width: clamp(8px, 1vw, 13px);
+    height: clamp(8px, 1vw, 13px);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .fw-name {
+    font-family: var(--font-ui);
+    font-size: clamp(14px, 1.9vw, 23px);
+    font-weight: 600;
+    color: var(--color-white);
+    min-width: 22%;
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+    flex-wrap: wrap;
+  }
+
+  .fw-logo {
+    width: clamp(14px, 1.6vw, 20px);
+    height: clamp(14px, 1.6vw, 20px);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .fw-note {
+    font-family: var(--font-ui);
+    font-size: clamp(13px, 1.6vw, 20px);
+    color: var(--color-muted);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.15em 0.55em;
+    border-radius: 4px;
+    font-size: clamp(11px, 1.2vw, 15px);
+    font-weight: 500;
+    margin-left: 0.6em;
+    background: #162040;
+    color: var(--color-code-blue);
+    border: 1px solid #2d4080;
+  }
+
+  .badge.muted {
+    background: #1b2336;
+    color: var(--color-muted);
+    border-color: #36425f;
+  }
+
+  /* ============================================================
+     BULLET ROWS (pain / green checkmarks)
+     ============================================================ */
+  .pain-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 3%;
+    padding: 3% 0;
+    border-bottom: 1px solid var(--color-card);
+    font-family: var(--font-ui);
+    font-size: var(--text-sub);
+    color: var(--color-light);
+    line-height: 1.4;
+  }
+  .pain-row:last-child {
+    border: none;
+  }
+
+  .dot-r {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-red);
+    flex-shrink: 0;
+    margin-top: 0.45em;
+  }
+  .dot-g {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-green);
+    flex-shrink: 0;
+    margin-top: 0.45em;
+  }
+
+  /* ============================================================
+     AGENDA ROWS
+     ============================================================ */
+  .step-row {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-lg);
+    margin: 0.6em 0;
+  }
+
+  .step-num {
+    min-width: clamp(28px, 3.5vw, 46px);
+    height: clamp(28px, 3.5vw, 46px);
+    border-radius: 50%;
+    background: var(--color-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(14px, 1.7vw, 21px);
+    font-weight: 600;
+    color: var(--color-white);
+    flex-shrink: 0;
+  }
+
+  .step-text {
+    font-family: var(--font-ui);
+    font-size: clamp(14px, 1.8vw, 23px);
+    color: var(--color-light);
+    line-height: 1.4;
+  }
+
+  /* ============================================================
+     FILE PILLS
+     ============================================================ */
+  .pill {
+    display: inline-block;
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 6px;
+    padding: 0.3em 0.9em;
+    font-family: var(--font-ui);
+    font-size: clamp(13px, 1.5vw, 19px);
+    color: var(--color-muted);
+    margin: 0.2em 0.15em;
+  }
+  .pill.hi {
+    background: #162040;
+    border-color: var(--color-blue);
+    color: var(--color-code-blue);
+  }
+
+  .file-pill {
+    display: inline-block;
+    background: var(--color-hbox);
+    border: 1px solid var(--color-card-border);
+    border-radius: 6px;
+    padding: 0.3em 0.8em;
+    font-family: var(--font-code);
+    font-size: clamp(13px, 1.6vw, 20px);
+    color: var(--color-amber);
+    margin: 0.2em 0.15em;
+  }
+  .file-pill.new {
+    border-color: var(--color-blue);
+    color: var(--color-cyan);
+    background: #0d1525;
+  }
+
+  /* ============================================================
+     RULE LABEL (used above code blocks in JSX rules slides)
+     ============================================================ */
+  .rule-label {
+    font-family: var(--font-ui);
+    font-size: var(--text-label);
+    font-weight: 500;
+    margin-bottom: 3%;
+  }
+
+  /* ============================================================
+     PROGRESS BAR + NAV DOTS + HINT
+     ============================================================ */
+  #progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--color-blue);
+    transition: width var(--transition-speed) ease;
+    border-radius: 0 2px 2px 0;
+  }
+
+  #nav-dots {
+    position: absolute;
+    bottom: 3%;
+    right: 3%;
+    display: flex;
+    gap: 1.2%;
+    align-items: center;
+  }
+
+  .nav-dot {
+    width: clamp(6px, 0.8vw, 10px);
+    height: clamp(6px, 0.8vw, 10px);
+    border-radius: 50%;
+    background: var(--color-card-border);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .nav-dot.on {
+    background: var(--color-blue);
+    transform: scale(1.3);
+  }
+
+  #hint {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-ui);
+    font-size: clamp(11px, 1.2vw, 15px);
+    color: var(--color-code-dim);
+    letter-spacing: 0.05em;
+  }
+</style>
+
+<div id="deck">
+  <div id="progress"></div>
+
+  <!-- SLIDE 0 — Title -->
+  <div class="slide active">
+    <div class="tag">HackYourFuture Denmark</div>
+    <div class="headline">
+      <span class="accent">React</span>
+      <span class="headline-with-logo">
+        Week 2
+        <img
+          class="headline-logo"
+          src="https://cdn.simpleicons.org/react/61DAFB"
+          alt=""
+        />
+      </span>
+    </div>
+    <div class="sub">Props, state, conditional UI, and lifting data up</div>
+    <div style="margin-top: 7%; display: flex; gap: 1.5%; flex-wrap: wrap">
+      <span class="pill hi">Props</span>
+      <span class="pill hi">State</span>
+      <span class="pill hi">Hooks</span>
+      <span class="pill hi">Composition</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 1 — Agenda -->
+  <div class="slide">
+    <div class="tag">Today</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      What we're covering
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2%">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          Props (reading &amp; destructuring) and
+          <span style="font-family: var(--font-code)">children</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          State with <span style="font-family: var(--font-code)">useState</span>;
+          conditional UI
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          Lists (<span style="font-family: var(--font-code)">.map</span>),
+          <span style="font-family: var(--font-code)">key</span>, lifting state
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-text">Exercises (Part 1 &amp; Part 2)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — Props basics -->
+  <div class="slide">
+    <div class="tag">Props</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      Props — inputs from the parent
+    </div>
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 3%">
+        <div class="sub text-md">
+          <strong style="color: var(--color-white)">Props</strong> pass data
+          from parent to child — like arguments to a function. The parent
+          decides the values; the child receives and renders them.
+        </div>
+        <div class="sub text-md">
+          Data flows <strong>one-way</strong> (parent → child). Inside the
+          child, props are <strong>read-only</strong>. Need a change? The parent
+          updates what it passes.
+        </div>
+        <div class="hlt" style="margin-top: 10px;"">
+          <div class="hlt-title">Familiar shape</div>
+          <div class="hlt-body">
+            Strings in quotes; numbers, variables, and expressions in
+            <span style="font-family: var(--font-code)">{ }</span>. Event
+            handlers are props too —
+            <span
+              style="font-family: var(--font-code); color: var(--color-amber)"
+              >onClick={handleClick}</span
+            >.
+          </div>
+        </div>
+      </div>
+      <div class="code" style="font-size: clamp(11px, 1.25vw, 16px)">
+        <span class="ck">function</span> <span class="cs">Welcome</span>(props)
+        {<br />
+        &nbsp;&nbsp;<span class="ck">return</span> &lt;<span class="cp">h1</span
+        >&gt;Hello, {props.name}!&lt;/<span class="cp">h1</span>&gt;;<br />
+        }<br /><br />
+        <span class="cm">// parent chooses the name</span><br />
+        &lt;<span class="cs">Welcome</span> <span class="cs">name</span>=<span
+          class="cp"
+          >"Aisha"</span
+        >
+        /&gt;
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 — Destructuring props -->
+  <div class="slide">
+    <div class="tag">Props</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      Cleaner syntax: destructure
+    </div>
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 3%">
+        <div class="sub text-md">
+          Instead of writing
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >props.title</span
+          >
+          everywhere, you can <strong>pull out</strong> the fields you need in
+          the function parameter. It’s the same props — just easier to read.
+        </div>
+        <div class="sub text-sm" style="color: var(--color-muted)">
+          You’ll see both styles in codebases:
+          <span style="font-family: var(--font-code)">(props)</span> and
+          <span style="font-family: var(--font-code)"
+            >({ title, imageUrl })</span
+          >.
+        </div>
+      </div>
+      <div class="code" style="font-size: clamp(11px, 1.25vw, 16px)">
+        <span class="ck">function</span> <span class="cs">Card</span>({ title, imageUrl }) {<br />
+        &nbsp;&nbsp;<span class="ck">return</span> (<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">article</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">img</span>
+        <span class="cs">src</span>={imageUrl} /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">h2</span
+        >&gt;{title}&lt;/<span class="cp">h2</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">article</span>&gt;<br />
+        &nbsp;&nbsp;);<br />
+        }<br /><br />
+        <span class="cm">// parent passes each prop by name</span><br />
+        &lt;<span class="cs">Card</span><br />
+        &nbsp;&nbsp;<span class="cs">title</span>=<span class="cp">"Hello"</span
+        ><br />
+        &nbsp;&nbsp;<span class="cs">imageUrl</span>=<span class="cp"
+          >"/cat.png"</span
+        ><br />
+        /&gt;
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 — children -->
+  <div class="slide">
+    <div class="tag">Composition</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      The <span class="accent">children</span> prop
+    </div>
+    <div class="cols" style="align-items: start">
+      <div style="display: flex; flex-direction: column; gap: 4%">
+        <div class="sub text-md">
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >children</span
+          >
+          is a special prop React sets automatically. Whatever JSX you place
+          between a component's opening and closing tags (text, elements, other
+          components) becomes
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >children</span
+          >
+          inside it.
+        </div>
+        <br />
+        <div class="sub text-md">
+          This is how you compose UI: one component provides the structure, and
+          the parent decides what fills it.
+        </div>
+        <div class="hlt" style="margin-top: 4%; padding: 5% 5%">
+          <div class="hlt-title">Define the shell once, reuse it anywhere</div>
+          <div class="hlt-body">
+            Build the wrapper component once, with its layout and structure, and
+            let each parent pass in whatever content belongs there.
+          </div>
+        </div>
+      </div>
+      <div class="code" style="font-size: clamp(11px, 1.25vw, 16px)">
+        <span class="ck">function</span> <span class="cs">Layout</span>({
+        <span class="cs">children</span> }) {<br />
+        &nbsp;&nbsp;<span class="ck">return</span> (<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">&gt;</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">header</span
+        >&gt;…&lt;/<span class="cp">header</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">main</span
+        >&gt;{children}&lt;/<span class="cp">main</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">footer</span
+        >&gt;…&lt;/<span class="cp">footer</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">&gt;</span><br />
+        &nbsp;&nbsp;);<br />
+        }<br /><br />
+        &lt;<span class="cs">Layout</span>&gt;<br />
+        &nbsp;&nbsp;&lt;<span class="cp">h1</span>&gt;Dashboard&lt;/<span
+          class="cp"
+          >h1</span
+        >&gt;<br />
+        &lt;/<span class="cs">Layout</span>&gt;
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6 — State -->
+  <div class="slide">
+    <div class="tag">State</div>
+    <div class="headline headline-section" style="margin-bottom: 3%">
+      <span class="accent">useState</span> — data that changes over time
+    </div>
+    <div class="cols" style="margin-bottom: 3%">
+      <div class="card" style="padding: 3% 5%">
+        <div class="card-title" style="color: var(--color-cyan)">Props</div>
+        <div class="card-body text-sm">
+          Passed in from the parent — read-only inside the child.
+        </div>
+      </div>
+      <div
+        class="card"
+        style="padding: 3% 5%; border-color: var(--color-green)"
+      >
+        <div class="card-title" style="color: var(--color-green)">State</div>
+        <div class="card-body text-sm">
+          Lives in this component. Updating it triggers a fresh render.
+        </div>
+      </div>
+    </div>
+    <div class="cols">
+      <div
+        class="code"
+        style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.65"
+      >
+        <span class="ck">import</span> { useState }
+        <span class="ck">from</span>
+        <span class="cp">’react’</span>;<br /><br />
+        <span class="ck">const</span> [count, setCount] =
+        <span class="cs">useState</span>(<span class="cs">0</span>);<br />
+        <span class="cs">setCount</span>(count + <span class="cs">1</span>);
+        <span class="cm"> // simple update</span><br />
+        <span class="cs">setCount</span>((c) =&gt; c +
+        <span class="cs">1</span>);
+        <span class="cm"> // safer: based on previous value</span><br /><br />
+        <span class="cs">setUser</span>((u) =&gt; ({ ...u, name:
+        <span class="cp">’Lee’</span> }));
+        <span class="cm"> // new object, don’t mutate</span><br />
+        <span class="cs">setItems</span>((xs) =&gt; [...xs, item]);
+        <span class="cm"> // new array</span>
+      </div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 3%;
+          align-self: center;
+        "
+      >
+        <div class="hlt" style="margin: 0">
+          <div class="hlt-title">Rules of hooks</div>
+          <div class="hlt-body">
+            Call <span style="font-family: var(--font-code)">useState</span> at
+            the <strong>top level</strong> of your component — not inside loops,
+            conditions, or nested functions.
+          </div>
+        </div>
+        <div class="hlt" style="margin: 0">
+          <div class="hlt-title">Objects &amp; arrays</div>
+          <div class="hlt-body">
+            Always create a <strong>new</strong> value — never mutate the
+            existing one.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7 — Conditional UI -->
+  <div class="slide">
+    <div class="tag">Conditional UI</div>
+    <div class="headline headline-section" style="margin-bottom: 3%">
+      Show or hide based on props or state
+    </div>
+    <div class="sub text-sm" style="margin-bottom: 3%">
+      Branch on <strong>props</strong> (parent decides) or
+      <strong>state</strong>
+      (this component decides) — the patterns work the same in both cases.
+    </div>
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 2%">
+        <div class="hlt" style="margin: 0">
+          <div class="hlt-title">Three patterns</div>
+          <div class="hlt-body">
+            <strong>if / else</strong> — cleanest for longer branches;
+            <span style="font-family: var(--font-code)">return null</span> to
+            render nothing.<br /><br />
+            <strong>? :</strong> — compact "either A or B" inline.<br /><br />
+            <strong>&amp;&amp;</strong> — show something only when left side is
+            true, e.g.
+            <span
+              style="font-family: var(--font-code); color: var(--color-amber)"
+              >isLoggedIn &amp;&amp; &lt;Avatar /&gt;</span
+            >.
+          </div>
+        </div>
+      </div>
+      <div class="code" style="font-size: clamp(11px, 1.25vw, 16px)">
+        <span class="ck">const</span> [open, setOpen] =
+        <span class="cs">useState</span>(<span class="ck">false</span
+        >);<br /><br />
+        <span class="ck">return</span> (<br />
+        &nbsp;&nbsp;&lt;<span class="cp">&gt;</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">button</span>
+        <span class="cs">type</span>=<span class="cp">"button"</span>
+        <span class="cs">onClick</span>={() =&gt;
+        <span class="cs">setOpen</span>((o) =&gt; !o)}&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toggle<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">button</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{open &amp;&amp; &lt;<span class="cp">p</span
+        >&gt;Hello!&lt;/<span class="cp">p</span>&gt;}<br />
+        &nbsp;&nbsp;&lt;/<span class="cp">&gt;</span><br />
+        );
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8 — Lists -->
+  <div class="slide">
+    <div class="tag">Lists</div>
+    <div class="headline headline-section" style="margin-bottom: 3%">
+      Rendering a list with <span class="accent">.map()</span>
+    </div>
+    <div class="sub text-sm" style="margin-bottom: 3%">
+      When you have an array of data (cart items, messages, users…), you turn
+      each item into JSX. React needs a
+      <span style="font-family: var(--font-code); color: var(--color-amber)"
+        >key</span
+      >
+      on each sibling in the list so it can track which row is which when the
+      list changes.
+    </div>
+    <div class="cols">
+      <div
+        class="code"
+        style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.65"
+      >
+        <span class="ck">return</span> (<br />
+        &nbsp;&nbsp;&lt;<span class="cp">ul</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{items.<span class="cs">map</span>((item) =&gt;
+        (<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">li</span>
+        <span class="cs">key</span>={item.id}&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item.label}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">li</span
+        >&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;))}<br />
+        &nbsp;&nbsp;&lt;/<span class="cp">ul</span>&gt;<br />
+        );
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2%">
+        <div class="hlt" style="margin: 0">
+          <div class="hlt-title">Choosing a key</div>
+          <div class="hlt-body">
+            Prefer something <strong>stable and unique</strong> from your data
+            (like an <span style="font-family: var(--font-code)">id</span>).
+            Using only the array index is a poor fit if rows can be reordered,
+            added, or removed — React may update the wrong row.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9 — Lifting state -->
+  <div class="slide">
+    <div class="tag">Sharing state</div>
+    <div class="headline headline-section" style="margin-bottom: 3%">
+      Lifting state up
+    </div>
+    <div class="cols">
+      <div style="display: flex; flex-direction: column; gap: 3%">
+        <div class="sub text-md">
+          When <strong>two components</strong> need the same state, move it to
+          their <strong>nearest shared parent</strong> and pass it down as
+          props.
+        </div>
+        <div class="sub text-sm">
+          The parent passes the <strong>value</strong> and an
+          <strong>updater function</strong> to each child. Data still flows
+          one-way — the parent is the single source of truth.
+        </div>
+      </div>
+      <div
+        class="code"
+        style="
+          font-size: clamp(11px, 1.2vw, 15px);
+          line-height: 1.65;
+          align-self: center;
+        "
+      >
+        <span class="ck">function</span> <span class="cs">Parent</span>() {<br />
+        &nbsp;&nbsp;<span class="ck">const</span> [text, setText] =
+        <span class="cs">useState</span>(<span class="cp">''</span>);<br />
+        &nbsp;&nbsp;<span class="ck">return</span> (<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">&gt;</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cs">Editor</span
+        ><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs"
+          >value</span
+        >={text}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs"
+          >onChange</span
+        >={setText}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cs">Preview</span>
+        <span class="cs">text</span>={text} /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">&gt;</span><br />
+        &nbsp;&nbsp;);<br />
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10 — Exercises Part 1 -->
+  <div class="slide">
+    <div class="tag">Exercises</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      Part 1 — components &amp; props
+    </div>
+    <div
+      style="
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap-md);
+        row-gap: 3%;
+      "
+    >
+      <div class="card">
+        <div class="card-title">1. Button</div>
+        <div class="card-body text-sm">
+          A reusable
+          <span style="font-family: var(--font-code)">Button</span> that takes
+          <span style="font-family: var(--font-code)">text</span> and
+          <span style="font-family: var(--font-code)">onClick</span> and wires
+          them to a real
+          <span style="font-family: var(--font-code)">&lt;button&gt;</span>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">2. Card</div>
+        <div class="card-body text-sm">
+          Props
+          <span style="font-family: var(--font-code)">title</span>,
+          <span style="font-family: var(--font-code)">description</span>,
+          <span style="font-family: var(--font-code)">imageUrl</span> — use
+          destructuring in the parameter list and render a simple card layout.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">3. Layout</div>
+        <div class="card-body text-sm">
+          Header, main, and footer; render
+          <span style="font-family: var(--font-code)">children</span> inside
+          <span style="font-family: var(--font-code)">main</span>. Use the
+          component by nesting content between its tags.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">4. ToggleContent</div>
+        <div class="card-body text-sm">
+          Props
+          <span style="font-family: var(--font-code)">show</span> (boolean) and
+          <span style="font-family: var(--font-code)">content</span> (text or
+          element). Show
+          <span style="font-family: var(--font-code)">content</span> only when
+          <span style="font-family: var(--font-code)">show</span> is true;
+          otherwise show a short fallback message.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11 — Exercises Part 2 -->
+  <div class="slide">
+    <div class="tag">Exercises</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      Part 2 — State (and useState hook)
+    </div>
+    <div class="cols3" style="grid-template-columns: 1fr 1fr 1fr">
+      <div class="card">
+        <div class="card-title">5. Counter</div>
+        <div class="card-body text-sm">
+          <span style="font-family: var(--font-code)">useState</span> for the
+          count; buttons that increment and decrement; display the current
+          value.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">6. Form</div>
+        <div class="card-body text-sm">
+          Inputs controlled by state;
+          <span style="font-family: var(--font-code)">onSubmit</span> on the
+          <span style="font-family: var(--font-code)">&lt;form&gt;</span> with a
+          submit button.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">7. Parent + Child</div>
+        <div class="card-body text-sm">
+          State lives in
+          <span style="font-family: var(--font-code)">Parent</span>; pass the
+          value and an updater (or handler) into
+          <span style="font-family: var(--font-code)">Child</span>; the child
+          shows the data and has a control that updates it.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12 — Mental model diagram -->
+  <div class="slide">
+    <div class="tag">Mental model</div>
+    <div class="headline headline-section" style="margin-bottom: 5%">
+      Props flow down. State lives inside.
+    </div>
+    <div class="cols" style="gap: 8%; align-items: start">
+
+      <!-- Props column -->
+      <div style="display: flex; flex-direction: column">
+        <div style="font-family: var(--font-ui); font-size: clamp(12px,1.4vw,17px); font-weight: 600; color: var(--color-cyan); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5%">Props</div>
+        <div style="display: flex; flex-direction: column; align-items: flex-start">
+          <span class="diagram-step" style="color: var(--color-cyan)">&lt;App /&gt;</span>
+          <div style="padding-left: 1.6em; font-family: var(--font-code); font-size: clamp(11px,1.3vw,15px); color: var(--color-amber); margin: 2% 0">&darr; name=<span style="color: var(--color-light)">"Aisha"</span></div>
+          <span class="diagram-step" style="margin-left: 1.4em">&lt;Card /&gt;</span>
+          <div style="padding-left: 3em; font-family: var(--font-code); font-size: clamp(11px,1.3vw,15px); color: var(--color-amber); margin: 2% 0">&darr; text=<span style="color: var(--color-light)">"Hello"</span></div>
+          <span class="diagram-step" style="margin-left: 2.8em; color: var(--color-muted)">&lt;Button /&gt;</span>
+        </div>
+        <div class="hlt" style="margin-top: 6%; padding: 4% 5%">
+          <div class="hlt-body">A child <strong>cannot</strong> change what a parent passed in. Read-only, always.</div>
+        </div>
+      </div>
+
+      <!-- State column -->
+      <div style="display: flex; flex-direction: column">
+        <div style="font-family: var(--font-ui); font-size: clamp(12px,1.4vw,17px); font-weight: 600; color: var(--color-green); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5%">State</div>
+        <div style="display: flex; flex-direction: column; align-items: flex-start">
+          <div style="display: flex; align-items: center; gap: 0.8em">
+            <span class="diagram-step" style="color: var(--color-cyan)">&lt;App /&gt;</span>
+            <span style="background: rgba(34,197,94,0.12); border: 1px solid var(--color-green); border-radius: 6px; padding: 0.2em 0.7em; font-family: var(--font-code); font-size: clamp(11px,1.2vw,15px); color: var(--color-green)">count = 3</span>
+          </div>
+          <div style="padding-left: 1.6em; font-family: var(--font-code); font-size: clamp(11px,1.3vw,15px); color: var(--color-code-blue); margin: 2% 0">&darr; count={3}</div>
+          <span class="diagram-step" style="margin-left: 1.4em">&lt;Counter /&gt;</span>
+          <div style="padding-left: 3em; font-family: var(--font-code); font-size: clamp(11px,1.3vw,15px); color: var(--color-code-blue); margin: 2% 0">&darr; value={3}</div>
+          <span class="diagram-step" style="margin-left: 2.8em; color: var(--color-muted)">&lt;Display /&gt;</span>
+        </div>
+        <div class="hlt" style="margin-top: 6%; padding: 4% 5%">
+          <div class="hlt-body">When state changes, React <strong>re-renders</strong> that component and everything below it.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SLIDE 13 — Closing -->
+  <div class="slide">
+    <div class="tag">Key takeaways</div>
+    <div style="display: flex; flex-direction: column; gap: 5%">
+      <div class="sub">
+        ● <strong>Props</strong> are inputs from the parent — read them, don’t
+        rewrite them. Need new data? The parent re-renders and passes different
+        props (often after its own state changes).
+      </div>
+      <div class="sub">
+        ●
+        <span style="font-family: var(--font-code); color: var(--color-amber)"
+          >children</span
+        >
+        is how you compose layouts: one component provides the frame, another
+        fills the middle.
+      </div>
+      <div class="sub">
+        ●
+        <span style="font-family: var(--font-code); color: var(--color-amber)"
+          >useState</span
+        >
+        is for values that change over time; updating state triggers a
+        re-render. Treat objects and arrays as immutable when you update.
+      </div>
+      <div class="sub">
+        ● Use
+        <span style="font-family: var(--font-code); color: var(--color-amber)"
+          >.map()</span
+        >
+        + stable
+        <span style="font-family: var(--font-code)">key</span>s for lists; move
+        shared state up to the parent when two siblings need the same value.
+      </div>
+    </div>
+  </div>
+
+  <div id="nav-dots"></div>
+  <div id="hint">click anywhere to advance</div>
+</div>
+
+<script>
+  const TOTAL_SLIDES = 13;
+  const STORAGE_KEY = "react-week2-current-slide";
+  const SECTION_SLIDES = {
+    0: 1,
+    1: 2,
+    2: 4,
+    3: 5,
+    4: 6,
+    5: 7,
+    6: 9,
+  };
+
+  const deck = document.getElementById("deck");
+  const bar = document.getElementById("progress");
+  const hint = document.getElementById("hint");
+  const dotsEl = document.getElementById("nav-dots");
+  const slides = () => document.querySelectorAll(".slide");
+  const dots = () => document.querySelectorAll(".nav-dot");
+
+  let current = 0;
+
+  for (let i = 0; i < TOTAL_SLIDES; i++) {
+    const dot = document.createElement("div");
+    dot.className = "nav-dot" + (i === 0 ? " on" : "");
+    dotsEl.appendChild(dot);
+  }
+
+  const savedSlide = Number(localStorage.getItem(STORAGE_KEY));
+  if (
+    Number.isInteger(savedSlide) &&
+    savedSlide > 0 &&
+    savedSlide < TOTAL_SLIDES
+  ) {
+    goTo(savedSlide);
+  }
+
+  function goTo(n) {
+    if (n < 0 || n >= TOTAL_SLIDES || n === current) {
+      return;
+    }
+
+    const allSlides = slides();
+    const allDots = dots();
+
+    allSlides[current].classList.remove("active");
+    allSlides[current].classList.add("exit");
+    setTimeout(() => allSlides[current].classList.remove("exit"), 500);
+
+    current = Math.max(0, Math.min(TOTAL_SLIDES - 1, n));
+
+    allSlides[current].classList.add("active");
+
+    allDots.forEach((d, i) => d.classList.toggle("on", i === current));
+
+    bar.style.width = (current / (TOTAL_SLIDES - 1)) * 100 + "%";
+
+    localStorage.setItem(STORAGE_KEY, String(current));
+
+    if (current === TOTAL_SLIDES - 1) {
+      hint.textContent = "";
+    } else if (current === 0) {
+      hint.textContent = "click anywhere to advance";
+    } else {
+      hint.textContent = `${current + 1} / ${TOTAL_SLIDES}`;
+    }
+  }
+
+  deck.addEventListener("click", () => {
+    if (current < TOTAL_SLIDES - 1) goTo(current + 1);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key in SECTION_SLIDES) {
+      goTo(SECTION_SLIDES[e.key]);
+      return;
+    }
+
+    if (e.key === " " || e.code === "Space") {
+      e.preventDefault();
+
+      if (e.shiftKey) {
+        goTo(current - 1);
+        return;
+      }
+
+      goTo(current + 1);
+      return;
+    }
+
+    if (e.key === "ArrowRight") {
+      goTo(current + 1);
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      goTo(current - 1);
+    }
+  });
+</script>
