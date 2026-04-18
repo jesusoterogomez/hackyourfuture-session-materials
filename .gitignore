@@ -8,3 +8,6 @@
 .vscode/
 *.code-workspace
 
+# Local-only notes (not for sharing)
+local-*
+
