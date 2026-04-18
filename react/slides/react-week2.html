@@ -757,63 +757,17 @@
         &nbsp;&nbsp;<span class="ck">return</span> &lt;<span class="cp">h1</span
         >&gt;Hello, {props.name}!&lt;/<span class="cp">h1</span>&gt;;<br />
         }<br /><br />
+        <span class="cm">// you can also destructure in the parameter</span><br />
+        <span class="ck">function</span> <span class="cs">Welcome</span>({
+        name }) {<br />
+        &nbsp;&nbsp;<span class="ck">return</span> &lt;<span class="cp">h1</span
+        >&gt;Hello, {name}!&lt;/<span class="cp">h1</span>&gt;;<br />
+        }<br /><br />
         <span class="cm">// parent chooses the name</span><br />
         &lt;<span class="cs">Welcome</span> <span class="cs">name</span>=<span
           class="cp"
           >"Aisha"</span
         >
-        /&gt;
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 4 — Destructuring props -->
-  <div class="slide">
-    <div class="tag">Props</div>
-    <div class="headline headline-section" style="margin-bottom: 4%">
-      Cleaner syntax: destructure
-    </div>
-    <div class="cols">
-      <div style="display: flex; flex-direction: column; gap: 3%">
-        <div class="sub text-md">
-          Instead of writing
-          <span style="font-family: var(--font-code); color: var(--color-amber)"
-            >props.title</span
-          >
-          everywhere, you can <strong>pull out</strong> the fields you need in
-          the function parameter. It’s the same props, just easier to read.
-        </div>
-        <div class="sub text-sm" style="color: var(--color-muted)">
-          You’ll see both styles in codebases:
-          <li>
-            <span style="font-family: var(--font-code)">(props)</span>
-          </li>
-          <li>
-            <span style="font-family: var(--font-code)"
-              >({ title, imageUrl })</span
-            >.
-          </li>
-        </div>
-      </div>
-      <div class="code" style="font-size: clamp(11px, 1.25vw, 16px)">
-        <span class="ck">function</span> <span class="cs">Card</span>({ title,
-        imageUrl }) {<br />
-        &nbsp;&nbsp;<span class="ck">return</span> (<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">article</span>&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">img</span>
-        <span class="cs">src</span>={imageUrl} /&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">h2</span
-        >&gt;{title}&lt;/<span class="cp">h2</span>&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">article</span>&gt;<br />
-        &nbsp;&nbsp;);<br />
-        }<br /><br />
-        <span class="cm">// parent passes each prop by name</span><br />
-        &lt;<span class="cs">Card</span><br />
-        &nbsp;&nbsp;<span class="cs">title</span>=<span class="cp">"Hello"</span
-        ><br />
-        &nbsp;&nbsp;<span class="cs">imageUrl</span>=<span class="cp"
-          >"/cat.png"</span
-        ><br />
         /&gt;
       </div>
     </div>
@@ -1526,7 +1480,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 14;
+  const TOTAL_SLIDES = 13;
   const STORAGE_KEY = "react-week2-current-slide";
   const SECTION_SLIDES = {
     0: 1,
