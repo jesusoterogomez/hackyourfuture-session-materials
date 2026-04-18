@@ -647,7 +647,9 @@
         />
       </span>
     </div>
-    <div class="sub">Props, state, conditional UI, and lifting data up</div>
+    <div class="sub">
+      Props, state, conditional UI, and sharing data between components
+    </div>
     <div style="margin-top: 7%; display: flex; gap: 1.5%; flex-wrap: wrap">
       <span class="pill hi">Props</span>
       <span class="pill hi">State</span>
@@ -666,26 +668,40 @@
       <div class="step-row">
         <div class="step-num">1</div>
         <div class="step-text">
-          Props (reading &amp; destructuring) and
-          <span style="font-family: var(--font-code)">children</span>
+          Passing data to components (<span
+            style="font-family: var(--font-code); color: var(--color-amber)"
+            >props</span
+          >,
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >children</span
+          >)
         </div>
       </div>
       <div class="step-row">
         <div class="step-num">2</div>
         <div class="step-text">
-          State with <span style="font-family: var(--font-code)">useState</span>;
-          conditional UI
+          State with
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >useState</span
+          >
+          and conditional UI
         </div>
       </div>
       <div class="step-row">
         <div class="step-num">3</div>
         <div class="step-text">
-          Lists (<span style="font-family: var(--font-code)">.map</span>),
-          <span style="font-family: var(--font-code)">key</span>, lifting state
+          Rendering lists with
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >.map()</span
+          >
         </div>
       </div>
       <div class="step-row">
         <div class="step-num">4</div>
+        <div class="step-text">Sharing state between components</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
         <div class="step-text">Exercises (Part 1 &amp; Part 2)</div>
       </div>
     </div>
@@ -701,24 +717,37 @@
       <div style="display: flex; flex-direction: column; gap: 3%">
         <div class="sub text-md">
           <strong style="color: var(--color-white)">Props</strong> pass data
-          from parent to child — like arguments to a function. The parent
-          decides the values; the child receives and renders them.
+          from parent to child, like arguments to a function. The parent decides
+          the values; the child receives and renders them.
         </div>
         <div class="sub text-md">
           Data flows <strong>one-way</strong> (parent → child). Inside the
           child, props are <strong>read-only</strong>. Need a change? The parent
           updates what it passes.
         </div>
-        <div class="hlt" style="margin-top: 10px;"">
-          <div class="hlt-title">Familiar shape</div>
+        <div class="hlt" style="margin-top: 10px">
+          <div class="hlt-title">What can you pass as props?</div>
           <div class="hlt-body">
-            Strings in quotes; numbers, variables, and expressions in
-            <span style="font-family: var(--font-code)">{ }</span>. Event
-            handlers are props too —
-            <span
-              style="font-family: var(--font-code); color: var(--color-amber)"
-              >onClick={handleClick}</span
-            >.
+            <ul style="padding-left: 1.2em; margin: 0; line-height: 2">
+              <li>
+                <strong>Plain data:</strong> strings, numbers, booleans,
+                objects, arrays
+              </li>
+              <li>
+                <strong>Functions</strong> the child can call (e.g.
+                <span
+                  style="
+                    font-family: var(--font-code);
+                    color: var(--color-amber);
+                  "
+                  >onClick={handleClick}</span
+                >)
+              </li>
+              <li>
+                <strong>Other components:</strong> as a named prop or via
+                <span style="font-family: var(--font-code)">children</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -752,18 +781,23 @@
             >props.title</span
           >
           everywhere, you can <strong>pull out</strong> the fields you need in
-          the function parameter. It’s the same props — just easier to read.
+          the function parameter. It’s the same props, just easier to read.
         </div>
         <div class="sub text-sm" style="color: var(--color-muted)">
           You’ll see both styles in codebases:
-          <span style="font-family: var(--font-code)">(props)</span> and
-          <span style="font-family: var(--font-code)"
-            >({ title, imageUrl })</span
-          >.
+          <li>
+            <span style="font-family: var(--font-code)">(props)</span>
+          </li>
+          <li>
+            <span style="font-family: var(--font-code)"
+              >({ title, imageUrl })</span
+            >.
+          </li>
         </div>
       </div>
       <div class="code" style="font-size: clamp(11px, 1.25vw, 16px)">
-        <span class="ck">function</span> <span class="cs">Card</span>({ title, imageUrl }) {<br />
+        <span class="ck">function</span> <span class="cs">Card</span>({ title,
+        imageUrl }) {<br />
         &nbsp;&nbsp;<span class="ck">return</span> (<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">article</span>&gt;<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">img</span>
@@ -807,8 +841,8 @@
         </div>
         <br />
         <div class="sub text-md">
-          This is how you compose UI: one component provides the structure, and
-          the parent decides what fills it.
+          This is very useful for composing UI: one component provides the
+          structure, and the parent decides what "fills" it.
         </div>
         <div class="hlt" style="margin-top: 4%; padding: 5% 5%">
           <div class="hlt-title">Define the shell once, reuse it anywhere</div>
@@ -852,7 +886,7 @@
       <div class="card" style="padding: 3% 5%">
         <div class="card-title" style="color: var(--color-cyan)">Props</div>
         <div class="card-body text-sm">
-          Passed in from the parent — read-only inside the child.
+          Passed in from the parent. Read-only inside the child.
         </div>
       </div>
       <div
@@ -873,16 +907,78 @@
         <span class="ck">import</span> { useState }
         <span class="ck">from</span>
         <span class="cp">’react’</span>;<br /><br />
+        <span class="cm">
+          // array containing: <br />
+          // - the current value <br />
+          // - the setter function<br
+        /></span>
         <span class="ck">const</span> [count, setCount] =
-        <span class="cs">useState</span>(<span class="cs">0</span>);<br />
-        <span class="cs">setCount</span>(count + <span class="cs">1</span>);
-        <span class="cm"> // simple update</span><br />
+        <span class="cs">useState</span>(<span class="cs">0</span>);<br /><br />
+        <span class="cm"> // set a new value directly</span><br />
+        <span class="cs">setCount</span>(count +
+        <span class="cs">1</span>);<br /><br />
+
+        <span class="cm"> // use previous value</span><br />
         <span class="cs">setCount</span>((c) =&gt; c +
         <span class="cs">1</span>);
-        <span class="cm"> // safer: based on previous value</span><br /><br />
+      </div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 3%;
+          align-self: center;
+        "
+      >
+        <div class="hlt" style="margin: 0">
+          <div class="hlt-title">How it works</div>
+          <div class="hlt-body">
+            You pass an <strong>initial value</strong> to
+            <span style="font-family: var(--font-code)">useState</span>. It
+            gives you back two things:
+            <ul style="padding-left: 1.2em; margin-top: 0.6em; line-height: 2">
+              <li>
+                <span style="font-family: var(--font-code)">count</span>
+                — the <strong>current value</strong>
+              </li>
+              <li>
+                <span style="font-family: var(--font-code)">setCount</span>
+                — a <strong>setter function</strong>; call it to update the
+                value and trigger a re-render
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="hlt" style="margin: 0">
+          <div class="hlt-title">Rules of hooks</div>
+          <div class="hlt-body">
+            Call <span style="font-family: var(--font-code)">useState</span> at
+            the <strong>top level</strong> of your component. Not inside loops,
+            conditions, or nested functions.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6b — Immutable updates -->
+  <div class="slide">
+    <div class="tag">State</div>
+    <div class="headline headline-section" style="margin-bottom: 4%">
+      Updating objects and arrays
+    </div>
+    <div class="cols">
+      <div
+        class="code"
+        style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.75"
+      >
+        <span class="cm">// wrong: mutating state directly</span><br />
+        user.name = <span class="cp">’Lee’</span>;
+        <span class="cm"> // React won’t re-render</span><br /><br />
+        <span class="cm">// correct: create a new value</span><br />
         <span class="cs">setUser</span>((u) =&gt; ({ ...u, name:
-        <span class="cp">’Lee’</span> }));
-        <span class="cm"> // new object, don’t mutate</span><br />
+        <span class="cp">’Lee’</span> })); <span class="cm"> // new object</span
+        ><br />
         <span class="cs">setItems</span>((xs) =&gt; [...xs, item]);
         <span class="cm"> // new array</span>
       </div>
@@ -895,18 +991,24 @@
         "
       >
         <div class="hlt" style="margin: 0">
-          <div class="hlt-title">Rules of hooks</div>
+          <div class="hlt-title">Why does this matter?</div>
           <div class="hlt-body">
-            Call <span style="font-family: var(--font-code)">useState</span> at
-            the <strong>top level</strong> of your component — not inside loops,
-            conditions, or nested functions.
+            React detects changes by comparing the old and new value. If you
+            mutate the existing object or array, the reference stays the same
+            and React won’t notice anything changed.
           </div>
         </div>
         <div class="hlt" style="margin: 0">
-          <div class="hlt-title">Objects &amp; arrays</div>
+          <div class="hlt-title">The pattern</div>
           <div class="hlt-body">
-            Always create a <strong>new</strong> value — never mutate the
-            existing one.
+            Objects: spread with
+            <span style="font-family: var(--font-code)"
+              >{ ...old, key: newValue }</span
+            >.<br />
+            Arrays: use spread,
+            <span style="font-family: var(--font-code)">.filter()</span>, or
+            <span style="font-family: var(--font-code)">.map()</span> to return
+            a new array.
           </div>
         </div>
       </div>
@@ -922,18 +1024,18 @@
     <div class="sub text-sm" style="margin-bottom: 3%">
       Branch on <strong>props</strong> (parent decides) or
       <strong>state</strong>
-      (this component decides) — the patterns work the same in both cases.
+      (this component decides). The patterns are the same either way.
     </div>
     <div class="cols">
       <div style="display: flex; flex-direction: column; gap: 2%">
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">Three patterns</div>
           <div class="hlt-body">
-            <strong>if / else</strong> — cleanest for longer branches;
+            <strong>if / else:</strong> cleanest for longer branches;
             <span style="font-family: var(--font-code)">return null</span> to
             render nothing.<br /><br />
-            <strong>? :</strong> — compact "either A or B" inline.<br /><br />
-            <strong>&amp;&amp;</strong> — show something only when left side is
+            <strong>? :</strong> compact "either A or B" inline.<br /><br />
+            <strong>&amp;&amp;:</strong> show something only when left side is
             true, e.g.
             <span
               style="font-family: var(--font-code); color: var(--color-amber)"
@@ -1002,7 +1104,7 @@
             Prefer something <strong>stable and unique</strong> from your data
             (like an <span style="font-family: var(--font-code)">id</span>).
             Using only the array index is a poor fit if rows can be reordered,
-            added, or removed — React may update the wrong row.
+            added, or removed. React may update the wrong row.
           </div>
         </div>
       </div>
@@ -1025,7 +1127,7 @@
         <div class="sub text-sm">
           The parent passes the <strong>value</strong> and an
           <strong>updater function</strong> to each child. Data still flows
-          one-way — the parent is the single source of truth.
+          one-way. The parent is the single source of truth.
         </div>
       </div>
       <div
@@ -1090,7 +1192,7 @@
           Props
           <span style="font-family: var(--font-code)">title</span>,
           <span style="font-family: var(--font-code)">description</span>,
-          <span style="font-family: var(--font-code)">imageUrl</span> — use
+          <span style="font-family: var(--font-code)">imageUrl</span>. Use
           destructuring in the parameter list and render a simple card layout.
         </div>
       </div>
@@ -1162,40 +1264,139 @@
       Props flow down. State lives inside.
     </div>
     <div class="cols" style="gap: 8%; align-items: start">
-
       <!-- Props column -->
       <div style="display: flex; flex-direction: column">
-        <div style="font-family: var(--font-ui); font-size: clamp(12px,1.4vw,17px); font-weight: 600; color: var(--color-cyan); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5%">Props</div>
-        <div style="display: flex; flex-direction: column; align-items: flex-start">
-          <span class="diagram-step" style="color: var(--color-cyan)">&lt;App /&gt;</span>
-          <div style="padding-left: 1.6em; font-family: var(--font-code); font-size: clamp(11px,1.3vw,15px); color: var(--color-amber); margin: 2% 0">&darr; name=<span style="color: var(--color-light)">"Aisha"</span></div>
-          <span class="diagram-step" style="margin-left: 1.4em">&lt;Card /&gt;</span>
-          <div style="padding-left: 3em; font-family: var(--font-code); font-size: clamp(11px,1.3vw,15px); color: var(--color-amber); margin: 2% 0">&darr; text=<span style="color: var(--color-light)">"Hello"</span></div>
-          <span class="diagram-step" style="margin-left: 2.8em; color: var(--color-muted)">&lt;Button /&gt;</span>
+        <div
+          style="
+            font-family: var(--font-ui);
+            font-size: clamp(12px, 1.4vw, 17px);
+            font-weight: 600;
+            color: var(--color-cyan);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 5%;
+          "
+        >
+          Props
+        </div>
+        <div
+          style="display: flex; flex-direction: column; align-items: flex-start"
+        >
+          <span class="diagram-step" style="color: var(--color-cyan)"
+            >&lt;App /&gt;</span
+          >
+          <div
+            style="
+              padding-left: 1.6em;
+              font-family: var(--font-code);
+              font-size: clamp(11px, 1.3vw, 15px);
+              color: var(--color-amber);
+              margin: 2% 0;
+            "
+          >
+            &darr; name=<span style="color: var(--color-light)">"Aisha"</span>
+          </div>
+          <span class="diagram-step" style="margin-left: 1.4em"
+            >&lt;Card /&gt;</span
+          >
+          <div
+            style="
+              padding-left: 3em;
+              font-family: var(--font-code);
+              font-size: clamp(11px, 1.3vw, 15px);
+              color: var(--color-amber);
+              margin: 2% 0;
+            "
+          >
+            &darr; text=<span style="color: var(--color-light)">"Hello"</span>
+          </div>
+          <span
+            class="diagram-step"
+            style="margin-left: 2.8em; color: var(--color-muted)"
+            >&lt;Button /&gt;</span
+          >
         </div>
         <div class="hlt" style="margin-top: 6%; padding: 4% 5%">
-          <div class="hlt-body">A child <strong>cannot</strong> change what a parent passed in. Read-only, always.</div>
+          <div class="hlt-body">
+            A child <strong>cannot</strong> change what a parent passed in.
+            Read-only, always.
+          </div>
         </div>
       </div>
 
       <!-- State column -->
       <div style="display: flex; flex-direction: column">
-        <div style="font-family: var(--font-ui); font-size: clamp(12px,1.4vw,17px); font-weight: 600; color: var(--color-green); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5%">State</div>
-        <div style="display: flex; flex-direction: column; align-items: flex-start">
+        <div
+          style="
+            font-family: var(--font-ui);
+            font-size: clamp(12px, 1.4vw, 17px);
+            font-weight: 600;
+            color: var(--color-green);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 5%;
+          "
+        >
+          State
+        </div>
+        <div
+          style="display: flex; flex-direction: column; align-items: flex-start"
+        >
           <div style="display: flex; align-items: center; gap: 0.8em">
-            <span class="diagram-step" style="color: var(--color-cyan)">&lt;App /&gt;</span>
-            <span style="background: rgba(34,197,94,0.12); border: 1px solid var(--color-green); border-radius: 6px; padding: 0.2em 0.7em; font-family: var(--font-code); font-size: clamp(11px,1.2vw,15px); color: var(--color-green)">count = 3</span>
+            <span class="diagram-step" style="color: var(--color-cyan)"
+              >&lt;App /&gt;</span
+            >
+            <span
+              style="
+                background: rgba(34, 197, 94, 0.12);
+                border: 1px solid var(--color-green);
+                border-radius: 6px;
+                padding: 0.2em 0.7em;
+                font-family: var(--font-code);
+                font-size: clamp(11px, 1.2vw, 15px);
+                color: var(--color-green);
+              "
+              >count = 3</span
+            >
           </div>
-          <div style="padding-left: 1.6em; font-family: var(--font-code); font-size: clamp(11px,1.3vw,15px); color: var(--color-code-blue); margin: 2% 0">&darr; count={3}</div>
-          <span class="diagram-step" style="margin-left: 1.4em">&lt;Counter /&gt;</span>
-          <div style="padding-left: 3em; font-family: var(--font-code); font-size: clamp(11px,1.3vw,15px); color: var(--color-code-blue); margin: 2% 0">&darr; value={3}</div>
-          <span class="diagram-step" style="margin-left: 2.8em; color: var(--color-muted)">&lt;Display /&gt;</span>
+          <div
+            style="
+              padding-left: 1.6em;
+              font-family: var(--font-code);
+              font-size: clamp(11px, 1.3vw, 15px);
+              color: var(--color-code-blue);
+              margin: 2% 0;
+            "
+          >
+            &darr; count={3}
+          </div>
+          <span class="diagram-step" style="margin-left: 1.4em"
+            >&lt;Counter /&gt;</span
+          >
+          <div
+            style="
+              padding-left: 3em;
+              font-family: var(--font-code);
+              font-size: clamp(11px, 1.3vw, 15px);
+              color: var(--color-code-blue);
+              margin: 2% 0;
+            "
+          >
+            &darr; value={3}
+          </div>
+          <span
+            class="diagram-step"
+            style="margin-left: 2.8em; color: var(--color-muted)"
+            >&lt;Display /&gt;</span
+          >
         </div>
         <div class="hlt" style="margin-top: 6%; padding: 4% 5%">
-          <div class="hlt-body">When state changes, React <strong>re-renders</strong> that component and everything below it.</div>
+          <div class="hlt-body">
+            When state changes, React <strong>re-renders</strong> that component
+            and everything below it.
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -1204,7 +1405,7 @@
     <div class="tag">Key takeaways</div>
     <div style="display: flex; flex-direction: column; gap: 5%">
       <div class="sub">
-        ● <strong>Props</strong> are inputs from the parent — read them, don’t
+        ● <strong>Props</strong> are inputs from the parent. Read them, don’t
         rewrite them. Need new data? The parent re-renders and passes different
         props (often after its own state changes).
       </div>
@@ -1241,7 +1442,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 13;
+  const TOTAL_SLIDES = 14;
   const STORAGE_KEY = "react-week2-current-slide";
   const SECTION_SLIDES = {
     0: 1,
