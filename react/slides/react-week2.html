@@ -893,80 +893,103 @@
     <!-- Anatomy line -->
     <div
       style="
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1.5%;
-        font-family: var(--font-code);
-        font-size: clamp(12px, 1.35vw, 17px);
-        flex-wrap: nowrap;
+        background: var(--color-deep);
+        border: 1px solid var(--color-deep-border);
+        border-radius: 10px;
+        padding: 2% 4%;
         margin-bottom: 4%;
       "
     >
-      <span style="color: var(--color-code-blue)">const</span>
-      <span style="color: var(--color-white)">[</span>
+      <div
+        style="
+          font-family: var(--font-ui);
+          font-size: clamp(9px, 0.95vw, 12px);
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--color-code-dim);
+          text-align: center;
+          margin-bottom: 1.5%;
+        "
+      >
+        React hook for managing state — Function Signature:
+      </div>
       <div
         style="
           display: flex;
-          flex-direction: column;
           align-items: center;
-          gap: 0.3em;
+          justify-content: center;
+          gap: 0.5%;
+          font-family: var(--font-code);
+          font-size: clamp(12px, 1.35vw, 17px);
+          flex-wrap: nowrap;
         "
       >
-        <span
+        <span style="color: var(--color-code-blue)">const</span>
+        <span style="color: var(--color-white)">[</span>
+        <div
           style="
-            background: rgba(76, 201, 240, 0.1);
-            border: 1px solid var(--color-cyan);
-            border-radius: 6px;
-            padding: 0.25em 0.7em;
-            color: var(--color-cyan);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3em;
           "
-          >current value</span
         >
-      </div>
-      <span style="color: var(--color-white)">,</span>
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.3em;
-        "
-      >
-        <span
+          <span
+            style="
+              background: rgba(76, 201, 240, 0.1);
+              border: 1px solid var(--color-cyan);
+              border-radius: 6px;
+              padding: 0.25em 0.7em;
+              color: var(--color-cyan);
+            "
+            >current value</span
+          >
+        </div>
+        <span style="color: var(--color-white)">,</span>
+        <div
           style="
-            background: rgba(249, 168, 117, 0.1);
-            border: 1px solid var(--color-amber);
-            border-radius: 6px;
-            padding: 0.25em 0.7em;
-            color: var(--color-amber);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3em;
           "
-          >setter function</span
         >
-      </div>
-      <span style="color: var(--color-white)">] =</span>
-      <span style="color: var(--color-cyan)">useState</span>
-      <span style="color: var(--color-white)">(</span>
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.3em;
-        "
-      >
-        <span
+          <span
+            style="
+              background: rgba(249, 168, 117, 0.1);
+              border: 1px solid var(--color-amber);
+              border-radius: 6px;
+              padding: 0.25em 0.7em;
+              color: var(--color-amber);
+            "
+            >setter function</span
+          >
+        </div>
+        <span style="color: var(--color-white)">] =</span>
+        <span style="color: var(--color-cyan)">useState</span>
+        <span style="color: var(--color-white)">(</span>
+        <div
           style="
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid var(--color-green);
-            border-radius: 6px;
-            padding: 0.25em 0.7em;
-            color: var(--color-green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3em;
           "
-          >initial value</span
         >
+          <span
+            style="
+              background: rgba(34, 197, 94, 0.1);
+              border: 1px solid var(--color-green);
+              border-radius: 6px;
+              padding: 0.25em 0.7em;
+              color: var(--color-green);
+            "
+            >initial value</span
+          >
+        </div>
+        <span style="color: var(--color-white)">);</span>
       </div>
-      <span style="color: var(--color-white)">);</span>
     </div>
     <div class="cols">
       <div
@@ -1018,169 +1041,6 @@
             Call <span style="font-family: var(--font-code)">useState</span> at
             the <strong>top level</strong> of your component. Not inside loops,
             conditions, or nested functions.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 6 — State (version B) -->
-  <div class="slide">
-    <div class="tag">State</div>
-    <div class="headline headline-section" style="margin-bottom: 4%">
-      Meet <span class="accent">useState</span>
-    </div>
-    <div
-      style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 3%;
-      "
-    >
-      <!-- Anatomy row -->
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          gap: 1.5%;
-          font-family: var(--font-code);
-          font-size: clamp(12px, 1.35vw, 17px);
-          flex-wrap: nowrap;
-          justify-content: center;
-        "
-      >
-        <span style="color: var(--color-code-blue)">const</span>
-        <span style="color: var(--color-white)">[</span>
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.4em;
-          "
-        >
-          <span
-            style="
-              background: rgba(76, 201, 240, 0.1);
-              border: 1px solid var(--color-cyan);
-              border-radius: 6px;
-              padding: 0.3em 0.8em;
-              color: var(--color-cyan);
-            "
-            >count</span
-          >
-          <span
-            style="
-              font-family: var(--font-ui);
-              font-size: clamp(10px, 1.1vw, 13px);
-              color: var(--color-cyan);
-            "
-            >current value</span
-          >
-        </div>
-        <span style="color: var(--color-white)">,</span>
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.4em;
-          "
-        >
-          <span
-            style="
-              background: rgba(249, 168, 117, 0.1);
-              border: 1px solid var(--color-amber);
-              border-radius: 6px;
-              padding: 0.3em 0.8em;
-              color: var(--color-amber);
-            "
-            >setCount</span
-          >
-          <span
-            style="
-              font-family: var(--font-ui);
-              font-size: clamp(10px, 1.1vw, 13px);
-              color: var(--color-amber);
-            "
-            >setter function</span
-          >
-        </div>
-        <span style="color: var(--color-white)">] =</span>
-        <span style="color: var(--color-cyan)">useState</span>
-        <span style="color: var(--color-white)">(</span>
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.4em;
-          "
-        >
-          <span
-            style="
-              background: rgba(34, 197, 94, 0.1);
-              border: 1px solid var(--color-green);
-              border-radius: 6px;
-              padding: 0.3em 0.8em;
-              color: var(--color-green);
-            "
-            >0</span
-          >
-          <span
-            style="
-              font-family: var(--font-ui);
-              font-size: clamp(10px, 1.1vw, 13px);
-              color: var(--color-green);
-            "
-            >initial value</span
-          >
-        </div>
-        <span style="color: var(--color-white)">);</span>
-      </div>
-
-      <!-- Usage + key point -->
-      <div class="cols" style="width: 100%; margin-top: 2%">
-        <div
-          class="code"
-          style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.75"
-        >
-          <span class="cm">// read the value</span><br />
-          &lt;<span class="cp">p</span>&gt;{count}&lt;/<span class="cp">p</span
-          >&gt;<br /><br />
-          <span class="cm">// update it</span><br />
-          <span class="cs">setCount</span>(count +
-          <span class="cs">1</span>);<br /><br />
-          <span class="cm">// or based on the previous value</span><br />
-          <span class="cs">setCount</span>((c) =&gt; c +
-          <span class="cs">1</span>);
-        </div>
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            gap: 3%;
-            align-self: center;
-          "
-        >
-          <div class="hlt" style="margin: 0">
-            <div class="hlt-title">What happens when you call the setter?</div>
-            <div class="hlt-body">
-              React stores the new value and re-renders the component. The next
-              render reads the updated
-              <span style="font-family: var(--font-code)">count</span>
-              automatically.
-            </div>
-          </div>
-          <div class="hlt" style="margin: 0">
-            <div class="hlt-title">Rules of hooks</div>
-            <div class="hlt-body">
-              Call
-              <span style="font-family: var(--font-code)">useState</span> at the
-              <strong>top level</strong> of your component. Not inside loops,
-              conditions, or nested functions.
-            </div>
           </div>
         </div>
       </div>
@@ -1252,7 +1112,10 @@
       <strong>state</strong>
       (this component decides). The patterns are the same either way.
     </div>
-    <div class="cols">
+    <div
+      class="cols"
+      style="grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr)"
+    >
       <div style="display: flex; flex-direction: column; gap: 2%">
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">Three patterns</div>
@@ -1261,31 +1124,26 @@
             <span style="font-family: var(--font-code)">return null</span> to
             render nothing.<br /><br />
             <strong>? :</strong> compact "either A or B" inline.<br /><br />
-            <strong>&amp;&amp;:</strong> show something only when left side is
-            true, e.g.
-            <span
-              style="font-family: var(--font-code); color: var(--color-amber)"
-              >isLoggedIn &amp;&amp; &lt;Avatar /&gt;</span
-            >.
+            <strong>&amp;&amp;:</strong> show something only when the left side
+            is true.
           </div>
         </div>
       </div>
-      <div class="code" style="font-size: clamp(11px, 1.25vw, 16px)">
-        <span class="ck">const</span> [open, setOpen] =
-        <span class="cs">useState</span>(<span class="ck">false</span
-        >);<br /><br />
-        <span class="ck">return</span> (<br />
-        &nbsp;&nbsp;&lt;<span class="cp">&gt;</span><br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">button</span>
-        <span class="cs">type</span>=<span class="cp">"button"</span>
-        <span class="cs">onClick</span>={() =&gt;
-        <span class="cs">setOpen</span>((o) =&gt; !o)}&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toggle<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="cp">button</span>&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;{open &amp;&amp; &lt;<span class="cp">p</span
-        >&gt;Hello!&lt;/<span class="cp">p</span>&gt;}<br />
-        &nbsp;&nbsp;&lt;/<span class="cp">&gt;</span><br />
-        );
+      <div class="code" style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7">
+        <span class="cm">// if / else — return early</span><br />
+        <span class="ck">if</span> (isLoading) <span class="ck">return</span>
+        &lt;<span class="cp">p</span>&gt;Loading...&lt;/<span class="cp">p</span>&gt;;<br /><br />
+
+        <span class="cm">// ternary — either A or B</span><br />
+        &lt;<span class="cp">button</span>&gt;<br />
+        &nbsp;&nbsp;{isSubmitting
+        &nbsp;? <span class="cp">'Saving...'</span>
+        &nbsp;: <span class="cp">'Save'</span>}<br />
+        &lt;/<span class="cp">button</span>&gt;<br /><br />
+
+        <span class="cm">// &amp;&amp; — show only when true</span><br />
+        {error &amp;&amp; &lt;<span class="cp">p</span>
+        <span class="cs">className</span>=<span class="cp">"error"</span>&gt;{error}&lt;/<span class="cp">p</span>&gt;}
       </div>
     </div>
   </div>
@@ -1668,7 +1526,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 15;
+  const TOTAL_SLIDES = 14;
   const STORAGE_KEY = "react-week2-current-slide";
   const SECTION_SLIDES = {
     0: 1,
