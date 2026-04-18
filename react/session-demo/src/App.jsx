@@ -15,6 +15,7 @@ function App() {
           <a href="#">Pets</a>
           <a href="#">Contact</a>
         </nav>
+        <span className="favourites-count">♥ Interested in 0 pets</span>
       </header>
 
       <div className="hero">

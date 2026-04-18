@@ -53,3 +53,49 @@
   cursor: pointer;
   width: 80%;
 }
+
+/* ── Expanded details (shown when "See more" is active) ── */
+.pet-extra {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: var(--border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.pet-extra p {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.pet-extra strong {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* ── Favourite button ── */
+.pet-favourite {
+  margin-top: 10px;
+  background: none;
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 80%;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.pet-favourite.active {
+  border-color: #f87171;
+  color: #ef4444;
+  background: #fff1f1;
+}
+

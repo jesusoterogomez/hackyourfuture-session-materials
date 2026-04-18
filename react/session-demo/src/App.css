@@ -34,7 +34,7 @@
 .hero {
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: 48px 48px;
+  padding: 26px 48px;
 }
 
 .hero h1 {
@@ -69,4 +69,16 @@
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* ── Favourites counter in header ── */
+.favourites-count {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--border);
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
 }
