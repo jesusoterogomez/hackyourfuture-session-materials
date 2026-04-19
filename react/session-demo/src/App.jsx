@@ -19,6 +19,35 @@ function App() {
       available: true,
       goodWithKids: true,
     },
+    {
+      id: 2,
+      image: "./dog.png",
+      name: "Bailey",
+      breed: "Golden Retriever",
+      description: "Enthusiastic, loyal, and obsessed with tennis balls.",
+      age: 3,
+      fee: 250,
+      available: true,
+      goodWithKids: true,
+    },
+    {
+      id: 3,
+      image: "./rabbit.png",
+      name: "Oolong",
+      breed: "Holland Lop",
+      description: "Fluffy, fast, and surprisingly opinionated.",
+      age: 1,
+      fee: 100,
+    },
+    {
+      id: 4,
+      image: "./frog.png",
+      name: "Ribbit",
+      breed: "Tree Frog",
+      description: "Chill, green, and jumps when least expected.",
+      age: 1,
+      fee: 180,
+    },
   ];
 
   // {
