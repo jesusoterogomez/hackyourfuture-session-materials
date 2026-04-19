@@ -107,13 +107,8 @@ export default {
       return json(normalizePet(newPet), 201);
     }
 
-    // Return API docs also for root path
-    if (path === "/") {
-      return html(DOCS_HTML);
-    }
-
     // GET /docs
-    if (path === "/docs") {
+    if (path === "/docs" || path === "" || path === "/") {
       return html(DOCS_HTML);
     }
 
