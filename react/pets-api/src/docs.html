@@ -73,7 +73,9 @@ Content-Type: application/json
   <script>
     document.querySelectorAll(".copy-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const text = btn.parentElement.innerText;
+        const clone = btn.parentElement.cloneNode(true);
+        clone.querySelector(".copy-btn").remove();
+        const text = clone.innerText;
         navigator.clipboard.writeText(text).then(() => {
           btn.textContent = "copied!";
           btn.classList.add("copied");
