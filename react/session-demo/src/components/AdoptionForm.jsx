@@ -19,11 +19,13 @@ export function AdoptionForm() {
   const [formState, setFormState] = useState(defaultState);
 
   const updateField = (fieldName, fieldValue) => {
-    // Do some stuff
+    // Set the form state to a new object with the previous state and the new field value
     setFormState({
+      // Make a copy of the existing state with the spread operator
       ...formState,
       // [key]: value
       // fx. petName: "something"
+      // assign the new field value to overwrite the existing value
       [fieldName]: fieldValue,
     });
   };
