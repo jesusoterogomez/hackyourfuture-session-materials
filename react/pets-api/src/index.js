@@ -1,4 +1,4 @@
-import { DOCS_HTML } from "./docs.js";
+import DOCS_HTML from "./docs.html";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",

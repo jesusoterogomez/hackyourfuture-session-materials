@@ -2,6 +2,10 @@ name = "paws-api"
 main = "src/index.js"
 compatibility_date = "2024-01-01"
 
+[[rules]]
+type = "Text"
+globs = ["**/*.html"]
+
 [[d1_databases]]
 binding = "paws_db"
 database_name = "paws-db"

@@ -1,4 +1,4 @@
-export const DOCS_HTML = `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -18,6 +18,15 @@ export const DOCS_HTML = `<!DOCTYPE html>
     th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid #eee; }
     th { background: #f9f9f9; }
     .base { color: #666; font-size: 0.9em; }
+    pre { position: relative; }
+    .copy-btn {
+      position: absolute; top: 8px; right: 8px;
+      padding: 2px 8px; font-size: 0.75em; cursor: pointer;
+      background: #fff; border: 1px solid #ccc; border-radius: 4px;
+      opacity: 0; transition: opacity 0.15s;
+    }
+    pre:hover .copy-btn { opacity: 1; }
+    .copy-btn.copied { background: #d1fae5; border-color: #6ee7b7; color: #065f46; }
   </style>
 </head>
 <body>
@@ -26,15 +35,15 @@ export const DOCS_HTML = `<!DOCTYPE html>
 
   <h2><span class="method get">GET</span> /pets</h2>
   <p>Returns all pets.</p>
-  <pre>GET /pets</pre>
+  <pre><button class="copy-btn">copy</button>GET /pets</pre>
 
   <h2><span class="method get">GET</span> /pets/:id</h2>
   <p>Returns a single pet by ID.</p>
-  <pre>GET /pets/1</pre>
+  <pre><button class="copy-btn">copy</button>GET /pets/1</pre>
 
   <h2><span class="method post">POST</span> /pets</h2>
   <p>Adds a new pet. Required fields: <code>name</code>, <code>breed</code>, <code>description</code>, <code>age</code>, <code>fee</code>.</p>
-  <pre>POST /pets
+  <pre><button class="copy-btn">copy</button>POST /pets
 Content-Type: application/json
 
 {
@@ -61,5 +70,20 @@ Content-Type: application/json
     <tr><td><code>goodWithKids</code></td><td>boolean</td><td>Kid-friendly?</td></tr>
     <tr><td><code>image</code></td><td>string | null</td><td>Image filename</td></tr>
   </table>
+  <script>
+    document.querySelectorAll(".copy-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const text = btn.parentElement.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = "copied!";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = "copy";
+            btn.classList.remove("copied");
+          }, 1500);
+        });
+      });
+    });
+  </script>
 </body>
-</html>`;
+</html>
