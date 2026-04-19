@@ -13,7 +13,6 @@ export function AdoptionForm() {
   const defaultState = {
     name: "",
     petName: "",
-    petAge: 5,
   };
 
   const [formState, setFormState] = useState(defaultState);
@@ -30,13 +29,20 @@ export function AdoptionForm() {
     });
   };
 
+  const handleSubmit = (event) => {
+    // Prevent the default form submission behavior
+    // This is to prevent the page from reloading when the form is submitted
+    event.preventDefault();
+
+    // Log the form state to the console
+    console.log(formState);
+
+    // Reset the form state to the default state
+    setFormState(defaultState);
+  };
+
   return (
-    <form
-      onSubmit={() => {
-        console.log(formState);
-        setFormState(defaultState);
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <label>Which pet?</label>
       <input
         name="pet-name"
