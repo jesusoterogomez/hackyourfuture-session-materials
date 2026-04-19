@@ -1,9 +1,6 @@
 import "./App.css";
 import { useState } from "react";
 import Pet from "./components/Pet";
-import Dog from "./components/Dog";
-import Rabbit from "./components/Rabbit";
-import Frog from "./components/Frog";
 import { Section } from "./components/Sections";
 
 function App() {
@@ -50,6 +47,7 @@ function App() {
     },
   ];
 
+  // Format:
   // {
   //   1: false,
   //   2: true,
@@ -97,14 +95,6 @@ function App() {
               updateInterest={updateInterest}
             />
           ))}
-        </div>
-      </Section>
-
-      <Section title="Recently adopted">
-        <div className="card-grid">
-          <Dog />
-          <Rabbit />
-          <Frog />
         </div>
       </Section>
     </>
