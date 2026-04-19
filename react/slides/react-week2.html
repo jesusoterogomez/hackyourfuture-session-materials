@@ -757,9 +757,10 @@
         &nbsp;&nbsp;<span class="ck">return</span> &lt;<span class="cp">h1</span
         >&gt;Hello, {props.name}!&lt;/<span class="cp">h1</span>&gt;;<br />
         }<br /><br />
-        <span class="cm">// you can also destructure in the parameter</span><br />
-        <span class="ck">function</span> <span class="cs">Welcome</span>({
-        name }) {<br />
+        <span class="cm">// you can also destructure in the parameter</span
+        ><br />
+        <span class="ck">function</span> <span class="cs">Welcome</span>({ name
+        }) {<br />
         &nbsp;&nbsp;<span class="ck">return</span> &lt;<span class="cp">h1</span
         >&gt;Hello, {name}!&lt;/<span class="cp">h1</span>&gt;;<br />
         }<br /><br />
@@ -1083,21 +1084,26 @@
           </div>
         </div>
       </div>
-      <div class="code" style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7">
+      <div
+        class="code"
+        style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7"
+      >
         <span class="cm">// if / else — return early</span><br />
-        <span class="ck">if</span> (isLoading) <span class="ck">return</span>
-        &lt;<span class="cp">p</span>&gt;Loading...&lt;/<span class="cp">p</span>&gt;;<br /><br />
+        <span class="ck">if</span> (isLoading)
+        <span class="ck">return</span> &lt;<span class="cp">p</span
+        >&gt;Loading...&lt;/<span class="cp">p</span>&gt;;<br /><br />
 
         <span class="cm">// ternary — either A or B</span><br />
         &lt;<span class="cp">button</span>&gt;<br />
-        &nbsp;&nbsp;{isSubmitting
-        &nbsp;? <span class="cp">'Saving...'</span>
-        &nbsp;: <span class="cp">'Save'</span>}<br />
+        &nbsp;&nbsp;{isSubmitting &nbsp;?
+        <span class="cp">'Saving...'</span> &nbsp;:
+        <span class="cp">'Save'</span>}<br />
         &lt;/<span class="cp">button</span>&gt;<br /><br />
 
         <span class="cm">// &amp;&amp; — show only when true</span><br />
         {error &amp;&amp; &lt;<span class="cp">p</span>
-        <span class="cs">className</span>=<span class="cp">"error"</span>&gt;{error}&lt;/<span class="cp">p</span>&gt;}
+        <span class="cs">className</span>=<span class="cp">"error"</span
+        >&gt;{error}&lt;/<span class="cp">p</span>&gt;}
       </div>
     </div>
   </div>
@@ -1337,7 +1343,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 13;
+  const TOTAL_SLIDES = 12;
   const STORAGE_KEY = "react-week2-current-slide";
   const SECTION_SLIDES = {
     0: 1,
