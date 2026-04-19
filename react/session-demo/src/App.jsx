@@ -2,6 +2,7 @@ import "./App.css";
 import { useState } from "react";
 import Pet from "./components/Pet";
 import { Section } from "./components/Sections";
+import { AdoptionForm } from "./components/AdoptionForm";
 
 function App() {
   const pets = [
@@ -96,6 +97,10 @@ function App() {
             />
           ))}
         </div>
+      </Section>
+
+      <Section title="Want to adopt?">
+        <AdoptionForm />
       </Section>
     </>
   );
