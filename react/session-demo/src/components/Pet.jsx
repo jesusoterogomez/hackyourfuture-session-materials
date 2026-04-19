@@ -1,17 +1,18 @@
 import "./Pet.css";
 import { useState } from "react";
 
-function Cat({ details, updateInterest, isInterested }) {
-  const { name, breed } = details;
+function Pet({ details, updateInterest, isInterested }) {
+  const { name, breed, description, image, fee, available, goodWithKids } =
+    details;
 
   const [showMore, setShowMore] = useState(false);
 
   return (
     <div className="pet-card">
-      <img src="./cat.png" alt="A cat" />
+      <img src={image} />
       <h2>{name}</h2>
       <p className="pet-info">{breed} · 2 years old</p>
-      <p className="pet-desc">Loves sunny spots, sleeping, and ignoring you.</p>
+      <p className="pet-desc">{description}</p>
 
       <button onClick={() => setShowMore(!showMore)}>
         {showMore ? "See less" : "See more"}
@@ -21,13 +22,13 @@ function Cat({ details, updateInterest, isInterested }) {
         <>
           <div className="pet-extra">
             <p>
-              <strong>Adoption fee:</strong> 180kr
+              <strong>Adoption fee:</strong> {fee}kr
             </p>
             <p>
-              <strong>Available:</strong> Yes
+              <strong>Available:</strong> {available ? "Yes" : "No"}
             </p>
             <p>
-              <strong>Good with kids:</strong> Yes
+              <strong>Good with kids:</strong> {goodWithKids ? "Yes" : "No"}
             </p>
           </div>
 
@@ -43,4 +44,4 @@ function Cat({ details, updateInterest, isInterested }) {
   );
 }
 
-export default Cat;
+export default Pet;

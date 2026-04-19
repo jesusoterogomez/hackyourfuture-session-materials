@@ -10,15 +10,14 @@ function App() {
   const pets = [
     {
       id: 1,
+      image: "./cat.png",
       name: "Stepan",
       breed: "Domestic Cat",
+      description: "Loves sunny spots, sleeping, and ignoring you.",
       age: 2,
-    },
-    {
-      id: 2,
-      name: "Not Stepan",
-      breed: "Domestic Cat",
-      age: 2,
+      fee: 180,
+      available: true,
+      goodWithKids: true,
     },
   ];
 
