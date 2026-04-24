@@ -1,1092 +1,1108 @@
-<meta charset="UTF-8" />
-<style>
-  /* ============================================================
-     DESIGN TOKENS — edit these to restyle the whole deck
-     ============================================================ */
-  :root {
-    /* Colors */
-    --color-bg: #0f1523;
-    --color-card: #1a2540;
-    --color-card-border: #2d3d6a;
-    --color-deep: #090e1a;
-    --color-deep-border: #1e2d50;
-    --color-hbox: #111c30;
-    --color-hbox-feat: #0d1e30;
-
-    --color-white: #ffffff;
-    --color-cyan: #4cc9f0;
-    --color-blue: #4361ee;
-    --color-muted: #8899bb;
-    --color-light: #c8d4ee;
-    --color-green: #22c55e;
-    --color-red: #ef4444;
-    --color-amber: #f9a875;
-    --color-code-blue: #7b9ef0;
-    --color-code-dim: #4b5e82;
-
-    /* Typography */
-    --font-ui: var(--font-sans, "Helvetica Neue", sans-serif);
-    --font-code: var(--font-mono, monospace);
-
-    --text-tag: clamp(12px, 1.5vw, 17px);
-    --text-headline: clamp(27px, 5.7vw, 70px);
-    --text-sub: clamp(15px, 2.1vw, 28px);
-    --text-body: clamp(13px, 1.6vw, 20px);
-    --text-small: clamp(12px, 1.4vw, 17px);
-    --text-code: clamp(12px, 1.45vw, 18px);
-    --text-label: clamp(12px, 1.5vw, 18px);
-
-    /* Spacing */
-    --slide-padding: 6% 8%;
-    --gap-sm: 2%;
-    --gap-md: 3%;
-    --gap-lg: 4%;
-    --gap-xl: 5%;
-
-    /* Slide transition */
-    --transition-speed: 0.45s;
-  }
-
-  /* ============================================================
-     RESET
-     ============================================================ */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html,
-  body {
-    height: 100%;
-  }
-
-  body {
-    min-height: 100dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-bg);
-  }
-
-  /* ============================================================
-     DECK + SLIDES
-     ============================================================ */
-  #deck {
-    width: min(100vw, calc(100dvh * 16 / 9));
-    height: 100dvh;
-    aspect-ratio: 16 / 9;
-    position: relative;
-    overflow: hidden;
-    background: var(--color-bg);
-    border-radius: 12px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .slide {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: var(--slide-padding);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity var(--transition-speed) ease,
-      transform var(--transition-speed) ease;
-    pointer-events: none;
-  }
-  .slide.active {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-  .slide.exit {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  /* ============================================================
-     TYPOGRAPHY
-     ============================================================ */
-  .tag {
-    font-family: var(--font-ui);
-    font-size: var(--text-tag);
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-cyan);
-    margin-bottom: 0.8em;
-  }
-
-  .headline {
-    font-family: var(--font-ui);
-    font-size: var(--text-headline);
-    font-weight: 600;
-    color: var(--color-white);
-    line-height: 1.1;
-    margin-bottom: 0.5em;
-  }
-
-  .sub {
-    font-family: var(--font-ui);
-    font-size: var(--text-sub);
-    color: var(--color-muted);
-    line-height: 1.5;
-  }
-
-  .headline-section {
-    font-size: clamp(21px, 3.9vw, 50px);
-  }
-
-  .headline-closing {
-    font-size: clamp(25px, 5.6vw, 70px);
-  }
-
-  .headline-with-logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.22em;
-    flex-wrap: wrap;
-  }
-
-  .headline-logo {
-    width: 0.9em;
-    height: 0.9em;
-    object-fit: contain;
-    flex-shrink: 0;
-    transform: translateY(0.03em);
-  }
-
-  .text-sm {
-    font-size: clamp(13px, 1.5vw, 19px);
-  }
-
-  .text-md {
-    font-size: clamp(14px, 1.7vw, 21px);
-  }
-
-  .text-lg {
-    font-size: clamp(15px, 1.9vw, 23px);
-  }
-
-  .text-arrow {
-    font-size: clamp(19px, 2.6vw, 34px);
-  }
-
-  .text-caption {
-    font-size: clamp(12px, 1.4vw, 17px);
-  }
-
-  .accent {
-    color: var(--color-cyan);
-  }
-
-  /* ============================================================
-     LAYOUT HELPERS
-     ============================================================ */
-  .cols {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--gap-lg);
-  }
-
-  .cols3 {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--gap-md);
-    row-gap: 5%;
-  }
-
-  /* ============================================================
-     CARDS
-     ============================================================ */
-  .card {
-    background: var(--color-card);
-    border: 1px solid var(--color-card-border);
-    border-radius: 12px;
-    padding: 5% 6%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8em;
-  }
-
-  .card-title {
-    font-family: var(--font-ui);
-    font-size: clamp(14px, 1.9vw, 23px);
-    font-weight: 500;
-    color: var(--color-white);
-  }
-
-  .card-body {
-    font-family: var(--font-ui);
-    font-size: var(--text-body);
-    color: var(--color-muted);
-    line-height: 1.5;
-  }
-
-  /* ============================================================
-     HIGHLIGHT BOXES (left-border callouts)
-     ============================================================ */
-  .hbox {
-    border-left: 4px solid var(--color-blue);
-    background: var(--color-hbox);
-    border-radius: 0 8px 8px 0;
-    padding: 3% 5%;
-    margin: 0.4em 0;
-  }
-
-  .hbox.feat {
-    border-left-color: var(--color-cyan);
-    background: var(--color-hbox-feat);
-  }
-
-  .hbox-title {
-    font-family: var(--font-ui);
-    font-size: clamp(14px, 1.7vw, 21px);
-    font-weight: 500;
-    color: var(--color-cyan);
-    margin-bottom: 0.3em;
-  }
-
-  .hbox.feat .hbox-title {
-    color: var(--color-white);
-    font-size: clamp(16px, 2vw, 25px);
-  }
-
-  .hbox-body {
-    font-family: var(--font-ui);
-    font-size: var(--text-body);
-    color: var(--color-muted);
-    line-height: 1.4;
-  }
-
-  /* Small callout variant */
-  .hlt {
-    background: var(--color-hbox);
-    border-left: 3px solid var(--color-blue);
-    border-radius: 0 8px 8px 0;
-    padding: 2.5% 4%;
-    margin: 0.35em 0;
-  }
-
-  .hlt-title {
-    font-family: var(--font-ui);
-    font-size: clamp(13px, 1.6vw, 20px);
-    font-weight: 500;
-    color: var(--color-cyan);
-    margin-bottom: 0.2em;
-  }
-
-  .hlt-body {
-    font-family: var(--font-ui);
-    font-size: var(--text-small);
-    color: var(--color-muted);
-    line-height: 1.4;
-  }
-
-  /* ============================================================
-     CODE BLOCKS
-     ============================================================ */
-  .code {
-    background: var(--color-deep);
-    border: 1px solid var(--color-deep-border);
-    border-radius: 8px;
-    padding: 4% 5%;
-    font-family: var(--font-code);
-    font-size: var(--text-code);
-    color: #e2e8f0;
-    line-height: 1.85;
-  }
-
-  /* Syntax token colors */
-  .cm {
-    color: var(--color-code-dim);
-  } /* comment  */
-  .ck {
-    color: var(--color-code-blue);
-  } /* keyword  */
-  .cs {
-    color: var(--color-cyan);
-  } /* symbol   */
-  .cp {
-    color: var(--color-amber);
-  } /* string   */
-
-  /* ============================================================
-     AGENDA ROWS
-     ============================================================ */
-  .step-row {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-lg);
-    margin: 0.6em 0;
-  }
-
-  .step-num {
-    min-width: clamp(28px, 3.5vw, 46px);
-    height: clamp(28px, 3.5vw, 46px);
-    border-radius: 50%;
-    background: var(--color-blue);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: clamp(14px, 1.7vw, 21px);
-    font-weight: 600;
-    color: var(--color-white);
-    flex-shrink: 0;
-  }
-
-  .step-text {
-    font-family: var(--font-ui);
-    font-size: clamp(14px, 1.8vw, 23px);
-    color: var(--color-light);
-    line-height: 1.4;
-  }
-
-  /* ============================================================
-     FILE PILLS
-     ============================================================ */
-  .pill {
-    display: inline-block;
-    background: var(--color-card);
-    border: 1px solid var(--color-card-border);
-    border-radius: 6px;
-    padding: 0.3em 0.9em;
-    font-family: var(--font-ui);
-    font-size: clamp(13px, 1.5vw, 19px);
-    color: var(--color-muted);
-    margin: 0.2em 0.15em;
-  }
-  .pill.hi {
-    background: #162040;
-    border-color: var(--color-blue);
-    color: var(--color-code-blue);
-  }
-
-  /* ============================================================
-     PROGRESS BAR + NAV DOTS + HINT
-     ============================================================ */
-  #progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 4px;
-    background: var(--color-blue);
-    transition: width var(--transition-speed) ease;
-    border-radius: 0 2px 2px 0;
-  }
-
-  #nav-dots {
-    position: absolute;
-    bottom: 3%;
-    right: 3%;
-    display: flex;
-    gap: 1.2%;
-    align-items: center;
-  }
-
-  .nav-dot {
-    width: clamp(6px, 0.8vw, 10px);
-    height: clamp(6px, 0.8vw, 10px);
-    border-radius: 50%;
-    background: var(--color-card-border);
-    transition: background 0.3s, transform 0.3s;
-  }
-  .nav-dot.on {
-    background: var(--color-blue);
-    transform: scale(1.3);
-  }
-
-  #hint {
-    position: absolute;
-    bottom: 3%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--font-ui);
-    font-size: clamp(11px, 1.2vw, 15px);
-    color: var(--color-code-dim);
-    letter-spacing: 0.05em;
-  }
-</style>
-
-<div id="deck">
-  <div id="progress"></div>
-
-  <!-- SLIDE 0 — Title -->
-  <div class="slide active">
-    <div class="tag">HackYourFuture Denmark</div>
-    <div class="headline">
-      <span class="accent">React</span>
-      <span class="headline-with-logo">
-        Week 3
-        <img
-          class="headline-logo"
-          src="https://cdn.simpleicons.org/react/61DAFB"
-          alt=""
-        />
-      </span>
-    </div>
-    <div class="sub">Events, forms, hooks, and loading data from APIs</div>
-    <div style="margin-top: 7%; display: flex; gap: 1.5%; flex-wrap: wrap">
-      <span class="pill hi">Events</span>
-      <span class="pill hi">Forms</span>
-      <span class="pill hi">useEffect</span>
-      <span class="pill hi">fetch</span>
-    </div>
-  </div>
-
-  <!-- SLIDE 1 — Agenda -->
-  <div class="slide">
-    <div class="tag">Today</div>
-    <div class="headline headline-section" style="margin-bottom: 5%">
-      What we're covering
-    </div>
-    <div style="display: flex; flex-direction: column; gap: 2%">
-      <div class="step-row">
-        <div class="step-num">1</div>
-        <div class="step-text">
-          DOM events in React —
-          <span style="font-family: var(--font-code); color: var(--color-amber)"
-            >onClick</span
-          >,
-          <span style="font-family: var(--font-code); color: var(--color-amber)"
-            >onChange</span
-          >, and friends
-        </div>
-      </div>
-      <div class="step-row">
-        <div class="step-num">2</div>
-        <div class="step-text">
-          Managing forms —
-          <span style="font-family: var(--font-code); color: var(--color-amber)"
-            >onSubmit</span
-          >
-          and input validation
-        </div>
-      </div>
-      <div class="step-row">
-        <div class="step-num">3</div>
-        <div class="step-text">
-          Hooks deep-dive — rules of hooks and
-          <span style="font-family: var(--font-code); color: var(--color-amber)"
-            >useEffect</span
-          >
-        </div>
-      </div>
-      <div class="step-row">
-        <div class="step-num">4</div>
-        <div class="step-text">
-          Loading data from APIs with
-          <span style="font-family: var(--font-code); color: var(--color-amber)"
-            >fetch</span
-          >
-        </div>
-      </div>
-      <div class="step-row">
-        <div class="step-num">5</div>
-        <div class="step-text">Exercises (Part 1 &amp; Part 2)</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 2 — Events in React -->
-  <div class="slide">
-    <div class="tag">Events</div>
-    <div class="headline headline-section" style="margin-bottom: 3%">
-      Event handlers in React
-    </div>
-    <div class="sub text-sm" style="margin-bottom: 3%">
-      React wraps native browser events in a
-      <strong style="color: var(--color-white)">SyntheticEvent</strong>. You
-      attach handlers directly as props — no
-      <span style="font-family: var(--font-code)">addEventListener</span>
-      needed.
-    </div>
-    <div class="cols">
-      <div
-        class="code"
-        style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.75"
-      >
-        <span class="cm">// vanilla JS — imperative</span><br />
-        btn.<span class="cs">addEventListener</span>(<span class="cp"
-          >'click'</span
-        >, handleClick);<br /><br />
-        <span class="cm">// React — declarative, right on the element</span
-        ><br />
-        &lt;<span class="cp">button</span>
-        <span class="cs">onClick</span>={handleClick}&gt;<br />
-        &nbsp;&nbsp;Click me<br />
-        &lt;/<span class="cp">button</span>&gt;<br /><br />
-        <span class="cm">// inline arrow — fine for one-liners</span><br />
-        &lt;<span class="cp">button</span> <span class="cs">onClick</span>={()
-        =&gt; <span class="cs">setCount</span>(c =&gt; c +
-        <span class="cs">1</span>)}&gt;<br />
-        &nbsp;&nbsp;+1<br />
-        &lt;/<span class="cp">button</span>&gt;
-      </div>
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          gap: 3%;
-          align-self: center;
-        "
-      >
-        <div class="hlt" style="margin: 0">
-          <div class="hlt-title">Common event props</div>
-          <div class="hlt-body">
-            <ul style="padding-left: 1.2em; margin: 0; line-height: 2.1">
-              <li>
-                <span style="font-family: var(--font-code)">onClick</span> —
-                button, div, any element
-              </li>
-              <li>
-                <span style="font-family: var(--font-code)">onChange</span> —
-                input, select, textarea
-              </li>
-              <li>
-                <span style="font-family: var(--font-code)">onSubmit</span> —
-                form
-              </li>
-              <li>
-                <span style="font-family: var(--font-code)">onFocus</span> /
-                <span style="font-family: var(--font-code)">onBlur</span> —
-                focus events
-              </li>
-              <li>
-                <span style="font-family: var(--font-code)">onKeyDown</span> —
-                keyboard
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="hlt" style="margin: 0">
-          <div class="hlt-title">The event object</div>
-          <div class="hlt-body">
-            Handlers receive an
-            <span style="font-family: var(--font-code)">event</span> argument.
-            Use
-            <span style="font-family: var(--font-code)"
-              >event.target.value</span
-            >
-            for inputs,
-            <span style="font-family: var(--font-code)"
-              >event.preventDefault()</span
-            >
-            to stop default browser behaviour.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 3 — Forms -->
-  <div class="slide">
-    <div class="tag">Forms</div>
-    <div class="headline headline-section" style="margin-bottom: 3%">
-      Controlled inputs &amp; <span class="accent">onSubmit</span>
-    </div>
-    <div class="cols">
-      <div
-        class="code"
-        style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7"
-      >
-        <span class="ck">const</span> [name, setName] =
-        <span class="cs">useState</span>(<span class="cp">''</span
-        >);<br /><br />
-        <span class="ck">function</span> <span class="cs">handleSubmit</span>(e)
-        {<br />
-        &nbsp;&nbsp;e.<span class="cs">preventDefault</span>();<br />
-        &nbsp;&nbsp;<span class="cm">// name is ready to use</span><br />
-        }<br /><br />
-        <span class="ck">return</span> (<br />
-        &nbsp;&nbsp;&lt;<span class="cp">form</span>
-        <span class="cs">onSubmit</span>={handleSubmit}&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">input</span><br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">value</span
-        >={name}<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">onChange</span>={e
-        =&gt; <span class="cs">setName</span>(e.target.value)}<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">button</span
-        >&gt;Submit&lt;/<span class="cp">button</span>&gt;<br />
-        &nbsp;&nbsp;&lt;/<span class="cp">form</span>&gt;<br />
-        );
-      </div>
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          gap: 3%;
-          align-self: center;
-        "
-      >
-        <div class="hlt" style="margin: 0">
-          <div class="hlt-title">Controlled inputs</div>
-          <div class="hlt-body">
-            The input's
-            <span style="font-family: var(--font-code)">value</span> is driven
-            by state. Every keystroke fires
-            <span style="font-family: var(--font-code)">onChange</span>, which
-            updates state, which re-renders. React owns the value.
-          </div>
-        </div>
-        <div class="hlt" style="margin: 0">
-          <div class="hlt-title">Validation layers</div>
-          <div class="hlt-body">
-            <strong>HTML:</strong>
-            <span style="font-family: var(--font-code)">required</span>,
-            <span style="font-family: var(--font-code)">minLength</span>,
-            <span style="font-family: var(--font-code)">type="email"</span> —
-            free, but limited.<br /><br />
-            <strong>JavaScript:</strong> validate inside
-            <span style="font-family: var(--font-code)">handleSubmit</span> for
-            custom rules and error messages.<br /><br />
-            <strong>Server-side:</strong> always the final authority.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 4 — Rules of Hooks -->
-  <div class="slide">
-    <div class="tag">Hooks</div>
-    <div class="headline headline-section" style="margin-bottom: 3%">
-      Rules of Hooks
-    </div>
-    <div class="sub text-sm" style="margin-bottom: 3%">
-      You already know one hook —
-      <span style="font-family: var(--font-code); color: var(--color-amber)"
-        >useState</span
-      >. All hooks share the same two rules.
-    </div>
-    <div class="cols">
-      <div style="display: flex; flex-direction: column; gap: 3%">
-        <div class="hbox feat">
-          <div class="hbox-title">1 — Only call hooks at the top level</div>
-          <div class="hbox-body">
-            Never inside <span style="font-family: var(--font-code)">if</span>,
-            loops, or nested functions. React relies on the
-            <strong>order</strong> of hook calls being the same every render.
-          </div>
-        </div>
-        <div class="hbox feat">
-          <div class="hbox-title">2 — Only call hooks from React functions</div>
-          <div class="hbox-body">
-            Inside a component or a custom hook — never from plain JS functions.
-          </div>
-        </div>
-      </div>
-      <div
-        class="code"
-        style="
-          font-size: clamp(11px, 1.2vw, 15px);
-          line-height: 1.75;
-          align-self: center;
-        "
-      >
-        <span class="cm">// ✗ wrong — hook inside a condition</span><br />
-        <span class="ck">if</span> (show) {<br />
-        &nbsp;&nbsp;<span class="ck">const</span> [x, setX] =
-        <span class="cs">useState</span>(<span class="cs">0</span>);<br />
-        }<br /><br />
-        <span class="cm">// ✓ correct — always at the top level</span><br />
-        <span class="ck">const</span> [x, setX] =
-        <span class="cs">useState</span>(<span class="cs">0</span>);<br /><br />
-        <span class="ck">if</span> (show) {<br />
-        &nbsp;&nbsp;<span class="cm">// use x here</span><br />
-        }
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 5 — useEffect -->
-  <div class="slide">
-    <div class="tag">Hooks</div>
-    <div class="headline headline-section" style="margin-bottom: 2%">
-      <span class="accent">useEffect</span> — synchronise with the outside world
-    </div>
-    <div class="sub text-sm" style="margin-bottom: 3%">
-      Use
-      <span style="font-family: var(--font-code); color: var(--color-amber)"
-        >useEffect</span
-      >
-      when you need to
-      <strong style="color: var(--color-white)">sync</strong> with something
-      outside React: timers, event listeners, network calls, browser APIs.
-    </div>
-    <div class="cols">
-      <div
-        class="code"
-        style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.75"
-      >
-        <span class="cs">useEffect</span>(() =&gt; {<br />
-        &nbsp;&nbsp;<span class="cm">// runs after render</span><br />
-        &nbsp;&nbsp;<span class="ck">const</span> id =
-        <span class="cs">setInterval</span>(() =&gt; {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">setTime</span>(<span class="ck"
-          >new</span
-        >
-        <span class="cs">Date</span>());<br />
-        &nbsp;&nbsp;}, <span class="cs">1000</span>);<br /><br />
-        &nbsp;&nbsp;<span class="ck">return</span> () =&gt;
-        <span class="cs">clearInterval</span>(id);<br />
-        &nbsp;&nbsp;<span class="cm">// ↑ cleanup runs on unmount</span><br />
-        }, []);<br />
-        <span class="cm">// ↑ [] = run once, on mount</span>
-      </div>
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          gap: 3%;
-          align-self: center;
-        "
-      >
-        <div class="hlt" style="margin: 0">
-          <div class="hlt-title">Dependency array</div>
-          <div class="hlt-body">
-            <strong>No array:</strong> runs after every render.<br />
-            <strong
-              ><span style="font-family: var(--font-code)">[]</span>:</strong
-            >
-            runs once on mount.<br />
-            <strong
-              ><span style="font-family: var(--font-code)">[a, b]</span
-              >:</strong
-            >
-            runs when <span style="font-family: var(--font-code)">a</span> or
-            <span style="font-family: var(--font-code)">b</span> changes.
-          </div>
-        </div>
-        <div class="hlt" style="margin: 0">
-          <div class="hlt-title">Cleanup function</div>
-          <div class="hlt-body">
-            Return a function to undo the effect — clear timers, remove event
-            listeners, abort fetches. React calls it before the next run and
-            when the component unmounts.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 6 — Loading Data -->
-  <div class="slide">
-    <div class="tag">Loading Data</div>
-    <div class="headline headline-section" style="margin-bottom: 3%">
-      Fetching from an API
-    </div>
-    <div class="cols">
-      <div
-        class="code"
-        style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7"
-      >
-        <span class="ck">const</span> [data, setData] =
-        <span class="cs">useState</span>(<span class="ck">null</span>);<br />
-        <span class="ck">const</span> [loading, setLoading] =
-        <span class="cs">useState</span>(<span class="ck">true</span>);<br />
-        <span class="ck">const</span> [error, setError] =
-        <span class="cs">useState</span>(<span class="ck">null</span
-        >);<br /><br />
-        <span class="cs">useEffect</span>(() =&gt; {<br />
-        &nbsp;&nbsp;<span class="cs">fetch</span>(<span class="cp"
-          >'https://api.example.com/data'</span
-        >)<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((r) =&gt; r.<span
-          class="cs"
-          >json</span
-        >())<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((d) =&gt; {
-        <span class="cs">setData</span>(d);
-        <span class="cs">setLoading</span>(<span class="ck">false</span>); })<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">catch</span>((e) =&gt; {
-        <span class="cs">setError</span>(e);
-        <span class="cs">setLoading</span>(<span class="ck">false</span>);
-        });<br />
-        }, []);<br /><br />
-        <span class="ck">if</span> (loading)
-        <span class="ck">return</span> &lt;<span class="cp">p</span
-        >&gt;Loading…&lt;/<span class="cp">p</span>&gt;;<br />
-        <span class="ck">if</span> (error)
-        <span class="ck">return</span> &lt;<span class="cp">p</span
-        >&gt;Error!&lt;/<span class="cp">p</span>&gt;;<br />
-        <span class="ck">return</span> &lt;<span class="cp">pre</span
-        >&gt;{JSON.<span class="cs">stringify</span>(data)}&lt;/<span class="cp"
-          >pre</span
-        >&gt;;
-      </div>
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          gap: 3%;
-          align-self: center;
-        "
-      >
-        <div class="hlt" style="margin: 0">
-          <div class="hlt-title">Three states to handle</div>
-          <div class="hlt-body">
-            <strong>loading</strong> — show a spinner while waiting.<br /><br />
-            <strong>error</strong> — something went wrong; tell the user.<br /><br />
-            <strong>data</strong> — the happy path; render the result.
-          </div>
-        </div>
-        <div class="hlt" style="margin: 0">
-          <div class="hlt-title">Why inside useEffect?</div>
-          <div class="hlt-body">
-            Fetching is a side effect — it's outside React's render. Putting it
-            in <span style="font-family: var(--font-code)">useEffect</span> with
-            <span style="font-family: var(--font-code)">[]</span>
-            means it runs once after the component mounts.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 7 — Exercises Part 1 -->
-  <div class="slide">
-    <div class="tag">Exercises</div>
-    <div class="headline headline-section" style="margin-bottom: 4%">
-      Part 1 — events &amp; forms
-    </div>
-    <div
-      style="
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: var(--gap-md);
-      "
-    >
-      <div class="card">
-        <div class="card-title">1. ClickCounter</div>
-        <div class="card-body text-sm">
-          <span style="font-family: var(--font-code)">useState</span> for a
-          <span style="font-family: var(--font-code)">count</span>. An
-          <span style="font-family: var(--font-code)">onClick</span> handler
-          that increments it. Render a button and the current value.
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">2. SimpleForm</div>
-        <div class="card-body text-sm">
-          Controlled inputs for name, email, message.
-          <span style="font-family: var(--font-code)">handleSubmit</span> on the
-          <span style="font-family: var(--font-code)">&lt;form&gt;</span> — call
-          <span style="font-family: var(--font-code)">preventDefault</span> and
-          log the values.
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">3. TodoList</div>
-        <div class="card-body text-sm">
-          State holds an array of todos. Add via an input; remove with a button
-          on each item. Render with
-          <span style="font-family: var(--font-code)">.map()</span> and a stable
-          <span style="font-family: var(--font-code)">key</span>.
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 8 — Exercises Part 2 -->
-  <div class="slide">
-    <div class="tag">Exercises</div>
-    <div class="headline headline-section" style="margin-bottom: 4%">
-      Part 2 — useEffect
-    </div>
-    <div
-      style="
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: var(--gap-md);
-      "
-    >
-      <div class="card">
-        <div class="card-title">4. Clock</div>
-        <div class="card-body text-sm">
-          <span style="font-family: var(--font-code)">useEffect</span> sets an
-          interval that updates the time every second. The cleanup function
-          clears the interval on unmount.
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">5. DataFetcher</div>
-        <div class="card-body text-sm">
-          Fetch from a public API on mount. Manage
-          <span style="font-family: var(--font-code)">data</span>,
-          <span style="font-family: var(--font-code)">loading</span>, and
-          <span style="font-family: var(--font-code)">error</span> states.
-          Render each accordingly.
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">6. WindowResizer</div>
-        <div class="card-body text-sm">
-          <span style="font-family: var(--font-code)">useEffect</span> adds a
-          <span style="font-family: var(--font-code)">resize</span> listener
-          that updates window-size state. Cleanup removes it on unmount.
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 9 — Key takeaways -->
-  <div class="slide">
-    <div class="tag">Key takeaways</div>
-    <div style="display: flex; flex-direction: column; gap: 4%">
-      <div class="sub">
-        ● Attach handlers as props —
-        <span style="font-family: var(--font-code); color: var(--color-amber)"
-          >onClick</span
-        >,
-        <span style="font-family: var(--font-code); color: var(--color-amber)"
-          >onChange</span
-        >,
-        <span style="font-family: var(--font-code); color: var(--color-amber)"
-          >onSubmit</span
-        >
-        — no
-        <span style="font-family: var(--font-code)">addEventListener</span>
-        needed. Always call
-        <span style="font-family: var(--font-code)">e.preventDefault()</span> on
-        form submit.
-      </div>
-      <div class="sub">
-        ● Controlled inputs keep form data in state, giving you full control for
-        validation and submission.
-      </div>
-      <div class="sub">
-        ● Call hooks at the
-        <strong style="color: var(--color-white)">top level</strong>, never
-        inside conditions or loops. React tracks them by order.
-      </div>
-      <div class="sub">
-        ●
-        <span style="font-family: var(--font-code); color: var(--color-amber)"
-          >useEffect</span
-        >
-        synchronises with external systems. Use the dependency array to control
-        when it runs. Always return a cleanup function when you set up timers or
-        listeners.
-      </div>
-      <div class="sub">
-        ● Fetch data inside
-        <span style="font-family: var(--font-code); color: var(--color-amber)"
-          >useEffect</span
-        >
-        with <span style="font-family: var(--font-code)">[]</span>. Track
-        <span style="font-family: var(--font-code)">loading</span>,
-        <span style="font-family: var(--font-code)">error</span>, and
-        <span style="font-family: var(--font-code)">data</span> as separate
-        state variables.
-      </div>
-    </div>
-  </div>
-
-  <div id="nav-dots"></div>
-  <div id="hint">click anywhere to advance</div>
-</div>
-
-<script>
-  const TOTAL_SLIDES = 10;
-  const STORAGE_KEY = "react-week3-current-slide";
-  const SECTION_SLIDES = {
-    0: 1,
-    1: 2,
-    2: 4,
-    3: 5,
-    4: 7,
-    5: 9,
-  };
-
-  const deck = document.getElementById("deck");
-  const bar = document.getElementById("progress");
-  const hint = document.getElementById("hint");
-  const dotsEl = document.getElementById("nav-dots");
-  const slides = () => document.querySelectorAll(".slide");
-  const dots = () => document.querySelectorAll(".nav-dot");
-
-  let current = 0;
-
-  for (let i = 0; i < TOTAL_SLIDES; i++) {
-    const dot = document.createElement("div");
-    dot.className = "nav-dot" + (i === 0 ? " on" : "");
-    dotsEl.appendChild(dot);
-  }
-
-  const savedSlide = Number(localStorage.getItem(STORAGE_KEY));
-  if (
-    Number.isInteger(savedSlide) &&
-    savedSlide > 0 &&
-    savedSlide < TOTAL_SLIDES
-  ) {
-    goTo(savedSlide);
-  }
-
-  function goTo(n) {
-    if (n < 0 || n >= TOTAL_SLIDES || n === current) {
-      return;
-    }
-
-    const allSlides = slides();
-    const allDots = dots();
-
-    allSlides[current].classList.remove("active");
-    allSlides[current].classList.add("exit");
-    setTimeout(() => allSlides[current].classList.remove("exit"), 500);
-
-    current = Math.max(0, Math.min(TOTAL_SLIDES - 1, n));
-
-    allSlides[current].classList.add("active");
-
-    allDots.forEach((d, i) => d.classList.toggle("on", i === current));
-
-    bar.style.width = (current / (TOTAL_SLIDES - 1)) * 100 + "%";
-
-    localStorage.setItem(STORAGE_KEY, String(current));
-
-    if (current === TOTAL_SLIDES - 1) {
-      hint.textContent = "";
-    } else if (current === 0) {
-      hint.textContent = "click anywhere to advance";
-    } else {
-      hint.textContent = `${current + 1} / ${TOTAL_SLIDES}`;
-    }
-  }
-
-  deck.addEventListener("click", () => {
-    if (current < TOTAL_SLIDES - 1) goTo(current + 1);
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key in SECTION_SLIDES) {
-      goTo(SECTION_SLIDES[e.key]);
-      return;
-    }
-
-    if (e.key === " " || e.code === "Space") {
-      e.preventDefault();
-
-      if (e.shiftKey) {
-        goTo(current - 1);
-        return;
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React - Week 3</title>
+    <style>
+      /* ============================================================
+         DESIGN TOKENS — edit these to restyle the whole deck
+         ============================================================ */
+      :root {
+        /* Colors */
+        --color-bg: #0f1523;
+        --color-card: #1a2540;
+        --color-card-border: #2d3d6a;
+        --color-deep: #090e1a;
+        --color-deep-border: #1e2d50;
+        --color-hbox: #111c30;
+        --color-hbox-feat: #0d1e30;
+
+        --color-white: #ffffff;
+        --color-cyan: #4cc9f0;
+        --color-blue: #4361ee;
+        --color-muted: #8899bb;
+        --color-light: #c8d4ee;
+        --color-green: #22c55e;
+        --color-red: #ef4444;
+        --color-amber: #f9a875;
+        --color-code-blue: #7b9ef0;
+        --color-code-dim: #4b5e82;
+
+        /* Typography */
+        --font-ui: var(--font-sans, "Helvetica Neue", sans-serif);
+        --font-code: var(--font-mono, monospace);
+
+        --text-tag: clamp(12px, 1.5vw, 17px);
+        --text-headline: clamp(27px, 5.7vw, 70px);
+        --text-sub: clamp(15px, 2.1vw, 28px);
+        --text-body: clamp(13px, 1.6vw, 20px);
+        --text-small: clamp(12px, 1.4vw, 17px);
+        --text-code: clamp(12px, 1.45vw, 18px);
+        --text-label: clamp(12px, 1.5vw, 18px);
+
+        /* Spacing */
+        --slide-padding: 6% 8%;
+        --gap-sm: 2%;
+        --gap-md: 3%;
+        --gap-lg: 4%;
+        --gap-xl: 5%;
+
+        /* Slide transition */
+        --transition-speed: 0.45s;
       }
 
-      goTo(current + 1);
-      return;
-    }
+      /* ============================================================
+         RESET
+         ============================================================ */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    if (e.key === "ArrowRight") {
-      goTo(current + 1);
-      return;
-    }
+      html,
+      body {
+        height: 100%;
+      }
 
-    if (e.key === "ArrowLeft") {
-      goTo(current - 1);
-    }
-  });
-</script>
+      body {
+        min-height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-bg);
+      }
+
+      /* ============================================================
+         DECK + SLIDES
+         ============================================================ */
+      #deck {
+        width: min(100vw, calc(100dvh * 16 / 9));
+        height: 100dvh;
+        aspect-ratio: 16 / 9;
+        position: relative;
+        overflow: hidden;
+        background: var(--color-bg);
+        border-radius: 12px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: var(--slide-padding);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity var(--transition-speed) ease,
+          transform var(--transition-speed) ease;
+        pointer-events: none;
+      }
+      .slide.active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .slide.exit {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      /* ============================================================
+         TYPOGRAPHY
+         ============================================================ */
+      .tag {
+        font-family: var(--font-ui);
+        font-size: var(--text-tag);
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-cyan);
+        margin-bottom: 0.8em;
+      }
+
+      .headline {
+        font-family: var(--font-ui);
+        font-size: var(--text-headline);
+        font-weight: 600;
+        color: var(--color-white);
+        line-height: 1.1;
+        margin-bottom: 0.5em;
+      }
+
+      .sub {
+        font-family: var(--font-ui);
+        font-size: var(--text-sub);
+        color: var(--color-muted);
+        line-height: 1.5;
+      }
+
+      .headline-section {
+        font-size: clamp(21px, 3.9vw, 50px);
+      }
+
+      .headline-closing {
+        font-size: clamp(25px, 5.6vw, 70px);
+      }
+
+      .headline-with-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.22em;
+        flex-wrap: wrap;
+      }
+
+      .headline-logo {
+        width: 0.9em;
+        height: 0.9em;
+        object-fit: contain;
+        flex-shrink: 0;
+        transform: translateY(0.03em);
+      }
+
+      .text-sm {
+        font-size: clamp(13px, 1.5vw, 19px);
+      }
+
+      .text-md {
+        font-size: clamp(14px, 1.7vw, 21px);
+      }
+
+      .text-lg {
+        font-size: clamp(15px, 1.9vw, 23px);
+      }
+
+      .text-arrow {
+        font-size: clamp(19px, 2.6vw, 34px);
+      }
+
+      .text-caption {
+        font-size: clamp(12px, 1.4vw, 17px);
+      }
+
+      .accent {
+        color: var(--color-cyan);
+      }
+
+      .code-amber {
+        font-family: var(--font-code);
+        color: var(--color-amber);
+      }
+
+      /* ============================================================
+         LAYOUT HELPERS
+         ============================================================ */
+      .cols {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: var(--gap-lg);
+      }
+
+      .cols3 {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+        gap: var(--gap-md);
+        row-gap: 5%;
+      }
+
+      /* ============================================================
+         CARDS
+         ============================================================ */
+      .card {
+        background: var(--color-card);
+        border: 1px solid var(--color-card-border);
+        border-radius: 12px;
+        padding: 5% 6%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em;
+      }
+
+      .card-title {
+        font-family: var(--font-ui);
+        font-size: clamp(14px, 1.9vw, 23px);
+        font-weight: 500;
+        color: var(--color-white);
+      }
+
+      .card-body {
+        font-family: var(--font-ui);
+        font-size: var(--text-body);
+        color: var(--color-muted);
+        line-height: 1.5;
+      }
+
+      /* ============================================================
+         HIGHLIGHT BOXES (left-border callouts)
+         ============================================================ */
+      .hbox {
+        border-left: 4px solid var(--color-blue);
+        background: var(--color-hbox);
+        border-radius: 0 8px 8px 0;
+        padding: 3% 5%;
+        margin: 0.4em 0;
+      }
+
+      .hbox.feat {
+        border-left-color: var(--color-cyan);
+        background: var(--color-hbox-feat);
+      }
+
+      .hbox-title {
+        font-family: var(--font-ui);
+        font-size: clamp(14px, 1.7vw, 21px);
+        font-weight: 500;
+        color: var(--color-cyan);
+        margin-bottom: 0.3em;
+      }
+
+      .hbox.feat .hbox-title {
+        color: var(--color-white);
+        font-size: clamp(16px, 2vw, 25px);
+      }
+
+      .hbox-body {
+        font-family: var(--font-ui);
+        font-size: var(--text-body);
+        color: var(--color-muted);
+        line-height: 1.4;
+      }
+
+      /* Small callout variant */
+      .hlt {
+        background: var(--color-hbox);
+        border-left: 3px solid var(--color-blue);
+        border-radius: 0 8px 8px 0;
+        padding: 2.5% 4%;
+        margin: 0.35em 0;
+      }
+
+      .hlt-title {
+        font-family: var(--font-ui);
+        font-size: clamp(13px, 1.6vw, 20px);
+        font-weight: 500;
+        color: var(--color-cyan);
+        margin-bottom: 0.2em;
+      }
+
+      .hlt-body {
+        font-family: var(--font-ui);
+        font-size: var(--text-small);
+        color: var(--color-muted);
+        line-height: 1.4;
+      }
+
+      /* ============================================================
+         CODE BLOCKS
+         ============================================================ */
+      .code {
+        background: var(--color-deep);
+        border: 1px solid var(--color-deep-border);
+        border-radius: 8px;
+        padding: 4% 5%;
+        font-family: var(--font-code);
+        font-size: var(--text-code);
+        color: #e2e8f0;
+        line-height: 1.85;
+      }
+
+      /* Syntax token colors */
+      .cm {
+        color: var(--color-code-dim);
+      } /* comment  */
+      .ck {
+        color: var(--color-code-blue);
+      } /* keyword  */
+      .cs {
+        color: var(--color-cyan);
+      } /* symbol   */
+      .cp {
+        color: var(--color-amber);
+      } /* string   */
+
+      /* ============================================================
+         AGENDA ROWS
+         ============================================================ */
+      .step-row {
+        display: flex;
+        align-items: center;
+        gap: var(--gap-lg);
+        margin: 0.6em 0;
+      }
+
+      .step-num {
+        min-width: clamp(28px, 3.5vw, 46px);
+        height: clamp(28px, 3.5vw, 46px);
+        border-radius: 50%;
+        background: var(--color-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: clamp(14px, 1.7vw, 21px);
+        font-weight: 600;
+        color: var(--color-white);
+        flex-shrink: 0;
+      }
+
+      .step-text {
+        font-family: var(--font-ui);
+        font-size: clamp(14px, 1.8vw, 23px);
+        color: var(--color-light);
+        line-height: 1.4;
+      }
+
+      /* ============================================================
+         FILE PILLS
+         ============================================================ */
+      .pill {
+        display: inline-block;
+        background: var(--color-card);
+        border: 1px solid var(--color-card-border);
+        border-radius: 6px;
+        padding: 0.3em 0.9em;
+        font-family: var(--font-ui);
+        font-size: clamp(13px, 1.5vw, 19px);
+        color: var(--color-muted);
+        margin: 0.2em 0.15em;
+      }
+      .pill.hi {
+        background: #162040;
+        border-color: var(--color-blue);
+        color: var(--color-code-blue);
+      }
+
+      /* ============================================================
+         PROGRESS BAR + NAV DOTS + HINT
+         ============================================================ */
+      #progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 4px;
+        background: var(--color-blue);
+        transition: width var(--transition-speed) ease;
+        border-radius: 0 2px 2px 0;
+      }
+
+      #nav-dots {
+        position: absolute;
+        bottom: 3%;
+        right: 3%;
+        display: flex;
+        gap: 1.2%;
+        align-items: center;
+      }
+
+      .nav-dot {
+        width: clamp(6px, 0.8vw, 10px);
+        height: clamp(6px, 0.8vw, 10px);
+        border-radius: 50%;
+        background: var(--color-card-border);
+        transition: background 0.3s, transform 0.3s;
+      }
+      .nav-dot.on {
+        background: var(--color-blue);
+        transform: scale(1.3);
+      }
+
+      #hint {
+        position: absolute;
+        bottom: 3%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: var(--font-ui);
+        font-size: clamp(11px, 1.2vw, 15px);
+        color: var(--color-code-dim);
+        letter-spacing: 0.05em;
+      }
+    </style>
+
+    <div id="deck">
+      <div id="progress"></div>
+
+      <!-- SLIDE 0 — Title -->
+      <div class="slide active">
+        <div class="tag">HackYourFuture Denmark</div>
+        <div class="headline">
+          <span class="accent">React</span>
+          <span class="headline-with-logo">
+            Week 3
+            <img
+              class="headline-logo"
+              src="https://cdn.simpleicons.org/react/61DAFB"
+              alt=""
+            />
+          </span>
+        </div>
+        <div class="sub">Events, forms, hooks, and loading data from APIs</div>
+        <div style="margin-top: 7%; display: flex; gap: 1.5%; flex-wrap: wrap">
+          <span class="pill hi">Events</span>
+          <span class="pill hi">Forms</span>
+          <span class="pill hi">useEffect</span>
+          <span class="pill hi">fetch</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 1 — Agenda -->
+      <div class="slide">
+        <div class="tag">Today</div>
+        <div class="headline headline-section" style="margin-bottom: 5%">
+          What we're covering
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 2%">
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              DOM events in React —
+              <span class="code-amber">onClick</span>,
+              <span class="code-amber">onChange</span>, and others
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              Managing forms —
+              <span class="code-amber">onSubmit</span>
+              and input validation
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              Hooks — rules of hooks and
+              <span class="code-amber">useEffect</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              Loading data from APIs with
+              <span class="code-amber">fetch</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">5</div>
+            <div class="step-text">Exercises (Part 1 &amp; Part 2)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2 — Events in React -->
+      <div class="slide">
+        <div class="tag">Events</div>
+        <div class="headline headline-section" style="margin-bottom: 3%">
+          Event handlers in React
+        </div>
+        <div class="sub text-sm" style="margin-bottom: 3%">
+          In React, you pass functions as props (like
+          <span style="font-family: var(--font-code)">onClick</span>) straight
+          onto elements — no
+          <span style="font-family: var(--font-code)">addEventListener</span>
+          needed. Your handler gets an event object; use
+          <span style="font-family: var(--font-code)">event.target.value</span>
+          for inputs, for example.
+        </div>
+        <div class="cols">
+          <div
+            class="code"
+            style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.75"
+          >
+            <span class="cm">// vanilla JS — attach in script</span><br />
+            btn.<span class="cs">addEventListener</span>(<span class="cp"
+              >'click'</span
+            >, handleClick);<br /><br />
+            <span class="cm">// React — handler on the JSX element</span><br />
+            &lt;<span class="cp">button</span>
+            <span class="cs">onClick</span>={handleClick}&gt;<br />
+            &nbsp;&nbsp;Click me<br />
+            &lt;/<span class="cp">button</span>&gt;<br /><br />
+            <span class="cm">// inline arrow — fine for one-liners</span><br />
+            &lt;<span class="cp">button</span>
+            <span class="cs">onClick</span>={() =&gt;
+            <span class="cs">setCount</span>(c =&gt; c +
+            <span class="cs">1</span>)}&gt;<br />
+            &nbsp;&nbsp;+1<br />
+            &lt;/<span class="cp">button</span>&gt;
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 3%;
+              align-self: center;
+            "
+          >
+            <div class="hlt" style="margin: 0">
+              <div class="hlt-title">Common event props</div>
+              <div class="hlt-body">
+                <ul style="padding-left: 1.2em; margin: 0; line-height: 2.1">
+                  <li>
+                    <span style="font-family: var(--font-code)">onClick</span> —
+                    button, div, any element
+                  </li>
+                  <li>
+                    <span style="font-family: var(--font-code)">onChange</span>
+                    — input, select, textarea
+                  </li>
+                  <li>
+                    <span style="font-family: var(--font-code)">onSubmit</span>
+                    — form
+                  </li>
+                  <li>
+                    <span style="font-family: var(--font-code)">onFocus</span> /
+                    <span style="font-family: var(--font-code)">onBlur</span> —
+                    focus events
+                  </li>
+                  <li>
+                    <span style="font-family: var(--font-code)">onKeyDown</span>
+                    — keyboard
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="hlt" style="margin: 0">
+              <div class="hlt-title">The event object</div>
+              <div class="hlt-body">
+                Handlers receive an
+                <span style="font-family: var(--font-code)">event</span>
+                argument. Use
+                <span style="font-family: var(--font-code)"
+                  >event.target.value</span
+                >
+                for inputs,
+                <span style="font-family: var(--font-code)"
+                  >event.preventDefault()</span
+                >
+                to stop default browser behaviour.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3 — Forms -->
+      <div class="slide">
+        <div class="tag">Forms</div>
+        <div class="headline headline-section" style="margin-bottom: 3%">
+          Controlled inputs &amp; <span class="accent">onSubmit</span>
+        </div>
+        <div class="cols">
+          <div
+            class="code"
+            style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7"
+          >
+            <span class="ck">const</span> [name, setName] =
+            <span class="cs">useState</span>(<span class="cp">''</span
+            >);<br /><br />
+            <span class="ck">function</span>
+            <span class="cs">handleSubmit</span>(e) {<br />
+            &nbsp;&nbsp;e.<span class="cs">preventDefault</span>();<br />
+            &nbsp;&nbsp;<span class="cm">// name is ready to use</span><br />
+            }<br /><br />
+            <span class="ck">return</span> (<br />
+            &nbsp;&nbsp;&lt;<span class="cp">form</span>
+            <span class="cs">onSubmit</span>={handleSubmit}&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">input</span><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">value</span
+            >={name}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">onChange</span
+            >={e =&gt; <span class="cs">setName</span>(e.target.value)}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">button</span
+            >&gt;Submit&lt;/<span class="cp">button</span>&gt;<br />
+            &nbsp;&nbsp;&lt;/<span class="cp">form</span>&gt;<br />
+            );
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 3%;
+              align-self: center;
+            "
+          >
+            <div class="hlt" style="margin: 0">
+              <div class="hlt-title">Controlled inputs</div>
+              <div class="hlt-body">
+                The input's
+                <span style="font-family: var(--font-code)">value</span> is
+                driven by state. Every keystroke fires
+                <span style="font-family: var(--font-code)">onChange</span>,
+                which updates state, which re-renders. React owns the value.
+              </div>
+            </div>
+            <div class="hlt" style="margin: 0">
+              <div class="hlt-title">Validation layers</div>
+              <div class="hlt-body">
+                <strong>HTML:</strong>
+                <span style="font-family: var(--font-code)">required</span>,
+                <span style="font-family: var(--font-code)">minLength</span>,
+                <span style="font-family: var(--font-code)">type="email"</span>
+                — (easy, but limited)<br /><br />
+                <strong>JavaScript:</strong> validate inside
+                <span style="font-family: var(--font-code)">handleSubmit</span>
+                for custom rules and error messages.<br /><br />
+                <strong>Server-side:</strong> always the final authority.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4 — Rules of Hooks -->
+      <div class="slide">
+        <div class="tag">Hooks</div>
+        <div class="headline headline-section" style="margin-bottom: 3%">
+          Rules of Hooks
+        </div>
+        <div class="sub text-sm" style="margin-bottom: 3%">
+          You already know one hook —
+          <span class="code-amber">useState</span>. All hooks share the same two
+          rules.
+        </div>
+        <div class="cols">
+          <div style="display: flex; flex-direction: column; gap: 3%">
+            <div class="hbox feat">
+              <div class="hbox-title">1 — Only call hooks at the top level</div>
+              <div class="hbox-body">
+                Never inside
+                <span style="font-family: var(--font-code)">if</span>, loops, or
+                nested functions. React relies on the <strong>order</strong> of
+                hook calls being the same every render.
+              </div>
+            </div>
+            <div class="hbox feat">
+              <div class="hbox-title">
+                2 — Only call hooks from React functions
+              </div>
+              <div class="hbox-body">
+                Inside a component or a custom hook — never from plain JS
+                functions.
+              </div>
+            </div>
+          </div>
+          <div
+            class="code"
+            style="
+              font-size: clamp(11px, 1.2vw, 15px);
+              line-height: 1.75;
+              align-self: center;
+            "
+          >
+            <span class="cm">// ✗ wrong — hook inside a condition</span><br />
+            <span class="ck">if</span> (show) {<br />
+            &nbsp;&nbsp;<span class="ck">const</span> [x, setX] =
+            <span class="cs">useState</span>(<span class="cs">0</span>);<br />
+            }<br /><br />
+            <span class="cm">// ✓ correct — always at the top level</span><br />
+            <span class="ck">const</span> [x, setX] =
+            <span class="cs">useState</span>(<span class="cs">0</span
+            >);<br /><br />
+            <span class="ck">if</span> (show) {<br />
+            &nbsp;&nbsp;<span class="cm">// use x here</span><br />
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5 — useEffect -->
+      <div class="slide">
+        <div class="tag">Hooks</div>
+        <div class="headline headline-section" style="margin-bottom: 2%">
+          <span class="accent">useEffect</span> — run effect code after render
+        </div>
+        <div class="sub text-sm" style="margin-bottom: 3%">
+          Use
+          <span class="code-amber">useEffect</span>
+          when you need to run
+          <strong style="color: var(--color-white)">side-effect</strong> code
+          after render: timers, event listeners, network calls, browser APIs.
+        </div>
+        <div class="cols">
+          <div
+            class="code"
+            style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.75"
+          >
+            <span class="cs">useEffect</span>(() =&gt; {<br />
+            &nbsp;&nbsp;<span class="cm">// runs after render</span><br />
+            &nbsp;&nbsp;<span class="ck">const</span> id =
+            <span class="cs">setInterval</span>(() =&gt; {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">setTime</span>(<span
+              class="ck"
+              >new</span
+            >
+            <span class="cs">Date</span>());<br />
+            &nbsp;&nbsp;}, <span class="cs">1000</span>);<br /><br />
+            &nbsp;&nbsp;<span class="ck">return</span> () =&gt;
+            <span class="cs">clearInterval</span>(id);<br />
+            &nbsp;&nbsp;<span class="cm">// ↑ cleanup runs on unmount</span
+            ><br />
+            }, []);<br />
+            <span class="cm">// ↑ [] = run once, on mount</span>
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 3%;
+              align-self: center;
+            "
+          >
+            <div class="hlt" style="margin: 0">
+              <div class="hlt-title">Dependency array</div>
+              <div class="hlt-body">
+                <strong>No array:</strong> runs after every render.<br />
+                <strong
+                  ><span style="font-family: var(--font-code)">[]</span
+                  >:</strong
+                >
+                runs once on mount.<br />
+                <strong
+                  ><span style="font-family: var(--font-code)">[a, b]</span
+                  >:</strong
+                >
+                runs when
+                <span style="font-family: var(--font-code)">a</span> or
+                <span style="font-family: var(--font-code)">b</span> changes.
+              </div>
+            </div>
+            <div class="hlt" style="margin: 0">
+              <div class="hlt-title">Cleanup function</div>
+              <div class="hlt-body">
+                Return a function to undo the effect — clear timers, remove
+                event listeners, abort fetches. React calls it before the next
+                run and when the component unmounts.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6 — Loading Data -->
+      <div class="slide">
+        <div class="tag">Loading Data</div>
+        <div class="headline headline-section" style="margin-bottom: 3%">
+          Fetching from an API
+        </div>
+        <div class="cols">
+          <div
+            class="code"
+            style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7"
+          >
+            <span class="ck">const</span> [data, setData] =
+            <span class="cs">useState</span>(<span class="ck">null</span
+            >);<br />
+            <span class="ck">const</span> [loading, setLoading] =
+            <span class="cs">useState</span>(<span class="ck">true</span
+            >);<br />
+            <span class="ck">const</span> [error, setError] =
+            <span class="cs">useState</span>(<span class="ck">null</span
+            >);<br /><br />
+            <span class="cs">useEffect</span>(() =&gt; {<br />
+            &nbsp;&nbsp;<span class="cs">fetch</span>(<span class="cp"
+              >'https://api.example.com/data'</span
+            >)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((r) =&gt;
+            r.<span class="cs">json</span>())<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((d) =&gt; {
+            <span class="cs">setData</span>(d);
+            <span class="cs">setLoading</span>(<span class="ck">false</span>);
+            })<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">catch</span>((e) =&gt; {
+            <span class="cs">setError</span>(e);
+            <span class="cs">setLoading</span>(<span class="ck">false</span>);
+            });<br />
+            }, []);<br /><br />
+            <span class="ck">if</span> (loading)
+            <span class="ck">return</span> &lt;<span class="cp">p</span
+            >&gt;Loading…&lt;/<span class="cp">p</span>&gt;;<br />
+            <span class="ck">if</span> (error)
+            <span class="ck">return</span> &lt;<span class="cp">p</span
+            >&gt;Error!&lt;/<span class="cp">p</span>&gt;;<br />
+            <span class="ck">return</span> &lt;<span class="cp">pre</span
+            >&gt;{JSON.<span class="cs">stringify</span>(data)}&lt;/<span
+              class="cp"
+              >pre</span
+            >&gt;;
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 3%;
+              align-self: center;
+            "
+          >
+            <div class="hlt" style="margin: 0">
+              <div class="hlt-title">Three states to handle</div>
+              <div class="hlt-body">
+                <strong>loading</strong> — show a spinner while waiting.<br /><br />
+                <strong>error</strong> — something went wrong; tell the user.<br /><br />
+                <strong>data</strong> — the happy path; render the result.
+              </div>
+            </div>
+            <div class="hlt" style="margin: 0">
+              <div class="hlt-title">Why inside useEffect?</div>
+              <div class="hlt-body">
+                Fetching is a side effect — it's outside React's render. Putting
+                it in
+                <span style="font-family: var(--font-code)">useEffect</span>
+                with
+                <span style="font-family: var(--font-code)">[]</span>
+                means it runs once after the component mounts.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7 — Exercises Part 1 -->
+      <div class="slide">
+        <div class="tag">Exercises</div>
+        <div class="headline headline-section" style="margin-bottom: 4%">
+          Part 1 — events &amp; forms
+        </div>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: var(--gap-md);
+          "
+        >
+          <div class="card">
+            <div class="card-title">1. ClickCounter</div>
+            <div class="card-body text-sm">
+              Build a counter: use
+              <span style="font-family: var(--font-code)">useState</span> for
+              <span style="font-family: var(--font-code)">count</span>, wire
+              <span style="font-family: var(--font-code)">onClick</span> to
+              increment it, and show a button plus the current value.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">2. SimpleForm</div>
+            <div class="card-body text-sm">
+              Create a form with controlled inputs (name, email, message). Add
+              <span style="font-family: var(--font-code)">onSubmit</span> on
+              <span style="font-family: var(--font-code)">&lt;form&gt;</span>
+              and
+              <span style="font-family: var(--font-code)">handleSubmit</span>
+              that calls
+              <span style="font-family: var(--font-code)">preventDefault</span>
+              and logs the values.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">3. TodoList</div>
+            <div class="card-body text-sm">
+              Build a list: keep todos in an array in state, add with an input,
+              remove with a per-item button. List items with
+              <span style="font-family: var(--font-code)">.map()</span> and a
+              stable <span style="font-family: var(--font-code)">key</span>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 8 — Exercises Part 2 -->
+      <div class="slide">
+        <div class="tag">Exercises</div>
+        <div class="headline headline-section" style="margin-bottom: 4%">
+          Part 2 — useEffect
+        </div>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: var(--gap-md);
+          "
+        >
+          <div class="card">
+            <div class="card-title">4. Clock</div>
+            <div class="card-body text-sm">
+              Build a live clock: use
+              <span style="font-family: var(--font-code)">useEffect</span> to
+              start an interval that updates the time every second. Return a
+              cleanup that clears the interval on unmount.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">5. DataFetcher</div>
+            <div class="card-body text-sm">
+              Fetch from a public API on mount, then show loading, an error, or
+              the data. Use separate state for
+              <span style="font-family: var(--font-code)">data</span>,
+              <span style="font-family: var(--font-code)">loading</span>, and
+              <span style="font-family: var(--font-code)">error</span>.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">6. WindowResizer</div>
+            <div class="card-body text-sm">
+              Track the window size: in
+              <span style="font-family: var(--font-code)">useEffect</span>, add
+              a
+              <span style="font-family: var(--font-code)">resize</span> listener
+              that updates state; remove the listener in the cleanup on unmount.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9 — Key takeaways -->
+      <div class="slide">
+        <div class="tag">Key takeaways</div>
+        <div style="display: flex; flex-direction: column; gap: 4%">
+          <div class="sub">
+            ● Attach handlers as props —
+            <span class="code-amber">onClick</span>,
+            <span class="code-amber">onChange</span>,
+            <span class="code-amber">onSubmit</span>
+            — no
+            <span style="font-family: var(--font-code)">addEventListener</span>
+            needed. In the form's
+            <span style="font-family: var(--font-code)">onSubmit</span> handler,
+            call
+            <span style="font-family: var(--font-code)"
+              >e.preventDefault()</span
+            >
+            when you want to keep the user on the page and handle the submit in
+            JavaScript (avoids a full page reload).
+          </div>
+          <div class="sub">
+            ● Controlled inputs keep form data in state, giving you full control
+            for validation and submission.
+          </div>
+          <div class="sub">
+            ● Call hooks at the
+            <strong style="color: var(--color-white)">top level</strong>, never
+            inside conditions or loops. React tracks them by order.
+          </div>
+          <div class="sub">
+            ●
+            <span class="code-amber">useEffect</span>
+            runs side-effect code after render. Use the dependency array to
+            control when it runs. Return a cleanup function when you set up
+            timers or listeners.
+          </div>
+          <div class="sub">
+            ● Fetch data inside
+            <span class="code-amber">useEffect</span>
+            with <span style="font-family: var(--font-code)">[]</span>. Track
+            <span style="font-family: var(--font-code)">loading</span>,
+            <span style="font-family: var(--font-code)">error</span>, and
+            <span style="font-family: var(--font-code)">data</span> as separate
+            state variables.
+          </div>
+        </div>
+      </div>
+
+      <div id="nav-dots"></div>
+      <div id="hint">click anywhere to advance</div>
+    </div>
+
+    <script>
+      const TOTAL_SLIDES = 10;
+      const STORAGE_KEY = "react-week3-current-slide";
+      const SECTION_SLIDES = {
+        0: 1,
+        1: 2,
+        2: 4,
+        3: 5,
+        4: 7,
+        5: 9,
+      };
+
+      const deck = document.getElementById("deck");
+      const bar = document.getElementById("progress");
+      const hint = document.getElementById("hint");
+      const dotsEl = document.getElementById("nav-dots");
+      const slides = () => document.querySelectorAll(".slide");
+      const dots = () => document.querySelectorAll(".nav-dot");
+
+      let current = 0;
+
+      for (let i = 0; i < TOTAL_SLIDES; i++) {
+        const dot = document.createElement("div");
+        dot.className = "nav-dot" + (i === 0 ? " on" : "");
+        dotsEl.appendChild(dot);
+      }
+
+      const savedSlide = Number(localStorage.getItem(STORAGE_KEY));
+      if (
+        Number.isInteger(savedSlide) &&
+        savedSlide > 0 &&
+        savedSlide < TOTAL_SLIDES
+      ) {
+        goTo(savedSlide);
+      }
+
+      function goTo(n) {
+        if (n < 0 || n >= TOTAL_SLIDES || n === current) {
+          return;
+        }
+
+        const allSlides = slides();
+        const allDots = dots();
+
+        allSlides[current].classList.remove("active");
+        allSlides[current].classList.add("exit");
+        setTimeout(() => allSlides[current].classList.remove("exit"), 500);
+
+        current = Math.max(0, Math.min(TOTAL_SLIDES - 1, n));
+
+        allSlides[current].classList.add("active");
+
+        allDots.forEach((d, i) => d.classList.toggle("on", i === current));
+
+        bar.style.width = (current / (TOTAL_SLIDES - 1)) * 100 + "%";
+
+        localStorage.setItem(STORAGE_KEY, String(current));
+
+        if (current === TOTAL_SLIDES - 1) {
+          hint.textContent = "";
+        } else if (current === 0) {
+          hint.textContent = "click anywhere to advance";
+        } else {
+          hint.textContent = `${current + 1} / ${TOTAL_SLIDES}`;
+        }
+      }
+
+      deck.addEventListener("click", () => {
+        if (current < TOTAL_SLIDES - 1) goTo(current + 1);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key in SECTION_SLIDES) {
+          goTo(SECTION_SLIDES[e.key]);
+          return;
+        }
+
+        if (e.key === " " || e.code === "Space") {
+          e.preventDefault();
+
+          if (e.shiftKey) {
+            goTo(current - 1);
+            return;
+          }
+
+          goTo(current + 1);
+          return;
+        }
+
+        if (e.key === "ArrowRight") {
+          goTo(current + 1);
+          return;
+        }
+
+        if (e.key === "ArrowLeft") {
+          goTo(current - 1);
+        }
+      });
+    </script>
+  </head>
+</html>
