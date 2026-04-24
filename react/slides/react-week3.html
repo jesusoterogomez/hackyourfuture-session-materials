@@ -193,6 +193,23 @@
         color: var(--color-amber);
       }
 
+      /* Inline code in body / sub text */
+      .code-inline {
+        font-family: var(--font-code);
+        font-size: 0.9em;
+        vertical-align: baseline;
+        background: var(--color-deep);
+        border-radius: 4px;
+        padding: 0.1em 0.45em;
+        color: var(--color-cyan);
+      }
+
+      .code-inline--type {
+        color: var(--color-white);
+        border-color: var(--color-card-border);
+        font-weight: 500;
+      }
+
       /* ============================================================
          LAYOUT HELPERS
          ============================================================ */
@@ -258,11 +275,6 @@
         font-weight: 500;
         color: var(--color-cyan);
         margin-bottom: 0.3em;
-      }
-
-      .hbox.feat .hbox-title {
-        color: var(--color-white);
-        font-size: clamp(16px, 2vw, 25px);
       }
 
       .hbox-body {
@@ -498,13 +510,12 @@
           Event handlers in React
         </div>
         <div class="sub text-sm" style="margin-bottom: 3%">
-          In React, you pass functions as props (like
-          <span style="font-family: var(--font-code)">onClick</span>) straight
-          onto elements — no
-          <span style="font-family: var(--font-code)">addEventListener</span>
-          needed. Your handler gets an event object; use
-          <span style="font-family: var(--font-code)">event.target.value</span>
-          for inputs, for example.
+          In React, you pass functions as props to handle events — no
+          <span class="code-inline">addEventListener</span> needed. Your handler
+          receives an event object (<span class="code-inline code-inline--type"
+            >SyntheticEvent</span
+          >) that includes properties about the event and the element that
+          triggered it.
         </div>
         <div class="cols">
           <div
@@ -515,17 +526,27 @@
             btn.<span class="cs">addEventListener</span>(<span class="cp"
               >'click'</span
             >, handleClick);<br /><br />
-            <span class="cm">// React — handler on the JSX element</span><br />
+            <span class="cm">// Function to handle the event</span>
+            <br />
+            <span class="ck">function</span>
+            <span class="cs">handleClick</span>(<span class="cs">event</span>)
+            {<br />
+            &nbsp;&nbsp;<span class="cs">console</span>.<span class="cs"
+              >log</span
+            >(<span class="cs">event</span>.<span class="cs">type</span>);
+            <span class="cm">// "click"</span>
+            <br />
+            &nbsp;&nbsp;<span class="cs">console</span>.<span class="cs"
+              >log</span
+            >(<span class="cs">event</span>.<span class="cs">target</span>);
+            <span class="cm">// &lt;button&gt;... </span>
+            <br />
+            }<br /><br />
+            <span class="cm">// React: handler as prop on the JSX element</span
+            ><br />
             &lt;<span class="cp">button</span>
             <span class="cs">onClick</span>={handleClick}&gt;<br />
             &nbsp;&nbsp;Click me<br />
-            &lt;/<span class="cp">button</span>&gt;<br /><br />
-            <span class="cm">// inline arrow — fine for one-liners</span><br />
-            &lt;<span class="cp">button</span>
-            <span class="cs">onClick</span>={() =&gt;
-            <span class="cs">setCount</span>(c =&gt; c +
-            <span class="cs">1</span>)}&gt;<br />
-            &nbsp;&nbsp;+1<br />
             &lt;/<span class="cp">button</span>&gt;
           </div>
           <div
@@ -570,13 +591,9 @@
                 Handlers receive an
                 <span style="font-family: var(--font-code)">event</span>
                 argument. Use
-                <span style="font-family: var(--font-code)"
-                  >event.target.value</span
-                >
+                <span class="ck">event.target.value</span>
                 for inputs,
-                <span style="font-family: var(--font-code)"
-                  >event.preventDefault()</span
-                >
+                <span class="ck">event.preventDefault()</span>
                 to stop default browser behaviour.
               </div>
             </div>
@@ -641,8 +658,9 @@
                 <strong>HTML:</strong>
                 <span style="font-family: var(--font-code)">required</span>,
                 <span style="font-family: var(--font-code)">minLength</span>,
-                <span style="font-family: var(--font-code)">type="email"</span>
-                — (easy, but limited)<br /><br />
+                <span style="font-family: var(--font-code)">type="email"</span
+                ><br />
+                (simple validation, but limited)<br /><br />
                 <strong>JavaScript:</strong> validate inside
                 <span style="font-family: var(--font-code)">handleSubmit</span>
                 for custom rules and error messages.<br /><br />
@@ -667,7 +685,7 @@
         <div class="cols">
           <div style="display: flex; flex-direction: column; gap: 3%">
             <div class="hbox feat">
-              <div class="hbox-title">1 — Only call hooks at the top level</div>
+              <div class="hbox-title">1. Only call hooks at the top level</div>
               <div class="hbox-body">
                 Never inside
                 <span style="font-family: var(--font-code)">if</span>, loops, or
@@ -677,7 +695,7 @@
             </div>
             <div class="hbox feat">
               <div class="hbox-title">
-                2 — Only call hooks from React functions
+                2. Only call hooks from React functions
               </div>
               <div class="hbox-body">
                 Inside a component or a custom hook — never from plain JS
