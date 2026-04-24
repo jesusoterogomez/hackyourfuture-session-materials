@@ -2,6 +2,7 @@
 // Create a new component called Form
 
 import { useState } from "react";
+import "./AdoptionForm.css";
 
 // Use the useState hook to manage the state of form input fields
 
@@ -42,22 +43,25 @@ export function AdoptionForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Which pet?</label>
-      <input
-        name="pet-name"
-        placeholder="Pet name"
-        value={formState.petName}
-        onChange={(event) => updateField("petName", event.target.value)}
-      />
-      <br />
-      <label>What's your name?</label>
-      <input
-        placeholder="type your name"
-        value={formState.name}
-        onChange={(event) => updateField("name", event.target.value)}
-      />
-      <br />
+    <form className="adoption-form" onSubmit={handleSubmit}>
+      <div className="adoption-form-field">
+        <label>Which pet are you interested in?</label>
+        <input
+          name="pet-name"
+          placeholder="Pet name"
+          value={formState.petName}
+          onChange={(event) => updateField("petName", event.target.value)}
+        />
+      </div>
+      <div className="adoption-form-field">
+        <label>What's your name?</label>
+        <input
+          name="your-name"
+          placeholder="type your name"
+          value={formState.name}
+          onChange={(event) => updateField("name", event.target.value)}
+        />
+      </div>
       <button type="submit">Submit!</button>
     </form>
   );
