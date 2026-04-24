@@ -47,7 +47,6 @@ export function AdoptionForm() {
       <div className="adoption-form-field">
         <label>Which pet are you interested in?</label>
         <input
-          name="pet-name"
           placeholder="Pet name"
           value={formState.petName}
           onChange={(event) => updateField("petName", event.target.value)}
@@ -56,8 +55,7 @@ export function AdoptionForm() {
       <div className="adoption-form-field">
         <label>What's your name?</label>
         <input
-          name="your-name"
-          placeholder="type your name"
+          placeholder="Type your name"
           value={formState.name}
           onChange={(event) => updateField("name", event.target.value)}
         />
