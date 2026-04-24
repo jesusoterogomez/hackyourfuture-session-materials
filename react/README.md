@@ -60,4 +60,5 @@ For a refresher on how to use `fetch()` to call an API from JavaScript, see the 
 - `slides/` - Class slides
 - `guides/` - Short practical guides for trainees
 - `mentor-notes/` - Planning notes for instructors
-- `pets-api/` - Small API with SQL database - Hosted on Cloudflare Workers
+- `demo/app` - Small React app that showcases techniques covered during the session
+- `demo/api` - Small API with SQL database - Hosted on Cloudflare Workers
