@@ -141,6 +141,34 @@
         line-height: 1.5;
       }
 
+      .takeaway-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4em;
+      }
+
+      .takeaway-title {
+        font-family: var(--font-ui);
+        line-height: 1.4;
+        color: var(--color-muted);
+      }
+
+      .takeaway-bullet {
+        margin-right: 0.2em;
+      }
+
+      .takeaway-title strong {
+        font-weight: 600;
+        color: var(--color-white);
+      }
+
+      .takeaway-body {
+        font-family: var(--font-ui);
+        font-size: 0.9em;
+        line-height: 1.5;
+        color: var(--color-muted);
+      }
+
       .headline-section {
         font-size: clamp(21px, 3.9vw, 50px);
       }
@@ -219,6 +247,11 @@
         gap: var(--gap-lg);
       }
 
+      /* Slightly wider code column (e.g. API fetch slide) */
+      .cols-wider-code {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      }
+
       .cols3 {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
@@ -251,6 +284,29 @@
         font-size: var(--text-body);
         color: var(--color-muted);
         line-height: 1.5;
+      }
+
+      .card-body.card-body-exercise {
+        font-size: clamp(12px, 1.3vw, 16px);
+        line-height: 1.5;
+      }
+
+      .card-body-exercise ul {
+        margin: 0;
+        padding-left: 1.1em;
+        list-style-type: disc;
+      }
+
+      .card-body-exercise li {
+        margin: 0.2em 0;
+      }
+
+      .card-body-exercise p {
+        margin: 0 0 0.3em 0;
+      }
+
+      .card-body-exercise p:last-child {
+        margin-bottom: 0;
       }
 
       /* ============================================================
@@ -471,7 +527,7 @@
             <div class="step-text">
               DOM events in React —
               <span class="code-amber">onClick</span>,
-              <span class="code-amber">onChange</span>, and others
+              <span class="code-amber">onChange</span>, and other event handlers
             </div>
           </div>
           <div class="step-row">
@@ -806,7 +862,7 @@
         <div class="headline headline-section" style="margin-bottom: 3%">
           Fetching from an API
         </div>
-        <div class="cols">
+        <div class="cols cols-wider-code">
           <div
             class="code"
             style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7"
@@ -824,23 +880,22 @@
             &nbsp;&nbsp;<span class="cs">fetch</span>(<span class="cp"
               >'https://api.example.com/data'</span
             >)<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((r) =&gt;
-            r.<span class="cs">json</span>())<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((d) =&gt; {
-            <span class="cs">setData</span>(d);
-            <span class="cs">setLoading</span>(<span class="ck">false</span>);
-            })<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">catch</span>((e) =&gt; {
-            <span class="cs">setError</span>(e);
-            <span class="cs">setLoading</span>(<span class="ck">false</span>);
-            });<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((response)
+            =&gt; response.<span class="cs">json</span>())<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((jsonData)
+            =&gt; { <span class="cs">setData</span>(jsonData); })<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">catch</span>((error) =&gt;
+            { <span class="cs">setError</span>(error); })<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">finally</span>(() =&gt;
+            <span class="cs">setLoading</span>(<span class="ck">false</span
+            >));<br />
             }, []);<br /><br />
             <span class="ck">if</span> (loading)
             <span class="ck">return</span> &lt;<span class="cp">p</span
             >&gt;Loading…&lt;/<span class="cp">p</span>&gt;;<br />
             <span class="ck">if</span> (error)
             <span class="ck">return</span> &lt;<span class="cp">p</span
-            >&gt;Error!&lt;/<span class="cp">p</span>&gt;;<br />
+            >&gt;Error: {error.message}&lt;/<span class="cp">p</span>&gt;;<br />
             <span class="ck">return</span> &lt;<span class="cp">pre</span
             >&gt;{JSON.<span class="cs">stringify</span>(data)}&lt;/<span
               class="cp"
@@ -882,7 +937,7 @@
       <div class="slide">
         <div class="tag">Exercises</div>
         <div class="headline headline-section" style="margin-bottom: 4%">
-          Part 1 — events &amp; forms
+          Part 1: events &amp; forms
         </div>
         <div
           style="
@@ -892,35 +947,62 @@
           "
         >
           <div class="card">
-            <div class="card-title">1. ClickCounter</div>
-            <div class="card-body text-sm">
-              Build a counter: use
-              <span style="font-family: var(--font-code)">useState</span> for
-              <span style="font-family: var(--font-code)">count</span>, wire
-              <span style="font-family: var(--font-code)">onClick</span> to
-              increment it, and show a button plus the current value.
+            <div class="card-title">1. &lt;ClickCounter /&gt;</div>
+            <div class="card-body card-body-exercise">
+              <p>Build a counter.</p>
+              <ul>
+                <li>
+                  Use
+                  <span style="font-family: var(--font-code)">useState</span>
+                  for <span style="font-family: var(--font-code)">count</span>.
+                </li>
+                <li>
+                  Wire
+                  <span style="font-family: var(--font-code)">onClick</span> to
+                  increment it.
+                </li>
+                <li>Show a button and the current value.</li>
+              </ul>
             </div>
           </div>
           <div class="card">
-            <div class="card-title">2. SimpleForm</div>
-            <div class="card-body text-sm">
-              Create a form with controlled inputs (name, email, message). Add
-              <span style="font-family: var(--font-code)">onSubmit</span> on
-              <span style="font-family: var(--font-code)">&lt;form&gt;</span>
-              and
-              <span style="font-family: var(--font-code)">handleSubmit</span>
-              that calls
-              <span style="font-family: var(--font-code)">preventDefault</span>
-              and logs the values.
+            <div class="card-title">2. &lt;SimpleForm /&gt;</div>
+            <div class="card-body card-body-exercise">
+              <p>Controlled fields: name, email, message.</p>
+              <ul>
+                <li>
+                  On
+                  <span style="font-family: var(--font-code)">&lt;form&gt;</span
+                  >, use
+                  <span style="font-family: var(--font-code)">onSubmit</span>
+                  with a
+                  <span style="font-family: var(--font-code)"
+                    >handleSubmit</span
+                  >
+                  that calls
+                  <span style="font-family: var(--font-code)"
+                    >preventDefault</span
+                  >.
+                </li>
+                <li>Log the values (for example to the console).</li>
+              </ul>
             </div>
           </div>
           <div class="card">
-            <div class="card-title">3. TodoList</div>
-            <div class="card-body text-sm">
-              Build a list: keep todos in an array in state, add with an input,
-              remove with a per-item button. List items with
-              <span style="font-family: var(--font-code)">.map()</span> and a
-              stable <span style="font-family: var(--font-code)">key</span>.
+            <div class="card-title">3. &lt;TodoList /&gt;</div>
+            <div class="card-body card-body-exercise">
+              <p>Build a list.</p>
+              <ul>
+                <li>Store todos in an array in state.</li>
+                <li>Add with an input. Remove with a button on each item.</li>
+                <li>
+                  Render with
+                  <span style="font-family: var(--font-code)">.map()</span> and
+                  a stable
+                  <span style="font-family: var(--font-code)">key</span> on each
+                  row.
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -930,7 +1012,7 @@
       <div class="slide">
         <div class="tag">Exercises</div>
         <div class="headline headline-section" style="margin-bottom: 4%">
-          Part 2 — useEffect
+          Part 2: useEffect
         </div>
         <div
           style="
@@ -940,32 +1022,50 @@
           "
         >
           <div class="card">
-            <div class="card-title">4. Clock</div>
-            <div class="card-body text-sm">
-              Build a live clock: use
-              <span style="font-family: var(--font-code)">useEffect</span> to
-              start an interval that updates the time every second. Return a
-              cleanup that clears the interval on unmount.
+            <div class="card-title">4. &lt;Clock /&gt;</div>
+            <div class="card-body card-body-exercise">
+              <p>Build a live clock.</p>
+              <ul>
+                <li>
+                  In
+                  <span style="font-family: var(--font-code)">useEffect</span>,
+                  start an interval that updates the time every second.
+                </li>
+                <li>
+                  Return a cleanup function that clears the interval on unmount.
+                </li>
+              </ul>
             </div>
           </div>
           <div class="card">
-            <div class="card-title">5. DataFetcher</div>
-            <div class="card-body text-sm">
-              Fetch from a public API on mount, then show loading, an error, or
-              the data. Use separate state for
-              <span style="font-family: var(--font-code)">data</span>,
-              <span style="font-family: var(--font-code)">loading</span>, and
-              <span style="font-family: var(--font-code)">error</span>.
+            <div class="card-title">5. &lt;DataFetcher /&gt;</div>
+            <div class="card-body card-body-exercise">
+              <p>Fetch from a public API when the component mounts.</p>
+              <ul>
+                <li>In the UI, show a loading state, an error, or the data.</li>
+                <li>
+                  Use separate state for
+                  <span style="font-family: var(--font-code)">data</span>,
+                  <span style="font-family: var(--font-code)">loading</span>,
+                  and <span style="font-family: var(--font-code)">error</span>.
+                </li>
+              </ul>
             </div>
           </div>
           <div class="card">
-            <div class="card-title">6. WindowResizer</div>
-            <div class="card-body text-sm">
-              Track the window size: in
-              <span style="font-family: var(--font-code)">useEffect</span>, add
-              a
-              <span style="font-family: var(--font-code)">resize</span> listener
-              that updates state; remove the listener in the cleanup on unmount.
+            <div class="card-title">6. &lt;WindowResizer /&gt;</div>
+            <div class="card-body card-body-exercise">
+              <p>Track the current window size in state.</p>
+              <ul>
+                <li>
+                  In
+                  <span style="font-family: var(--font-code)">useEffect</span>,
+                  add a
+                  <span style="font-family: var(--font-code)">resize</span>
+                  listener that updates that state.
+                </li>
+                <li>In the cleanup, remove the listener on unmount.</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -975,46 +1075,52 @@
       <div class="slide">
         <div class="tag">Key takeaways</div>
         <div style="display: flex; flex-direction: column; gap: 4%">
-          <div class="sub">
-            ● Attach handlers as props —
-            <span class="code-amber">onClick</span>,
-            <span class="code-amber">onChange</span>,
-            <span class="code-amber">onSubmit</span>
-            — no
-            <span style="font-family: var(--font-code)">addEventListener</span>
-            needed. In the form's
-            <span style="font-family: var(--font-code)">onSubmit</span> handler,
-            call
-            <span style="font-family: var(--font-code)"
-              >e.preventDefault()</span
-            >
-            when you want to keep the user on the page and handle the submit in
-            JavaScript (avoids a full page reload).
+          <div class="sub takeaway-item">
+            <div class="takeaway-title">
+              <span class="takeaway-bullet">●</span>
+              <strong>Events &amp; forms</strong>
+            </div>
+            <div class="takeaway-body">
+              Use props such as
+              <span class="code-amber">onClick</span>,
+              <span class="code-amber">onChange</span>, and
+              <span class="code-amber">onSubmit</span> (not
+              <span style="font-family: var(--font-code)">addEventListener</span
+              >). Keep inputs controlled. On
+              <span style="font-family: var(--font-code)">onSubmit</span>, call
+              <span style="font-family: var(--font-code)"
+                >e.preventDefault()</span
+              >
+              when you handle the submit in JavaScript.
+            </div>
           </div>
-          <div class="sub">
-            ● Controlled inputs keep form data in state, giving you full control
-            for validation and submission.
+          <div class="sub takeaway-item">
+            <div class="takeaway-title">
+              <span class="takeaway-bullet">●</span>
+              <strong>Hooks</strong>
+            </div>
+            <div class="takeaway-body">
+              Only at the top level of your component, never inside conditions
+              or loops.
+              <span class="code-amber">useEffect</span> is for work after render
+              (timers, listeners, network). The dependency array controls when
+              the effect re-runs; return a cleanup to undo timers and listeners.
+            </div>
           </div>
-          <div class="sub">
-            ● Call hooks at the
-            <strong style="color: var(--color-white)">top level</strong>, never
-            inside conditions or loops. React tracks them by order.
-          </div>
-          <div class="sub">
-            ●
-            <span class="code-amber">useEffect</span>
-            runs side-effect code after render. Use the dependency array to
-            control when it runs. Return a cleanup function when you set up
-            timers or listeners.
-          </div>
-          <div class="sub">
-            ● Fetch data inside
-            <span class="code-amber">useEffect</span>
-            with <span style="font-family: var(--font-code)">[]</span>. Track
-            <span style="font-family: var(--font-code)">loading</span>,
-            <span style="font-family: var(--font-code)">error</span>, and
-            <span style="font-family: var(--font-code)">data</span> as separate
-            state variables.
+          <div class="sub takeaway-item">
+            <div class="takeaway-title">
+              <span class="takeaway-bullet">●</span>
+              <strong>Data from an API</strong>
+            </div>
+            <div class="takeaway-body">
+              Fetch in
+              <span class="code-amber">useEffect</span> on mount, often with
+              <span style="font-family: var(--font-code)">[]</span>, and use
+              separate
+              <span style="font-family: var(--font-code)">loading</span>,
+              <span style="font-family: var(--font-code)">error</span>, and
+              <span style="font-family: var(--font-code)">data</span> state.
+            </div>
           </div>
         </div>
       </div>
