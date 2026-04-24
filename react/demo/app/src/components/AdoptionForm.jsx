@@ -17,6 +17,7 @@ export function AdoptionForm() {
   };
 
   const [formState, setFormState] = useState(defaultState);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const updateField = (fieldName, fieldValue) => {
     // Set the form state to a new object with the previous state and the new field value
@@ -40,6 +41,14 @@ export function AdoptionForm() {
 
     // Reset the form state to the default state
     setFormState(defaultState);
+
+    // Show a success message
+    setShowSuccessMessage(true);
+
+    // Hide the success message after 2 seconds
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 2000);
   };
 
   return (
@@ -60,7 +69,17 @@ export function AdoptionForm() {
           onChange={(event) => updateField("name", event.target.value)}
         />
       </div>
-      <button type="submit">Submit!</button>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <button type="submit">Submit!</button>
+        {showSuccessMessage && <p>Thank you for your interest!</p>}
+      </div>
     </form>
   );
 }
