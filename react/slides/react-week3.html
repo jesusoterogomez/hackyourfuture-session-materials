@@ -301,10 +301,18 @@
   }
 
   /* Syntax token colors */
-  .cm { color: var(--color-code-dim); } /* comment  */
-  .ck { color: var(--color-code-blue); } /* keyword  */
-  .cs { color: var(--color-cyan); }      /* symbol   */
-  .cp { color: var(--color-amber); }     /* string   */
+  .cm {
+    color: var(--color-code-dim);
+  } /* comment  */
+  .ck {
+    color: var(--color-code-blue);
+  } /* keyword  */
+  .cs {
+    color: var(--color-cyan);
+  } /* symbol   */
+  .cp {
+    color: var(--color-amber);
+  } /* string   */
 
   /* ============================================================
      AGENDA ROWS
@@ -420,9 +428,7 @@
         />
       </span>
     </div>
-    <div class="sub">
-      Events, forms, hooks, and loading data from APIs
-    </div>
+    <div class="sub">Events, forms, hooks, and loading data from APIs</div>
     <div style="margin-top: 7%; display: flex; gap: 1.5%; flex-wrap: wrap">
       <span class="pill hi">Events</span>
       <span class="pill hi">Forms</span>
@@ -442,15 +448,21 @@
         <div class="step-num">1</div>
         <div class="step-text">
           DOM events in React —
-          <span style="font-family: var(--font-code); color: var(--color-amber)">onClick</span>,
-          <span style="font-family: var(--font-code); color: var(--color-amber)">onChange</span>, and friends
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >onClick</span
+          >,
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >onChange</span
+          >, and friends
         </div>
       </div>
       <div class="step-row">
         <div class="step-num">2</div>
         <div class="step-text">
           Managing forms —
-          <span style="font-family: var(--font-code); color: var(--color-amber)">onSubmit</span>
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >onSubmit</span
+          >
           and input validation
         </div>
       </div>
@@ -458,12 +470,19 @@
         <div class="step-num">3</div>
         <div class="step-text">
           Hooks deep-dive — rules of hooks and
-          <span style="font-family: var(--font-code); color: var(--color-amber)">useEffect</span>
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >useEffect</span
+          >
         </div>
       </div>
       <div class="step-row">
         <div class="step-num">4</div>
-        <div class="step-text">Loading data from APIs with <span style="font-family: var(--font-code); color: var(--color-amber)">fetch</span></div>
+        <div class="step-text">
+          Loading data from APIs with
+          <span style="font-family: var(--font-code); color: var(--color-amber)"
+            >fetch</span
+          >
+        </div>
       </div>
       <div class="step-row">
         <div class="step-num">5</div>
@@ -480,8 +499,10 @@
     </div>
     <div class="sub text-sm" style="margin-bottom: 3%">
       React wraps native browser events in a
-      <strong style="color: var(--color-white)">SyntheticEvent</strong>. You attach handlers
-      directly as props — no <span style="font-family: var(--font-code)">addEventListener</span> needed.
+      <strong style="color: var(--color-white)">SyntheticEvent</strong>. You
+      attach handlers directly as props — no
+      <span style="font-family: var(--font-code)">addEventListener</span>
+      needed.
     </div>
     <div class="cols">
       <div
@@ -489,35 +510,72 @@
         style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.75"
       >
         <span class="cm">// vanilla JS — imperative</span><br />
-        btn.<span class="cs">addEventListener</span>(<span class="cp">'click'</span>, handleClick);<br /><br />
-        <span class="cm">// React — declarative, right on the element</span><br />
-        &lt;<span class="cp">button</span> <span class="cs">onClick</span>={handleClick}&gt;<br />
+        btn.<span class="cs">addEventListener</span>(<span class="cp"
+          >'click'</span
+        >, handleClick);<br /><br />
+        <span class="cm">// React — declarative, right on the element</span
+        ><br />
+        &lt;<span class="cp">button</span>
+        <span class="cs">onClick</span>={handleClick}&gt;<br />
         &nbsp;&nbsp;Click me<br />
         &lt;/<span class="cp">button</span>&gt;<br /><br />
         <span class="cm">// inline arrow — fine for one-liners</span><br />
-        &lt;<span class="cp">button</span> <span class="cs">onClick</span>={() =&gt; <span class="cs">setCount</span>(c =&gt; c + <span class="cs">1</span>)}&gt;<br />
+        &lt;<span class="cp">button</span> <span class="cs">onClick</span>={()
+        =&gt; <span class="cs">setCount</span>(c =&gt; c +
+        <span class="cs">1</span>)}&gt;<br />
         &nbsp;&nbsp;+1<br />
         &lt;/<span class="cp">button</span>&gt;
       </div>
-      <div style="display: flex; flex-direction: column; gap: 3%; align-self: center">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 3%;
+          align-self: center;
+        "
+      >
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">Common event props</div>
           <div class="hlt-body">
             <ul style="padding-left: 1.2em; margin: 0; line-height: 2.1">
-              <li><span style="font-family: var(--font-code)">onClick</span> — button, div, any element</li>
-              <li><span style="font-family: var(--font-code)">onChange</span> — input, select, textarea</li>
-              <li><span style="font-family: var(--font-code)">onSubmit</span> — form</li>
-              <li><span style="font-family: var(--font-code)">onFocus</span> / <span style="font-family: var(--font-code)">onBlur</span> — focus events</li>
-              <li><span style="font-family: var(--font-code)">onKeyDown</span> — keyboard</li>
+              <li>
+                <span style="font-family: var(--font-code)">onClick</span> —
+                button, div, any element
+              </li>
+              <li>
+                <span style="font-family: var(--font-code)">onChange</span> —
+                input, select, textarea
+              </li>
+              <li>
+                <span style="font-family: var(--font-code)">onSubmit</span> —
+                form
+              </li>
+              <li>
+                <span style="font-family: var(--font-code)">onFocus</span> /
+                <span style="font-family: var(--font-code)">onBlur</span> —
+                focus events
+              </li>
+              <li>
+                <span style="font-family: var(--font-code)">onKeyDown</span> —
+                keyboard
+              </li>
             </ul>
           </div>
         </div>
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">The event object</div>
           <div class="hlt-body">
-            Handlers receive an <span style="font-family: var(--font-code)">event</span> argument.
-            Use <span style="font-family: var(--font-code)">event.target.value</span> for inputs,
-            <span style="font-family: var(--font-code)">event.preventDefault()</span> to stop default browser behaviour.
+            Handlers receive an
+            <span style="font-family: var(--font-code)">event</span> argument.
+            Use
+            <span style="font-family: var(--font-code)"
+              >event.target.value</span
+            >
+            for inputs,
+            <span style="font-family: var(--font-code)"
+              >event.preventDefault()</span
+            >
+            to stop default browser behaviour.
           </div>
         </div>
       </div>
@@ -535,35 +593,57 @@
         class="code"
         style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7"
       >
-        <span class="ck">const</span> [name, setName] = <span class="cs">useState</span>(<span class="cp">''</span>);<br /><br />
-        <span class="ck">function</span> <span class="cs">handleSubmit</span>(e) {<br />
+        <span class="ck">const</span> [name, setName] =
+        <span class="cs">useState</span>(<span class="cp">''</span
+        >);<br /><br />
+        <span class="ck">function</span> <span class="cs">handleSubmit</span>(e)
+        {<br />
         &nbsp;&nbsp;e.<span class="cs">preventDefault</span>();<br />
         &nbsp;&nbsp;<span class="cm">// name is ready to use</span><br />
         }<br /><br />
         <span class="ck">return</span> (<br />
-        &nbsp;&nbsp;&lt;<span class="cp">form</span> <span class="cs">onSubmit</span>={handleSubmit}&gt;<br />
+        &nbsp;&nbsp;&lt;<span class="cp">form</span>
+        <span class="cs">onSubmit</span>={handleSubmit}&gt;<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">input</span><br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">value</span>={name}<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">onChange</span>={e =&gt; <span class="cs">setName</span>(e.target.value)}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">value</span
+        >={name}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">onChange</span>={e
+        =&gt; <span class="cs">setName</span>(e.target.value)}<br />
         &nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">button</span>&gt;Submit&lt;/<span class="cp">button</span>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="cp">button</span
+        >&gt;Submit&lt;/<span class="cp">button</span>&gt;<br />
         &nbsp;&nbsp;&lt;/<span class="cp">form</span>&gt;<br />
         );
       </div>
-      <div style="display: flex; flex-direction: column; gap: 3%; align-self: center">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 3%;
+          align-self: center;
+        "
+      >
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">Controlled inputs</div>
           <div class="hlt-body">
-            The input's <span style="font-family: var(--font-code)">value</span> is driven by state.
-            Every keystroke fires <span style="font-family: var(--font-code)">onChange</span>, which updates state,
-            which re-renders. React owns the value.
+            The input's
+            <span style="font-family: var(--font-code)">value</span> is driven
+            by state. Every keystroke fires
+            <span style="font-family: var(--font-code)">onChange</span>, which
+            updates state, which re-renders. React owns the value.
           </div>
         </div>
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">Validation layers</div>
           <div class="hlt-body">
-            <strong>HTML:</strong> <span style="font-family: var(--font-code)">required</span>, <span style="font-family: var(--font-code)">minLength</span>, <span style="font-family: var(--font-code)">type="email"</span> — free, but limited.<br /><br />
-            <strong>JavaScript:</strong> validate inside <span style="font-family: var(--font-code)">handleSubmit</span> for custom rules and error messages.<br /><br />
+            <strong>HTML:</strong>
+            <span style="font-family: var(--font-code)">required</span>,
+            <span style="font-family: var(--font-code)">minLength</span>,
+            <span style="font-family: var(--font-code)">type="email"</span> —
+            free, but limited.<br /><br />
+            <strong>JavaScript:</strong> validate inside
+            <span style="font-family: var(--font-code)">handleSubmit</span> for
+            custom rules and error messages.<br /><br />
             <strong>Server-side:</strong> always the final authority.
           </div>
         </div>
@@ -579,16 +659,18 @@
     </div>
     <div class="sub text-sm" style="margin-bottom: 3%">
       You already know one hook —
-      <span style="font-family: var(--font-code); color: var(--color-amber)">useState</span>.
-      All hooks share the same two rules.
+      <span style="font-family: var(--font-code); color: var(--color-amber)"
+        >useState</span
+      >. All hooks share the same two rules.
     </div>
     <div class="cols">
       <div style="display: flex; flex-direction: column; gap: 3%">
         <div class="hbox feat">
           <div class="hbox-title">1 — Only call hooks at the top level</div>
           <div class="hbox-body">
-            Never inside <span style="font-family: var(--font-code)">if</span>, loops, or nested functions.
-            React relies on the <strong>order</strong> of hook calls being the same every render.
+            Never inside <span style="font-family: var(--font-code)">if</span>,
+            loops, or nested functions. React relies on the
+            <strong>order</strong> of hook calls being the same every render.
           </div>
         </div>
         <div class="hbox feat">
@@ -600,14 +682,20 @@
       </div>
       <div
         class="code"
-        style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.75; align-self: center"
+        style="
+          font-size: clamp(11px, 1.2vw, 15px);
+          line-height: 1.75;
+          align-self: center;
+        "
       >
         <span class="cm">// ✗ wrong — hook inside a condition</span><br />
         <span class="ck">if</span> (show) {<br />
-        &nbsp;&nbsp;<span class="ck">const</span> [x, setX] = <span class="cs">useState</span>(<span class="cs">0</span>);<br />
+        &nbsp;&nbsp;<span class="ck">const</span> [x, setX] =
+        <span class="cs">useState</span>(<span class="cs">0</span>);<br />
         }<br /><br />
         <span class="cm">// ✓ correct — always at the top level</span><br />
-        <span class="ck">const</span> [x, setX] = <span class="cs">useState</span>(<span class="cs">0</span>);<br /><br />
+        <span class="ck">const</span> [x, setX] =
+        <span class="cs">useState</span>(<span class="cs">0</span>);<br /><br />
         <span class="ck">if</span> (show) {<br />
         &nbsp;&nbsp;<span class="cm">// use x here</span><br />
         }
@@ -622,9 +710,13 @@
       <span class="accent">useEffect</span> — synchronise with the outside world
     </div>
     <div class="sub text-sm" style="margin-bottom: 3%">
-      Use <span style="font-family: var(--font-code); color: var(--color-amber)">useEffect</span> when
-      you need to <strong style="color: var(--color-white)">sync</strong> with something outside React:
-      timers, event listeners, network calls, browser APIs.
+      Use
+      <span style="font-family: var(--font-code); color: var(--color-amber)"
+        >useEffect</span
+      >
+      when you need to
+      <strong style="color: var(--color-white)">sync</strong> with something
+      outside React: timers, event listeners, network calls, browser APIs.
     </div>
     <div class="cols">
       <div
@@ -633,28 +725,49 @@
       >
         <span class="cs">useEffect</span>(() =&gt; {<br />
         &nbsp;&nbsp;<span class="cm">// runs after render</span><br />
-        &nbsp;&nbsp;<span class="ck">const</span> id = <span class="cs">setInterval</span>(() =&gt; {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">setTime</span>(<span class="ck">new</span> <span class="cs">Date</span>());<br />
+        &nbsp;&nbsp;<span class="ck">const</span> id =
+        <span class="cs">setInterval</span>(() =&gt; {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="cs">setTime</span>(<span class="ck"
+          >new</span
+        >
+        <span class="cs">Date</span>());<br />
         &nbsp;&nbsp;}, <span class="cs">1000</span>);<br /><br />
-        &nbsp;&nbsp;<span class="ck">return</span> () =&gt; <span class="cs">clearInterval</span>(id);<br />
+        &nbsp;&nbsp;<span class="ck">return</span> () =&gt;
+        <span class="cs">clearInterval</span>(id);<br />
         &nbsp;&nbsp;<span class="cm">// ↑ cleanup runs on unmount</span><br />
         }, []);<br />
         <span class="cm">// ↑ [] = run once, on mount</span>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 3%; align-self: center">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 3%;
+          align-self: center;
+        "
+      >
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">Dependency array</div>
           <div class="hlt-body">
             <strong>No array:</strong> runs after every render.<br />
-            <strong><span style="font-family: var(--font-code)">[]</span>:</strong> runs once on mount.<br />
-            <strong><span style="font-family: var(--font-code)">[a, b]</span>:</strong> runs when <span style="font-family: var(--font-code)">a</span> or <span style="font-family: var(--font-code)">b</span> changes.
+            <strong
+              ><span style="font-family: var(--font-code)">[]</span>:</strong
+            >
+            runs once on mount.<br />
+            <strong
+              ><span style="font-family: var(--font-code)">[a, b]</span
+              >:</strong
+            >
+            runs when <span style="font-family: var(--font-code)">a</span> or
+            <span style="font-family: var(--font-code)">b</span> changes.
           </div>
         </div>
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">Cleanup function</div>
           <div class="hlt-body">
-            Return a function to undo the effect — clear timers, remove event listeners, abort fetches.
-            React calls it before the next run and when the component unmounts.
+            Return a function to undo the effect — clear timers, remove event
+            listeners, abort fetches. React calls it before the next run and
+            when the component unmounts.
           </div>
         </div>
       </div>
@@ -672,20 +785,48 @@
         class="code"
         style="font-size: clamp(11px, 1.2vw, 15px); line-height: 1.7"
       >
-        <span class="ck">const</span> [data, setData] = <span class="cs">useState</span>(<span class="ck">null</span>);<br />
-        <span class="ck">const</span> [loading, setLoading] = <span class="cs">useState</span>(<span class="ck">true</span>);<br />
-        <span class="ck">const</span> [error, setError] = <span class="cs">useState</span>(<span class="ck">null</span>);<br /><br />
+        <span class="ck">const</span> [data, setData] =
+        <span class="cs">useState</span>(<span class="ck">null</span>);<br />
+        <span class="ck">const</span> [loading, setLoading] =
+        <span class="cs">useState</span>(<span class="ck">true</span>);<br />
+        <span class="ck">const</span> [error, setError] =
+        <span class="cs">useState</span>(<span class="ck">null</span
+        >);<br /><br />
         <span class="cs">useEffect</span>(() =&gt; {<br />
-        &nbsp;&nbsp;<span class="cs">fetch</span>(<span class="cp">'https://api.example.com/data'</span>)<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((r) =&gt; r.<span class="cs">json</span>())<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((d) =&gt; { <span class="cs">setData</span>(d); <span class="cs">setLoading</span>(<span class="ck">false</span>); })<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">catch</span>((e) =&gt; { <span class="cs">setError</span>(e); <span class="cs">setLoading</span>(<span class="ck">false</span>); });<br />
+        &nbsp;&nbsp;<span class="cs">fetch</span>(<span class="cp"
+          >'https://api.example.com/data'</span
+        >)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((r) =&gt; r.<span
+          class="cs"
+          >json</span
+        >())<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">then</span>((d) =&gt; {
+        <span class="cs">setData</span>(d);
+        <span class="cs">setLoading</span>(<span class="ck">false</span>); })<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cs">catch</span>((e) =&gt; {
+        <span class="cs">setError</span>(e);
+        <span class="cs">setLoading</span>(<span class="ck">false</span>);
+        });<br />
         }, []);<br /><br />
-        <span class="ck">if</span> (loading) <span class="ck">return</span> &lt;<span class="cp">p</span>&gt;Loading…&lt;/<span class="cp">p</span>&gt;;<br />
-        <span class="ck">if</span> (error)   <span class="ck">return</span> &lt;<span class="cp">p</span>&gt;Error!&lt;/<span class="cp">p</span>&gt;;<br />
-        <span class="ck">return</span> &lt;<span class="cp">pre</span>&gt;{JSON.<span class="cs">stringify</span>(data)}&lt;/<span class="cp">pre</span>&gt;;
+        <span class="ck">if</span> (loading)
+        <span class="ck">return</span> &lt;<span class="cp">p</span
+        >&gt;Loading…&lt;/<span class="cp">p</span>&gt;;<br />
+        <span class="ck">if</span> (error)
+        <span class="ck">return</span> &lt;<span class="cp">p</span
+        >&gt;Error!&lt;/<span class="cp">p</span>&gt;;<br />
+        <span class="ck">return</span> &lt;<span class="cp">pre</span
+        >&gt;{JSON.<span class="cs">stringify</span>(data)}&lt;/<span class="cp"
+          >pre</span
+        >&gt;;
       </div>
-      <div style="display: flex; flex-direction: column; gap: 3%; align-self: center">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 3%;
+          align-self: center;
+        "
+      >
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">Three states to handle</div>
           <div class="hlt-body">
@@ -697,8 +838,9 @@
         <div class="hlt" style="margin: 0">
           <div class="hlt-title">Why inside useEffect?</div>
           <div class="hlt-body">
-            Fetching is a side effect — it's outside React's render.
-            Putting it in <span style="font-family: var(--font-code)">useEffect</span> with <span style="font-family: var(--font-code)">[]</span>
+            Fetching is a side effect — it's outside React's render. Putting it
+            in <span style="font-family: var(--font-code)">useEffect</span> with
+            <span style="font-family: var(--font-code)">[]</span>
             means it runs once after the component mounts.
           </div>
         </div>
@@ -724,8 +866,8 @@
         <div class="card-body text-sm">
           <span style="font-family: var(--font-code)">useState</span> for a
           <span style="font-family: var(--font-code)">count</span>. An
-          <span style="font-family: var(--font-code)">onClick</span> handler that
-          increments it. Render a button and the current value.
+          <span style="font-family: var(--font-code)">onClick</span> handler
+          that increments it. Render a button and the current value.
         </div>
       </div>
       <div class="card">
@@ -733,16 +875,17 @@
         <div class="card-body text-sm">
           Controlled inputs for name, email, message.
           <span style="font-family: var(--font-code)">handleSubmit</span> on the
-          <span style="font-family: var(--font-code)">&lt;form&gt;</span> —
-          call <span style="font-family: var(--font-code)">preventDefault</span> and
+          <span style="font-family: var(--font-code)">&lt;form&gt;</span> — call
+          <span style="font-family: var(--font-code)">preventDefault</span> and
           log the values.
         </div>
       </div>
       <div class="card">
         <div class="card-title">3. TodoList</div>
         <div class="card-body text-sm">
-          State holds an array of todos. Add via an input; remove with a button on each item.
-          Render with <span style="font-family: var(--font-code)">.map()</span> and a stable
+          State holds an array of todos. Add via an input; remove with a button
+          on each item. Render with
+          <span style="font-family: var(--font-code)">.map()</span> and a stable
           <span style="font-family: var(--font-code)">key</span>.
         </div>
       </div>
@@ -765,8 +908,9 @@
       <div class="card">
         <div class="card-title">4. Clock</div>
         <div class="card-body text-sm">
-          <span style="font-family: var(--font-code)">useEffect</span> sets an interval that
-          updates the time every second. The cleanup function clears the interval on unmount.
+          <span style="font-family: var(--font-code)">useEffect</span> sets an
+          interval that updates the time every second. The cleanup function
+          clears the interval on unmount.
         </div>
       </div>
       <div class="card">
@@ -783,8 +927,8 @@
         <div class="card-title">6. WindowResizer</div>
         <div class="card-body text-sm">
           <span style="font-family: var(--font-code)">useEffect</span> adds a
-          <span style="font-family: var(--font-code)">resize</span> listener that updates
-          window-size state. Cleanup removes it on unmount.
+          <span style="font-family: var(--font-code)">resize</span> listener
+          that updates window-size state. Cleanup removes it on unmount.
         </div>
       </div>
     </div>
@@ -796,33 +940,49 @@
     <div style="display: flex; flex-direction: column; gap: 4%">
       <div class="sub">
         ● Attach handlers as props —
-        <span style="font-family: var(--font-code); color: var(--color-amber)">onClick</span>,
-        <span style="font-family: var(--font-code); color: var(--color-amber)">onChange</span>,
-        <span style="font-family: var(--font-code); color: var(--color-amber)">onSubmit</span> —
-        no <span style="font-family: var(--font-code)">addEventListener</span> needed. Always call
-        <span style="font-family: var(--font-code)">e.preventDefault()</span> on form submit.
+        <span style="font-family: var(--font-code); color: var(--color-amber)"
+          >onClick</span
+        >,
+        <span style="font-family: var(--font-code); color: var(--color-amber)"
+          >onChange</span
+        >,
+        <span style="font-family: var(--font-code); color: var(--color-amber)"
+          >onSubmit</span
+        >
+        — no
+        <span style="font-family: var(--font-code)">addEventListener</span>
+        needed. Always call
+        <span style="font-family: var(--font-code)">e.preventDefault()</span> on
+        form submit.
       </div>
       <div class="sub">
-        ● Controlled inputs keep form data in state, giving you full control for validation and submission.
+        ● Controlled inputs keep form data in state, giving you full control for
+        validation and submission.
       </div>
       <div class="sub">
         ● Call hooks at the
-        <strong style="color: var(--color-white)">top level</strong>, never inside conditions or loops.
-        React tracks them by order.
+        <strong style="color: var(--color-white)">top level</strong>, never
+        inside conditions or loops. React tracks them by order.
       </div>
       <div class="sub">
         ●
-        <span style="font-family: var(--font-code); color: var(--color-amber)">useEffect</span>
-        synchronises with external systems. Use the dependency array to control when it runs.
-        Always return a cleanup function when you set up timers or listeners.
+        <span style="font-family: var(--font-code); color: var(--color-amber)"
+          >useEffect</span
+        >
+        synchronises with external systems. Use the dependency array to control
+        when it runs. Always return a cleanup function when you set up timers or
+        listeners.
       </div>
       <div class="sub">
         ● Fetch data inside
-        <span style="font-family: var(--font-code); color: var(--color-amber)">useEffect</span>
+        <span style="font-family: var(--font-code); color: var(--color-amber)"
+          >useEffect</span
+        >
         with <span style="font-family: var(--font-code)">[]</span>. Track
         <span style="font-family: var(--font-code)">loading</span>,
         <span style="font-family: var(--font-code)">error</span>, and
-        <span style="font-family: var(--font-code)">data</span> as separate state variables.
+        <span style="font-family: var(--font-code)">data</span> as separate
+        state variables.
       </div>
     </div>
   </div>
