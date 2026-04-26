@@ -27,3 +27,7 @@ demo/
     └── database.db     # SQLite database
 ```
 
+## API Endpoints
+
+- `GET /users` - Returns all users from the database
+- `POST /users` - Creates a new user (body: `{ "name": "..." }`)

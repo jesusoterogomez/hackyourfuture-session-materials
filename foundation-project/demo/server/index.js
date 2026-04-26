@@ -23,6 +23,20 @@ app.get("/users", async function (request, response) {
   response.json(rows); // Respond with the data in JSON format
 });
 
+// POST endpoint for creating a new user
+app.post("/users", async (request, response) => {
+  const user = request.body;
+
+  // Insert the new user into the database
+  // await db.raw("INSERT INTO users (name) VALUES (?)", [name]);
+
+  // Knex provides a query builder that lets you write database queries using JavaScript
+  // instead of raw SQL. This is safer (prevents SQL injection) and more readable.
+  await db("users").insert({ name: user.name });
+
+  response.json({ success: true });
+});
+
 // Start the server on port 3000 on your local machine
 const server = app.listen(3000, function () {
   console.log("App running on http://localhost:3000. Type Ctrl+C to stop.");
