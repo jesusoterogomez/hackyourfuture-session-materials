@@ -1,6 +1,3 @@
-// 6. Develop a Form Component
-// Create a new component called Form
-
 import { useState } from "react";
 import "./AdoptionForm.css";
 
@@ -14,10 +11,16 @@ export function AdoptionForm() {
   const defaultState = {
     name: "",
     petName: "",
-    checked: true,
   };
 
+  // To control the form inputs.
   const [formState, setFormState] = useState(defaultState);
+
+  // For API related states
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState("");
+
+  // To show a message when form is submitted
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const updateField = (fieldName, fieldValue) => {
@@ -32,29 +35,46 @@ export function AdoptionForm() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    // Set the loading state to true
+    // We will use this to prevent the user from submitting the form multiple times
+    setIsLoading(true);
+
     // Prevent the default form submission behavior
     // This is to prevent the page from reloading when the form is submitted
     event.preventDefault();
 
-    // Log the form state to the console
-    console.log(formState);
+    // Send the form values to the API
+    const response = await fetch("http://localhost:8787/requests", {
+      method: "POST", // POST request to the /requests endpoint to create a new request
+      headers: { "Content-Type": "application/json" }, // Set the content type to JSON
+      body: JSON.stringify(formState), // We send the form state as a JSON object
+    });
 
-    // Reset the form state to the default state
-    setFormState(defaultState);
+    // Parse the response body as JSON (also returns a Promise)
+    const data = await response.json();
 
-    // Show a success message
-    setShowSuccessMessage(true);
+    //  We handle the response from the API
+    if (response.ok) {
+      // Reset the form state to the default state
+      setFormState(defaultState);
 
-    // Hide the success message after 2 seconds
-    setTimeout(() => {
-      setShowSuccessMessage(false);
-    }, 2000);
-  };
+      // Show a success message
+      setShowSuccessMessage(true);
 
-  const handleCheckbox = (event) => {
-    // value
-    updateField("checked", event.target.checked);
+      // Hide the success message after 2 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 2000);
+    } else {
+      // If the response is not successful, we display an error message
+      // 👀 Here we don't clear the form state to keep the user's input so they can retry
+
+      setApiError(data.error);
+
+      // We change the loading state to false to allow the user to submit the form again
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -66,19 +86,6 @@ export function AdoptionForm() {
           value={formState.petName}
           onChange={(event) => updateField("petName", event.target.value)}
         />
-
-        <label>
-          Are you sure?
-          <input
-            placeholder="Are you sure?"
-            type="checkbox"
-            checked={formState.checked}
-            onChange={handleCheckbox}
-            // onChange=()
-            // value={formState.petName}
-            // onChange={(event) => updateField("petName", event.target.value)}
-          />
-        </label>
       </div>
       <div className="adoption-form-field">
         <label>What's your name?</label>
@@ -100,8 +107,24 @@ export function AdoptionForm() {
           gap: "1rem",
         }}
       >
-        <button type="submit">Submit!</button>
-        {showSuccessMessage && <p>Thank you for your interest!</p>}
+        {/*
+         * We prevent the user from submitting while the API request is being processed
+         *
+         * This may happen very fast because the API is too fast
+         * but it's a good practice to show a loading state for slower requests
+         * and to prevent the double-submissions :)
+         */}
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Submitting..." : "Submit"}
+        </button>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+        {/* If the form was submitted successfully */}
+        {showSuccessMessage && <p>✅ Thank you for your interest!</p>}
+
+        {/* If the form was submitted with an error, we show an error message */}
+        {apiError && <p>⚠️ {apiError}</p>}
       </div>
     </form>
   );

@@ -1,6 +1,7 @@
 import { showDocs } from "./docs.js";
 import { createPet, getPet, listPets } from "./pets.js";
 import { createRequest, deleteRequest, listRequests } from "./requests.js";
+import { CORS_HEADERS } from "./http.js";
 
 const routes = [
   route("GET", "/pets", listPets),

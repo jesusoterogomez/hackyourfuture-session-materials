@@ -60,8 +60,6 @@ export async function createPet({ request, env }) {
   return json(normalizePet(newPet), 201);
 }
 
-const REQUEST_FIELD_MAX_LEN = 200;
-
 export function normalizePet(row) {
   return {
     ...row,

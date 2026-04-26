@@ -54,3 +54,7 @@
 .adoption-form button[type="submit"]:hover {
   filter: brightness(0.97);
 }
+
+.adoption-form button[type="submit"]:disabled {
+  opacity: 0.5;
+}

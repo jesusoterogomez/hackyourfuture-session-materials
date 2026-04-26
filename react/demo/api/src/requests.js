@@ -2,6 +2,7 @@ import { CORS_HEADERS, json } from "./http.js";
 
 export async function deleteRequest({ env, params }) {
   const id = Number(params.id);
+
   const existing = await env.paws_db
     .prepare("SELECT id FROM adoption_requests WHERE id = ?")
     .bind(id)
@@ -89,15 +90,6 @@ export function parseAdoptionRequestBody(body) {
 
   if (!name || !petName) {
     return { error: "name and petName are required" };
-  }
-
-  if (
-    name.length > REQUEST_FIELD_MAX_LEN ||
-    petName.length > REQUEST_FIELD_MAX_LEN
-  ) {
-    return {
-      error: `name and petName must be at most ${REQUEST_FIELD_MAX_LEN} characters`,
-    };
   }
 
   return { name, petName };
