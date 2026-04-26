@@ -45,7 +45,7 @@ export function AdoptionForm() {
     event.preventDefault();
 
     // Send the form values to the API
-    const response = await fetch("http://localhost:8787/requests", {
+    const response = await fetch("https://paws-api.jdog.dev/requests", {
       method: "POST", // POST request to the /requests endpoint to create a new request
       headers: { "Content-Type": "application/json" }, // Set the content type to JSON
       body: JSON.stringify(formState), // We send the form state as a JSON object
