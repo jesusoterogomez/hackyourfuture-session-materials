@@ -14,6 +14,7 @@ export function AdoptionForm() {
   const defaultState = {
     name: "",
     petName: "",
+    checked: true,
   };
 
   const [formState, setFormState] = useState(defaultState);
@@ -51,6 +52,11 @@ export function AdoptionForm() {
     }, 2000);
   };
 
+  const handleCheckbox = (event) => {
+    // value
+    updateField("checked", event.target.checked);
+  };
+
   return (
     <form className="adoption-form" onSubmit={handleSubmit}>
       <div className="adoption-form-field">
@@ -60,14 +66,31 @@ export function AdoptionForm() {
           value={formState.petName}
           onChange={(event) => updateField("petName", event.target.value)}
         />
+
+        <label>
+          Are you sure?
+          <input
+            placeholder="Are you sure?"
+            type="checkbox"
+            checked={formState.checked}
+            onChange={handleCheckbox}
+            // onChange=()
+            // value={formState.petName}
+            // onChange={(event) => updateField("petName", event.target.value)}
+          />
+        </label>
       </div>
       <div className="adoption-form-field">
         <label>What's your name?</label>
+
         <input
           placeholder="Type your name"
           value={formState.name}
           onChange={(event) => updateField("name", event.target.value)}
         />
+        {formState.name.length < 3 && (
+          <p className="field-error">Name must be at least 3 characters long</p>
+        )}
       </div>
       <div
         style={{

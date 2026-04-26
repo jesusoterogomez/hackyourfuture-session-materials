@@ -1,59 +1,19 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Pet from "./components/Pet";
 import { Section } from "./components/Sections";
 import { AdoptionForm } from "./components/AdoptionForm";
 
 function App() {
-  const pets = [
-    {
-      id: 1,
-      image: "./cat.png",
-      name: "Stepan",
-      breed: "Domestic Cat",
-      description: "Loves sunny spots, sleeping, and ignoring you.",
-      age: 2,
-      fee: 180,
-      available: true,
-      goodWithKids: true,
-    },
-    {
-      id: 2,
-      image: "./dog.png",
-      name: "Bailey",
-      breed: "Golden Retriever",
-      description: "Enthusiastic, loyal, and obsessed with tennis balls.",
-      age: 3,
-      fee: 250,
-      available: true,
-      goodWithKids: true,
-    },
-    {
-      id: 3,
-      image: "./rabbit.png",
-      name: "Oolong",
-      breed: "Holland Lop",
-      description: "Fluffy, fast, and surprisingly opinionated.",
-      age: 1,
-      fee: 100,
-    },
-    {
-      id: 4,
-      image: "./frog.png",
-      name: "Ribbit",
-      breed: "Tree Frog",
-      description: "Chill, green, and jumps when least expected.",
-      age: 1,
-      fee: 180,
-    },
-  ];
+  const [data, setData] = useState([]);
 
-  // Format:
-  // {
-  //   1: false,
-  //   2: true,
-  //   3: false,
-  // }
+  useEffect(() => {
+    const endpoint = "https://paws-api.jdog.dev/pets";
+
+    fetch(endpoint)
+      .then((response) => response.json())
+      .then((jsonData) => setData(jsonData));
+  }, []);
 
   const [petsMarkedAsInterested, setPetsMarkedAsInterested] = useState({});
 
@@ -88,7 +48,8 @@ function App() {
 
       <Section title="Available for adoption">
         <div className="card-grid">
-          {pets.map((petDetails) => (
+          {data.length === 0 && <p> No pets</p>}
+          {data.map((petDetails) => (
             <Pet
               key={petDetails.id}
               details={petDetails}
