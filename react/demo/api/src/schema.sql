@@ -15,3 +15,10 @@ INSERT OR IGNORE INTO pets (id, name, breed, description, age, fee, available, g
   (2, 'Bailey', 'Golden Retriever', 'Enthusiastic, loyal, and obsessed with tennis balls.', 3, 250, 1, 1, 'dog.png'),
   (3, 'Oolong', 'Holland Lop', 'Fluffy, fast, and surprisingly opinionated.', 1, 100, 1, 0, 'rabbit.png'),
   (4, 'Ribbit', 'Tree Frog', 'Chill, green, and jumps when least expected.', 1, 180, 0, 1, 'frog.png');
+
+CREATE TABLE IF NOT EXISTS adoption_requests (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  adopter_name TEXT NOT NULL,
+  pet_name TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);

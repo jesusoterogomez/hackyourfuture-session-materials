@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "sync": "wrangler d1 execute paws-db --remote --file=src/schema.sql"
   },
   "devDependencies": {
     "wrangler": "^4.83.0"

@@ -1,6 +1,9 @@
 # Ignore packages installed by npm/node in any dir
 **/node_modules/
 
+# Cloudflare Wrangler local state (D1, cache, dev bundles — recreated on `wrangler dev`)
+**/.wrangler/
+
 # Ignore hidden macOS files
 .DS_Store
 
