@@ -1119,13 +1119,62 @@
   ══════════════════════════════════ -->
       <div class="slide">
         <div class="band">Part 05 &middot; Interview formats</div>
-        <h2 style="margin-bottom:4%">Formats you&rsquo;ll encounter</h2>
-        <div style="display:flex;flex-direction:column;gap:0">
-          <div class="row"><strong>Whiteboard</strong> &mdash; live coding on screen or a physical board, often timed</div>
-          <div class="row"><strong>Take-home</strong> &mdash; async project you complete alone, judged on quality and judgment</div>
-          <div class="row"><strong>Pair programming</strong> &mdash; you and the interviewer solve something together in real time</div>
-          <div class="row"><strong>Technical phone screen</strong> &mdash; quick questions over a call, usually a first filter</div>
-          <div class="row"><strong>System design</strong> &mdash; talk through how you&rsquo;d architect something (rare at junior level)</div>
+        <h2 style="margin-bottom: 3%">Formats you&rsquo;ll encounter</h2>
+        <div class="cols3" style="grid-template-rows: 1fr 1fr">
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              🖊️
+            </div>
+            <div class="card-title">Whiteboard</div>
+            <div class="card-body">
+              Live coding on screen or a board, often timed
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              🏠
+            </div>
+            <div class="card-title">Take-home</div>
+            <div class="card-body">
+              Async project, judged on quality and judgment
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              👥
+            </div>
+            <div class="card-title">Pair programming</div>
+            <div class="card-body">
+              You and the interviewer solve something together
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              📞
+            </div>
+            <div class="card-title">Phone screen</div>
+            <div class="card-body">
+              Quick questions over a call, usually a first filter
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              🏗️
+            </div>
+            <div class="card-title">System design</div>
+            <div class="card-body">
+              Talk through how you&rsquo;d architect something
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              📁
+            </div>
+            <div class="card-title">Portfolio walkthrough</div>
+            <div class="card-body">
+              Walk the interviewer through your own projects
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1175,7 +1224,35 @@
       </div>
 
       <!-- ══════════════════════════════════
-       17 · EXPERIENCES IN THE ROOM
+       17 · NOT JUST THE CODE
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 06 &middot; The human side</div>
+        <h2 style="margin-bottom: 5%">It&rsquo;s not just about the code</h2>
+        <div class="cols">
+          <div class="sub" style="color: var(--ink)">
+            Every team is also asking a simpler question:
+            <strong>could I see myself working with this person?</strong> Skills
+            matter &mdash; so does how you think, communicate, and engage.
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0">
+            <div class="row">Being genuinely curious about the problem</div>
+            <div class="row">
+              Showing genuine interest in the team and what they&rsquo;re
+              building
+            </div>
+            <div class="row">
+              Being honest when you don&rsquo;t know something
+            </div>
+            <div class="row">
+              Showing motivation to learn and staying up to date with the field
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       18 · EXPERIENCES IN THE ROOM
   ══════════════════════════════════ -->
       <div class="slide">
         <div class="band">Part 06 &middot; The human side</div>
@@ -1288,9 +1365,9 @@
     </div>
 
     <script>
-      const TOTAL = 23;
+      const TOTAL = 24;
       const KEY = "ti-slide";
-      const JUMP = { 1: 2, 2: 5, 3: 10, 4: 13, 5: 16, 6: 18, 7: 21 };
+      const JUMP = { 1: 2, 2: 5, 3: 10, 4: 13, 5: 16, 6: 18, 7: 22 };
 
       const deck = document.getElementById("deck");
       const bar = document.getElementById("progress");
