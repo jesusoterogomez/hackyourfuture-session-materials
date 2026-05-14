@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+     TOKENS
+     ============================================================ */
+      :root {
+        --bg: #f7f4ef;
+        --surface: #ffffff;
+        --ink: #1a1a1a;
+        --muted: #555e6c;
+        --border: #1a1a1a;
+
+        --blue: #2563eb;
+        --blue-2: #eff6ff;
+        --yellow: #fdd764;
+        --red: #dc2626;
+        --green: #16a34a;
+        --green-2: #f0fdf4;
+
+        --prof: #ea580c;
+        --prof-2: #fff7ed;
+        --mate: #2563eb;
+        --mate-2: #eff6ff;
+        --buil: #16a34a;
+        --buil-2: #f0fdf4;
+
+        --sh: 4px 4px 0 var(--ink);
+        --sh-sm: 2px 2px 0 var(--ink);
+        --sh-lg: 6px 6px 0 var(--ink);
+
+        --f-head: "Archivo Black", "Helvetica Neue", Arial, sans-serif;
+        --f-body: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+        --f-mono: "Courier New", monospace;
+
+        /* TV-safe sizes: nothing smaller than 16px rendered */
+        --sz-tag: clamp(14px, 1.5vw, 18px);
+        --sz-h1: clamp(40px, 6vw, 80px);
+        --sz-h2: clamp(26px, 4vw, 54px);
+        --sz-h3: clamp(28px, 5vw, 68px);
+        --sz-body: clamp(17px, 1.9vw, 25px);
+        --sz-sub: clamp(18px, 2.2vw, 28px);
+        --sz-code: clamp(15px, 1.6vw, 21px);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        min-height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #dedad2;
+        font-family: var(--f-body);
+      }
+
+      /* ============================================================
+     DECK
+     ============================================================ */
+      #deck {
+        position: relative;
+        width: min(100vw, calc(100dvh * 16 / 9));
+        height: 100dvh;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: var(--bg);
+        cursor: pointer;
+        user-select: none;
+      }
+
+      /* top accent bar */
+      #deck::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: var(--ink);
+        z-index: 20;
+      }
+
+      /* ============================================================
+     SLIDES
+     ============================================================ */
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 6.5% 8%;
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 0.38s ease, transform 0.38s ease;
+        pointer-events: none;
+      }
+      .slide.active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .slide.exit {
+        opacity: 0;
+        transform: translateY(-14px);
+      }
+
+      /* ============================================================
+     TYPE
+     ============================================================ */
+      .tag {
+        font-family: var(--f-body);
+        font-size: var(--sz-tag);
+        font-weight: 700;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.9em;
+      }
+
+      /* filled pill band — used as section marker */
+      .band {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        background: var(--ink);
+        color: #fff;
+        font-family: var(--f-body);
+        font-size: var(--sz-tag);
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.35em 1em;
+        border-radius: 3px;
+        margin-bottom: 1.1em;
+        align-self: flex-start;
+      }
+
+      h1 {
+        font-family: var(--f-head);
+        font-size: var(--sz-h1);
+        color: var(--ink);
+        line-height: 1;
+        margin-bottom: 0.45em;
+        letter-spacing: -0.01em;
+      }
+
+      h2 {
+        font-family: var(--f-head);
+        font-size: var(--sz-h2);
+        color: var(--ink);
+        line-height: 1.05;
+        margin-bottom: 0.45em;
+        letter-spacing: -0.01em;
+      }
+
+      .display {
+        font-size: var(--sz-h3);
+      }
+
+      .sub {
+        font-family: var(--f-body);
+        font-size: var(--sz-sub);
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .sub strong {
+        color: var(--ink);
+      }
+
+      /* ============================================================
+     LAYOUT  —  fixed gap so right column never overflows
+     ============================================================ */
+      .cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2vw;
+      }
+      .cols3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 2vw;
+      }
+
+      /* ============================================================
+     CARDS
+     ============================================================ */
+      .card {
+        background: var(--surface);
+        border: 2px solid var(--ink);
+        border-radius: 4px;
+        box-shadow: var(--sh);
+        padding: clamp(14px, 2vw, 28px) 5.5%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6em;
+      }
+
+      .card-title {
+        font-family: var(--f-body);
+        font-size: clamp(15px, 1.8vw, 23px);
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .card-body {
+        font-family: var(--f-body);
+        font-size: var(--sz-body);
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* ============================================================
+     PERSONA CARDS  —  3-column layout, no overflow
+     ============================================================ */
+      .p-card {
+        border: 2px solid var(--ink);
+        border-radius: 4px;
+        box-shadow: var(--sh);
+        padding: 5% 5.5%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+      }
+      .p-card.prof {
+        background: var(--prof-2);
+      }
+      .p-card.mate {
+        background: var(--mate-2);
+      }
+      .p-card.buil {
+        background: var(--buil-2);
+      }
+      .p-card.tip {
+        background: var(--surface);
+      }
+
+      .p-name {
+        font-family: var(--f-head);
+        font-size: clamp(18px, 2.2vw, 30px);
+        line-height: 1;
+        margin-bottom: 0.2em;
+      }
+      .p-label {
+        font-family: var(--f-body);
+        font-size: clamp(11px, 1.3vw, 16px);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.15em;
+      }
+      .p-text {
+        font-family: var(--f-body);
+        font-size: var(--sz-body);
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      /* ============================================================
+     STEPS (agenda / signal rows)
+     ============================================================ */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2em;
+      }
+
+      .step {
+        display: flex;
+        align-items: center;
+        gap: 3.5%;
+        padding: 1.4% 0;
+        border-bottom: 1px solid #d1d5db;
+      }
+      .step:last-child {
+        border: none;
+      }
+
+      .step-n {
+        min-width: clamp(30px, 3.5vw, 46px);
+        height: clamp(30px, 3.5vw, 46px);
+        background: var(--ink);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--f-head);
+        font-size: clamp(15px, 1.8vw, 22px);
+        color: #fff;
+        flex-shrink: 0;
+      }
+
+      .step-t {
+        font-family: var(--f-body);
+        font-size: clamp(16px, 1.9vw, 24px);
+        color: var(--ink);
+        font-weight: 500;
+        line-height: 1.4;
+      }
+
+      /* ============================================================
+     BULLET ROWS
+     ============================================================ */
+      .rows {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .row {
+        display: flex;
+        align-items: flex-start;
+        gap: 3%;
+        padding: clamp(10px, 1.3vw, 20px) 0;
+        border-bottom: 1px solid #d1d5db;
+        font-family: var(--f-body);
+        font-size: var(--sz-sub);
+        color: var(--ink);
+        line-height: 1.45;
+      }
+      .row:last-child {
+        border: none;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid var(--ink);
+        flex-shrink: 0;
+        margin-top: 0.5em;
+      }
+      .dot.r {
+        background: var(--red);
+      }
+      .dot.b {
+        background: var(--blue);
+      }
+      .dot.g {
+        background: var(--green);
+      }
+
+      /* ============================================================
+     QUOTE / CALLOUT
+     ============================================================ */
+      .quote {
+        background: var(--yellow);
+        border: 2px solid var(--ink);
+        border-radius: 4px;
+        box-shadow: var(--sh-lg);
+        padding: 5% 6%;
+        font-family: var(--f-body);
+        font-size: clamp(17px, 2.2vw, 29px);
+        color: var(--ink);
+        line-height: 1.55;
+        font-weight: 600;
+      }
+
+      /* ============================================================
+     PILLS
+     ============================================================ */
+      .pill {
+        display: inline-block;
+        background: var(--surface);
+        border: 2px solid var(--ink);
+        border-radius: 3px;
+        box-shadow: var(--sh-sm);
+        padding: 0.35em 0.9em;
+        font-family: var(--f-body);
+        font-size: clamp(14px, 1.6vw, 20px);
+        font-weight: 700;
+        color: var(--ink);
+        margin: 0.2em 0.2em;
+      }
+      .pill.p {
+        background: var(--prof-2);
+        border-color: var(--prof);
+        color: var(--prof);
+        box-shadow: 2px 2px 0 var(--prof);
+      }
+      .pill.m {
+        background: var(--mate-2);
+        border-color: var(--mate);
+        color: var(--mate);
+        box-shadow: 2px 2px 0 var(--mate);
+      }
+      .pill.b {
+        background: var(--buil-2);
+        border-color: var(--buil);
+        color: var(--buil);
+        box-shadow: 2px 2px 0 var(--buil);
+      }
+
+      /* ============================================================
+     CODE BLOCK — light bg, readable on TV
+     ============================================================ */
+      .code {
+        background: #efefeb;
+        border: 2px solid var(--ink);
+        border-radius: 4px;
+        box-shadow: var(--sh);
+        padding: 5%;
+        font-family: var(--f-mono);
+        font-size: var(--sz-code);
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 2;
+      }
+      .cm {
+        color: #4b5563;
+        display: block;
+        white-space: nowrap;
+      }
+      .ck {
+        color: #1d4ed8;
+        font-style: italic;
+      }
+      .cs {
+        color: #0369a1;
+      }
+      .cp {
+        color: #92400e;
+      }
+
+      /* ============================================================
+     PROGRESS + NAV
+     ============================================================ */
+      #progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 5px;
+        background: var(--ink);
+        transition: width 0.38s ease;
+        z-index: 10;
+      }
+
+      #nav-dots {
+        position: absolute;
+        bottom: 3%;
+        right: 3%;
+        display: flex;
+        gap: 1.5%;
+        align-items: center;
+        z-index: 10;
+      }
+
+      .nav-dot {
+        width: clamp(6px, 0.7vw, 9px);
+        height: clamp(6px, 0.7vw, 9px);
+        border-radius: 50%;
+        background: #bbbdb5;
+        border: 1.5px solid var(--ink);
+        transition: background 0.25s, transform 0.25s;
+      }
+      .nav-dot.on {
+        background: var(--ink);
+        transform: scale(1.35);
+      }
+
+      #hint {
+        position: absolute;
+        bottom: 2.8%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: var(--f-body);
+        font-size: clamp(11px, 1.1vw, 14px);
+        color: #aaaaaa;
+        letter-spacing: 0.05em;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="deck">
+      <div id="progress"></div>
+
+      <!-- ══════════════════════════════════
+       0 · TITLE
+  ══════════════════════════════════ -->
+      <div class="slide active">
+        <div class="tag">HackYourFuture Denmark</div>
+        <h1>
+          Technical<br /><span style="color: var(--blue)">Interviews</span>
+        </h1>
+        <div class="sub" style="margin-bottom: 7%">
+          What to expect and how to show up
+        </div>
+        <div>
+          <span class="pill p">Common formats</span>
+          <span class="pill m">What matters</span>
+          <span class="pill b">Handling pressure</span>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       1 · AGENDA
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="tag">Today</div>
+        <h2 style="margin-bottom: 6%">What we&rsquo;re covering</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-n">1</div>
+            <div class="step-t">Why interviews vary</div>
+          </div>
+          <div class="step">
+            <div class="step-n">2</div>
+            <div class="step-t">Meet some interviewers</div>
+          </div>
+          <div class="step">
+            <div class="step-n">3</div>
+            <div class="step-t">What they all care about</div>
+          </div>
+          <div class="step">
+            <div class="step-n">4</div>
+            <div class="step-t">Live demo: three problems, three styles</div>
+          </div>
+          <div class="step">
+            <div class="step-n">5</div>
+            <div class="step-t">The human side</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       2 · OPENING QUESTION
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 01 &middot; Why interviews vary</div>
+        <h1 class="display" style="margin-bottom: 8%">Quick question</h1>
+        <div class="quote" style="font-size: clamp(20px, 3vw, 40px)">
+          What do you think an interviewer is looking for?
+        </div>
+        <div class="sub" style="margin-top: 5%; color: #aaaaaa">
+          Take a moment. Then let&rsquo;s hear some answers.
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       3 · THE REFRAME
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 01 &middot; Why interviews vary</div>
+        <h2 style="margin-bottom: 5%">
+          An interview is not a standardized test
+        </h2>
+        <div class="cols">
+          <div class="card">
+            <div
+              class="card-title"
+              style="color: var(--muted); font-weight: 500"
+            >
+              What people assume
+            </div>
+            <div class="card-body">
+              An objective test. A right way to answer. A score that says yes or
+              no.
+            </div>
+          </div>
+          <div
+            class="card"
+            style="border-color: var(--blue); box-shadow: 4px 4px 0 var(--blue)"
+          >
+            <div class="card-title" style="color: var(--blue)">
+              What it actually is
+            </div>
+            <div class="card-body" style="color: var(--ink)">
+              One engineer&rsquo;s best attempt to answer:
+              <strong>&ldquo;Can this person do the job?&rdquo;</strong>
+              Filtered through their background, their company&rsquo;s culture,
+              and sometimes guidelines handed to them.
+            </div>
+          </div>
+        </div>
+        <div class="sub" style="margin-top: 5%">
+          That&rsquo;s why every interview feels different.
+          <strong>Because they are.</strong>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       4 · PERSONA PREVIEW
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 01 &middot; Why interviews vary</div>
+        <h2 style="margin-bottom: 6%">
+          Some types of interviewer you&rsquo;ll meet
+        </h2>
+        <div class="cols3">
+          <div class="p-card prof">
+            <div class="p-name" style="color: var(--prof)">The Professor</div>
+            <div class="p-text">
+              Tests your technical foundations. Wants to see how you think under
+              structure.
+            </div>
+          </div>
+          <div class="p-card mate">
+            <div class="p-name" style="color: var(--mate)">The Teammate</div>
+            <div class="p-text">
+              Wants to know if they&rsquo;d enjoy working with you. Cares how
+              you think out loud.
+            </div>
+          </div>
+          <div class="p-card buil">
+            <div class="p-name" style="color: var(--buil)">The Builder</div>
+            <div class="p-text">
+              Doesn&rsquo;t trust live performance. Wants to see what you
+              actually produce.
+            </div>
+          </div>
+        </div>
+        <div class="sub" style="margin-top: 5%">
+          These are patterns, not labels. Use them to read the room.
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       5 · THE PROFESSOR
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band" style="background: var(--prof)">
+          Part 02 &middot; Interviewer types
+        </div>
+        <h2 style="color: var(--prof); margin-bottom: 4%">The Professor</h2>
+        <div class="cols3">
+          <div class="p-card prof">
+            <div class="p-label" style="color: var(--prof)">Who they are</div>
+            <div class="p-text">
+              Came up through a CS program or big tech. Believes algorithms show
+              how engineers think. Often uses a structured rubric.
+            </div>
+          </div>
+          <div class="p-card prof">
+            <div class="p-label" style="color: var(--prof)">
+              What it looks like
+            </div>
+            <div class="p-text">
+              Timed coding problems. Data structure questions. &ldquo;Write a
+              function that&hellip;&rdquo; without using built-in methods.
+            </div>
+          </div>
+          <div class="p-card tip" style="border-color: var(--ink)">
+            <div class="p-label" style="color: var(--prof)">For you</div>
+            <div class="p-text">
+              Hardest type without years of prep and least likely for a first
+              role. Focus on
+              <strong style="color: var(--ink)"
+                >narrating what you know, even without the answer.</strong
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       6 · THE TEAMMATE
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band" style="background: var(--mate)">
+          Part 02 &middot; Interviewer types
+        </div>
+        <h2 style="color: var(--mate); margin-bottom: 4%">The Teammate</h2>
+        <div class="cols3">
+          <div class="p-card mate">
+            <div class="p-label" style="color: var(--mate)">Who they are</div>
+            <div class="p-text">
+              Cares about how you&rsquo;ll work every day. Pairs with their team
+              constantly. Interviews the way they&rsquo;d spend a Tuesday at the
+              office.
+            </div>
+          </div>
+          <div class="p-card mate">
+            <div class="p-label" style="color: var(--mate)">
+              What it looks like
+            </div>
+            <div class="p-text">
+              Pair programming on a real problem. Walkthrough of your past
+              project. &ldquo;Let&rsquo;s look at this together.&rdquo;
+            </div>
+          </div>
+          <div class="p-card tip">
+            <div class="p-label" style="color: var(--mate)">For you</div>
+            <div class="p-text">
+              This is where juniors can outshine.
+              <strong style="color: var(--ink)"
+                >Being clear and easy to work with matters more than knowing
+                every answer.</strong
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       7 · THE BUILDER
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band" style="background: var(--buil)">
+          Part 02 &middot; Interviewer types
+        </div>
+        <h2 style="color: var(--buil); margin-bottom: 4%">The Builder</h2>
+        <div class="cols3">
+          <div class="p-card buil">
+            <div class="p-label" style="color: var(--buil)">Who they are</div>
+            <div class="p-text">
+              Doesn&rsquo;t trust live performance. Wants to see what you
+              produce when left alone with a real task, no audience.
+            </div>
+          </div>
+          <div class="p-card buil">
+            <div class="p-label" style="color: var(--buil)">
+              What it looks like
+            </div>
+            <div class="p-text">
+              A take-home project. &ldquo;Debug this codebase.&rdquo; &ldquo;Add
+              this feature.&rdquo; Asynchronous, with a deadline.
+            </div>
+          </div>
+          <div class="p-card tip">
+            <div class="p-label" style="color: var(--buil)">For you</div>
+            <div class="p-text">
+              Your HYF projects are direct prep.
+              <strong style="color: var(--ink)"
+                >Having a portfolio and being able to explain your decisions is
+                a real advantage here.</strong
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       8 · WHAT THEY SOUND LIKE
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 02 &middot; Interviewer types</div>
+        <h2 style="margin-bottom: 5%">What they sound like</h2>
+        <div class="cols3">
+          <div class="p-card prof">
+            <div class="p-name" style="color: var(--prof)">The Professor</div>
+            <div class="p-text">
+              &ldquo;You have 40 minutes. Write a function that finds all
+              duplicates in an array. Do not use built-in dedup methods.&rdquo;
+            </div>
+          </div>
+          <div class="p-card mate">
+            <div class="p-name" style="color: var(--mate)">The Teammate</div>
+            <div class="p-text">
+              &ldquo;Walk me through the last project you built. What decision
+              are you most proud of? What would you change?&rdquo;
+            </div>
+          </div>
+          <div class="p-card buil">
+            <div class="p-name" style="color: var(--buil)">The Builder</div>
+            <div class="p-text">
+              &ldquo;Here&rsquo;s a small app with three failing tests. Get them
+              passing. Send us your branch by Friday.&rdquo;
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       9 · THESE ARE PATTERNS
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 02 &middot; Interviewer types</div>
+        <h2 style="margin-bottom: 6%">These are patterns, not categories</h2>
+        <div class="cols">
+          <div class="sub" style="color: var(--ink)">
+            Real interviewers are a mix. The same company might give you a
+            take-home <strong>and</strong> a pair programming session on the
+            same day. One person might start like The Professor and shift into
+            The Teammate halfway through.
+          </div>
+          <div class="quote" style="font-size: clamp(17px, 2vw, 26px)">
+            Use the types to <strong>read the room</strong>, not to predict it.
+            The moment you notice how someone is interviewing, you can adjust.
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       9 · THREE SIGNALS
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 03 &middot; What they all care about</div>
+        <h2 style="margin-bottom: 6%">
+          Underneath it all, they want to understand:
+        </h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-n">1</div>
+            <div class="step-t">
+              <strong>How you think</strong> &mdash; do you reason out loud? Can
+              you get yourself unstuck?
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">2</div>
+            <div class="step-t">
+              <strong>What you know technically</strong> &mdash; not
+              memorization, but applying what you know
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">3</div>
+            <div class="step-t">
+              <strong>How you communicate</strong> &mdash; can you explain what
+              you&rsquo;re doing and why?
+            </div>
+          </div>
+        </div>
+        <div class="sub" style="margin-top: 6%">
+          These signals show up in every type of interview, in every company.
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       10 · MYTHS
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 03 &middot; What they all care about</div>
+        <h2 style="margin-bottom: 3%">Things you can stop worrying about</h2>
+        <div class="rows">
+          <div class="row">
+            <div class="dot r"></div>
+            <div>
+              <strong>&ldquo;I must solve it perfectly&rdquo;</strong><br />
+              <span style="color: var(--muted)"
+                >A perfect solution with no communication is worth less than a
+                messy one explained clearly.</span
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="dot r"></div>
+            <div>
+              <strong>&ldquo;Asking for a hint means I failed&rdquo;</strong
+              ><br />
+              <span style="color: var(--muted)"
+                >Using hints well is itself a positive signal. Ask good
+                questions. Build on what you&rsquo;re given.</span
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="dot r"></div>
+            <div>
+              <strong
+                >&ldquo;Coding fast = being a strong engineer&rdquo;</strong
+              ><br />
+              <span style="color: var(--muted)"
+                >Speed is not what any interviewer is measuring. Clarity
+                is.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       11 · JUNIOR REFRAME
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 03 &middot; What they all care about</div>
+        <h2 style="margin-bottom: 7%">You are not competing on depth</h2>
+        <div class="quote">
+          A junior who can explain what they built, why they made those choices,
+          and what they&rsquo;d do differently is already ahead of most
+          candidates at their level.
+        </div>
+        <div class="sub" style="margin-top: 6%; color: var(--ink)">
+          You&rsquo;re competing on
+          <strong style="color: var(--blue)">clarity</strong>. Not on years of
+          experience. Not on knowing every API.
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       12 · DEMO INTRO
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 04 &middot; Live demo</div>
+        <h2 style="margin-bottom: 5%">The same scenario. Three interviews.</h2>
+        <div class="sub" style="margin-bottom: 5%; color: var(--ink)">
+          One task: filtering a list. Three different interviewers. Three
+          completely different experiences.
+        </div>
+        <div class="cols3">
+          <div class="p-card prof">
+            <div class="p-name" style="color: var(--prof)">The Professor</div>
+            <div class="p-text">Write the algorithm yourself</div>
+          </div>
+          <div class="p-card mate">
+            <div class="p-name" style="color: var(--mate)">The Teammate</div>
+            <div class="p-text">Let&rsquo;s figure it out together</div>
+          </div>
+          <div class="p-card buil">
+            <div class="p-name" style="color: var(--buil)">The Builder</div>
+            <div class="p-text">Here&rsquo;s a broken feature. Fix it.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       13 · PROFESSOR DEMO
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band" style="background: var(--prof)">
+          Part 04 &middot; The Professor
+        </div>
+        <h2 style="color: var(--prof); margin-bottom: 4%">
+          The Professor&rsquo;s problem
+        </h2>
+        <div class="cols">
+          <div class="code">
+            <span class="cm">// items: array, term: string</span>
+            <span class="cm">// Return items matching term by name.</span>
+            <span class="cm">// Do NOT use .filter().</span>
+            <span class="cm">// Write the loop yourself.</span>
+            <br />
+            <span class="ck">function</span>
+            <span class="cs">search</span>(items, term) {<br />
+            &nbsp;&nbsp;<span class="cm" style="display: inline"
+              >// your solution here</span
+            ><br />
+            }
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 1.5vw">
+            <div
+              class="card"
+              style="
+                border-color: var(--prof);
+                box-shadow: 4px 4px 0 var(--prof);
+              "
+            >
+              <div class="card-title">What they watch for</div>
+              <div class="card-body">
+                Do you talk while you think? What do you do when you&rsquo;re
+                not sure?
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title" style="color: var(--prof)">
+                Strong junior answer
+              </div>
+              <div class="card-body">
+                &ldquo;I&rsquo;d start with an empty array and loop through.
+                I&rsquo;m going to think out loud as I go&hellip;&rdquo; Then
+                keep going, even if it&rsquo;s messy.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       14 · TEAMMATE DEMO
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band" style="background: var(--mate)">
+          Part 04 &middot; The Teammate
+        </div>
+        <h2 style="color: var(--mate); margin-bottom: 4%">
+          The Teammate&rsquo;s problem
+        </h2>
+        <div class="cols">
+          <div style="display: flex; flex-direction: column; gap: 1.5vw">
+            <div
+              class="card"
+              style="
+                border-color: var(--mate);
+                box-shadow: 4px 4px 0 var(--mate);
+                background: var(--mate-2);
+              "
+            >
+              <div class="card-title">The setup</div>
+              <div class="card-body">
+                &ldquo;I&rsquo;ve started building a search bar but it&rsquo;s
+                not filtering correctly. Let&rsquo;s look at it together. What
+                do you see?&rdquo;
+              </div>
+            </div>
+            <div
+              class="card"
+              style="
+                border-color: var(--mate);
+                box-shadow: 4px 4px 0 var(--mate);
+              "
+            >
+              <div class="card-title">What they watch for</div>
+              <div class="card-body">
+                Do you ask questions? Share your thinking? How do you respond
+                when they suggest something?
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 1.5vw">
+            <div
+              class="card"
+              style="
+                border-color: var(--mate);
+                box-shadow: 4px 4px 0 var(--mate);
+              "
+            >
+              <div class="card-title" style="color: var(--mate)">
+                Strong junior answer
+              </div>
+              <div class="card-body">
+                &ldquo;Can I ask what it&rsquo;s supposed to do? I&rsquo;m
+                looking at this line. It might be comparing the wrong thing.
+                Want me to try changing it?&rdquo;
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">The goal</div>
+              <div class="card-body">
+                Show you can work <em>with</em> another person, not just next to
+                them.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       15 · BUILDER DEMO
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band" style="background: var(--buil)">
+          Part 04 &middot; The Builder
+        </div>
+        <h2 style="color: var(--buil); margin-bottom: 4%">
+          The Builder&rsquo;s problem
+        </h2>
+        <div class="cols">
+          <div style="display: flex; flex-direction: column; gap: 1.5vw">
+            <div
+              class="card"
+              style="
+                border-color: var(--buil);
+                box-shadow: 4px 4px 0 var(--buil);
+                background: var(--buil-2);
+              "
+            >
+              <div class="card-title">The task (by email)</div>
+              <div class="card-body">
+                &ldquo;The search bar isn&rsquo;t filtering. Fix it. Add a short
+                comment explaining what was wrong. Send your branch by
+                Friday.&rdquo;
+              </div>
+            </div>
+            <div
+              class="card"
+              style="
+                border-color: var(--buil);
+                box-shadow: 4px 4px 0 var(--buil);
+              "
+            >
+              <div class="card-title">What they watch for</div>
+              <div class="card-body">
+                Is the fix readable? Did they understand <em>why</em> it was
+                broken, not just make it work?
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 1.5vw">
+            <div
+              class="card"
+              style="
+                border-color: var(--buil);
+                box-shadow: 4px 4px 0 var(--buil);
+              "
+            >
+              <div class="card-title" style="color: var(--buil)">
+                Strong junior answer
+              </div>
+              <div class="card-body">
+                Clean, minimal fix. One-line comment: &ldquo;Was comparing full
+                objects instead of names. Changed to
+                <code style="font-family: var(--f-mono)">item.name</code
+                >.&rdquo;
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">The goal</div>
+              <div class="card-body">
+                Treat it like real work. Don&rsquo;t over-engineer. Leave it
+                better than you found it.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       16 · FORMATS
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 05 &middot; Interview formats</div>
+        <h2 style="margin-bottom: 3%">Formats you&rsquo;ll encounter</h2>
+        <div class="cols3" style="grid-template-rows: 1fr 1fr">
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              🖊️
+            </div>
+            <div class="card-title">Whiteboard</div>
+            <div class="card-body">
+              Live coding on screen or a board, often timed
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              🏠
+            </div>
+            <div class="card-title">Take-home</div>
+            <div class="card-body">
+              Async project, judged on quality and judgment
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              👥
+            </div>
+            <div class="card-title">Pair programming</div>
+            <div class="card-body">
+              You and the interviewer solve something together
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              📞
+            </div>
+            <div class="card-title">Phone screen</div>
+            <div class="card-body">
+              Quick questions over a call, usually a first filter
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              🏗️
+            </div>
+            <div class="card-title">System design</div>
+            <div class="card-body">
+              Talk through how you&rsquo;d architect something
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: clamp(22px, 2.8vw, 40px); line-height: 1">
+              📁
+            </div>
+            <div class="card-title">Portfolio walkthrough</div>
+            <div class="card-body">
+              Walk the interviewer through your own projects
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       17 · NERVES
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 06 &middot; The human side</div>
+        <h2 style="margin-bottom: 5%">Good interviewers are on your side</h2>
+        <div class="cols">
+          <div style="display: flex; flex-direction: column; gap: 4%">
+            <div class="sub" style="color: var(--ink)">
+              Interviewers know this is a nerve-inducing situation.
+              They&rsquo;ve been on that side of the table too.
+            </div>
+            <div class="sub" style="color: var(--ink); margin-top: 4%">
+              A good interviewer&rsquo;s job is to
+              <strong style="color: var(--blue)">help you show your best</strong
+              >, not to catch you out.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">What helps</div>
+            <div
+              class="card-body"
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 5%;
+                padding-bottom: clamp(12px, 1.5vw, 22px);
+              "
+            >
+              <div>
+                &rarr; Say when you&rsquo;re not sure. It&rsquo;s allowed.
+              </div>
+              <div>&rarr; Pause and think. Silence isn&rsquo;t failure.</div>
+              <div>
+                &rarr; Ask questions. Clarifying what&rsquo;s expected is a good
+                sign.
+              </div>
+              <div>
+                &rarr; Think <em>with</em> the interviewer, not for them.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       17 · RECOVERY
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 06 &middot; The human side</div>
+        <h2 style="margin-bottom: 4%">When things don&rsquo;t go as planned</h2>
+        <div class="sub" style="color: var(--ink); margin-bottom: 5%">
+          Making mistakes in an interview is normal. What interviewers remember
+          is <strong style="color:var(--green)">how you recover</strong> &mdash; not that you got stuck.
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(10px,1.1vw,16px)">
+          <div class="card" style="padding: clamp(14px,1.8vw,24px)">
+            <div style="font-size: clamp(22px,2.8vw,38px); margin-bottom: 0.4em">🗣️</div>
+            <div style="font-weight: 700; font-size: var(--sz-body); margin-bottom: 0.4em">Narrate uncertainty</div>
+            <div style="font-size: clamp(14px,1.5vw,20px); color: var(--muted)"><em>&ldquo;I&rsquo;m not sure yet, let me think through this&rdquo;</em></div>
+          </div>
+          <div class="card" style="padding: clamp(14px,1.8vw,24px)">
+            <div style="font-size: clamp(22px,2.8vw,38px); margin-bottom: 0.4em">↩️</div>
+            <div style="font-weight: 700; font-size: var(--sz-body); margin-bottom: 0.4em">Restart cleanly</div>
+            <div style="font-size: clamp(14px,1.5vw,20px); color: var(--muted)"><em>&ldquo;Let me take a step back and approach this differently&rdquo;</em></div>
+          </div>
+          <div class="card" style="padding: clamp(14px,1.8vw,24px)">
+            <div style="font-size: clamp(22px,2.8vw,38px); margin-bottom: 0.4em">💡</div>
+            <div style="font-weight: 700; font-size: var(--sz-body); margin-bottom: 0.4em">Use hints well</div>
+            <div style="font-size: clamp(14px,1.5vw,20px); color: var(--muted)">Ask a specific question, then build on the answer</div>
+          </div>
+          <div class="card" style="padding: clamp(14px,1.8vw,24px)">
+            <div style="font-size: clamp(22px,2.8vw,38px); margin-bottom: 0.4em">⏱️</div>
+            <div style="font-weight: 700; font-size: var(--sz-body); margin-bottom: 0.4em">Manage time</div>
+            <div style="font-size: clamp(14px,1.5vw,20px); color: var(--muted)">Say what you&rsquo;re prioritizing and why</div>
+          </div>
+          <div class="card" style="padding: clamp(14px,1.8vw,24px)">
+            <div style="font-size: clamp(22px,2.8vw,38px); margin-bottom: 0.4em">🤝</div>
+            <div style="font-weight: 700; font-size: var(--sz-body); margin-bottom: 0.4em">Think out loud</div>
+            <div style="font-size: clamp(14px,1.5vw,20px); color: var(--muted)">Don&rsquo;t perform &mdash; the process is what they&rsquo;re watching</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       18 · NOT JUST THE CODE
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 06 &middot; The human side</div>
+        <h2 style="margin-bottom: 5%">It&rsquo;s not just about the code</h2>
+        <div class="cols">
+          <div class="sub" style="color: var(--ink)">
+            Every team is also asking a simpler question:
+            <strong>could I see myself working with this person?</strong> Skills
+            matter &mdash; so does how you think, communicate, and engage.
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0">
+            <div class="row">Being genuinely curious about the problem</div>
+            <div class="row">
+              Showing genuine interest in the team and what they&rsquo;re
+              building
+            </div>
+            <div class="row">
+              Being honest when you don&rsquo;t know something
+            </div>
+            <div class="row">
+              Showing motivation to learn and staying up to date with the field
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       18 · EXPERIENCES IN THE ROOM
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 06 &middot; The human side</div>
+        <h2 style="margin-bottom: 6%">Has anyone been through an interview?</h2>
+        <div class="cols">
+          <div class="quote" style="font-size: clamp(17px, 2.1vw, 27px)">
+            What&rsquo;s the one thing you&rsquo;re most worried about going
+            into an interview?
+          </div>
+          <div class="card">
+            <div class="card-title">What we&rsquo;re listening for</div>
+            <div class="card-body">
+              Nerves are normal. Did the interviewer help or make it worse? What
+              made the difference?<br /><br />Interviewing is a skill. Separate
+              from your ability to do the job.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       18 · THINGS TO SAY
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 06 &middot; The human side</div>
+        <h2 style="margin-bottom: 5%">Things you can say out loud</h2>
+        <div class="rows">
+          <div class="row">
+            <div class="dot b"></div>
+            <div style="font-style: italic; font-weight: 600">
+              &ldquo;I&rsquo;m not sure yet. Let me think through what I do
+              know.&rdquo;
+            </div>
+          </div>
+          <div class="row">
+            <div class="dot b"></div>
+            <div style="font-style: italic; font-weight: 600">
+              &ldquo;Can I ask a quick question before I start?&rdquo;
+            </div>
+          </div>
+          <div class="row">
+            <div class="dot b"></div>
+            <div style="font-style: italic; font-weight: 600">
+              &ldquo;I&rsquo;d approach it this way. But I can see another
+              option. Should I keep going or discuss the tradeoffs?&rdquo;
+            </div>
+          </div>
+          <div class="row">
+            <div class="dot b"></div>
+            <div style="font-style: italic; font-weight: 600">
+              &ldquo;I haven&rsquo;t used that before, but here&rsquo;s how
+              I&rsquo;d approach learning it.&rdquo;
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       19 · ONE THING THIS WEEK
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Close</div>
+        <h2 style="margin-bottom: 3%">One thing. This week.</h2>
+        <div style="display: flex; flex-direction: column; gap: 2.5vw">
+          <div
+            class="card"
+            style="border-color: var(--blue); box-shadow: 4px 4px 0 var(--blue)"
+          >
+            <div class="card-title">Option A</div>
+            <div class="card-body">
+              Explain one of your HYF projects out loud to someone
+              non-technical. Notice where you get stuck.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Option B</div>
+            <div class="card-body">
+              Record yourself answering &ldquo;what would you do differently on
+              your last project?&rdquo; and listen back.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Option C</div>
+            <div class="card-body">
+              Do a mock interview with a classmate. 10 minutes each direction.
+              Swap roles.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       20 · CLOSE
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Close</div>
+        <h1 class="display" style="margin-bottom: 5%">Questions?</h1>
+        <div class="sub" style="margin-bottom: 5%; color: var(--ink)">
+          One thing to hold onto:
+        </div>
+        <div class="quote">
+          You don&rsquo;t need to know everything.<br />
+          You need to show that you can think, communicate, and learn.<br />
+          That&rsquo;s what gets a junior hired.
+        </div>
+      </div>
+
+      <div id="nav-dots"></div>
+      <div id="hint">click anywhere to advance</div>
+    </div>
+
+    <script>
+      const TOTAL = 25;
+      const KEY = "ti-slide";
+      const JUMP = { 1: 2, 2: 5, 3: 10, 4: 13, 5: 16, 6: 18, 7: 22 };
+
+      const deck = document.getElementById("deck");
+      const bar = document.getElementById("progress");
+      const hint = document.getElementById("hint");
+      const dotsEl = document.getElementById("nav-dots");
+      const slides = () => document.querySelectorAll(".slide");
+      const dots = () => document.querySelectorAll(".nav-dot");
+
+      let cur = 0;
+
+      for (let i = 0; i < TOTAL; i++) {
+        const d = document.createElement("div");
+        d.className = "nav-dot" + (i === 0 ? " on" : "");
+        dotsEl.appendChild(d);
+      }
+
+      const saved = Number(localStorage.getItem(KEY));
+      if (Number.isInteger(saved) && saved > 0 && saved < TOTAL) go(saved);
+
+      function go(n) {
+        if (n < 0 || n >= TOTAL || n === cur) return;
+        const s = slides(),
+          d = dots();
+        s[cur].classList.remove("active");
+        s[cur].classList.add("exit");
+        setTimeout(() => s[cur].classList.remove("exit"), 420);
+        cur = Math.max(0, Math.min(TOTAL - 1, n));
+        s[cur].classList.add("active");
+        d.forEach((dot, i) => dot.classList.toggle("on", i === cur));
+        bar.style.width = (cur / (TOTAL - 1)) * 100 + "%";
+        localStorage.setItem(KEY, String(cur));
+        hint.textContent =
+          cur === 0
+            ? "click anywhere to advance"
+            : cur === TOTAL - 1
+            ? ""
+            : `${cur + 1} / ${TOTAL}`;
+      }
+
+      deck.addEventListener("click", () => {
+        if (cur < TOTAL - 1) go(cur + 1);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key in JUMP) {
+          go(JUMP[e.key]);
+          return;
+        }
+        if (e.key === " " || e.code === "Space") {
+          e.preventDefault();
+          go(e.shiftKey ? cur - 1 : cur + 1);
+          return;
+        }
+        if (e.key === "ArrowRight") go(cur + 1);
+        if (e.key === "ArrowLeft") go(cur - 1);
+      });
+    </script>
+  </body>
+</html>
