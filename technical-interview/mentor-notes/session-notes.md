@@ -56,10 +56,11 @@ The anti-LeetCode instinct is real, but the more useful message is: *you will me
 |-----|----------|
 | `1` | Slide 2 — Opening question |
 | `2` | Slide 5 — The Professor |
-| `3` | Slide 9 — What they all care about |
-| `4` | Slide 12 — Live demo intro |
-| `5` | Slide 16 — The human side |
-| `6` | Slide 19 — One thing this week |
+| `3` | Slide 10 — What they all care about |
+| `4` | Slide 13 — Live demo intro |
+| `5` | Slide 17 — Interview formats |
+| `6` | Slide 18 — The human side |
+| `7` | Slide 21 — One thing this week |
 
 ---
 
@@ -104,13 +105,18 @@ This is the core message. You're competing on *clarity*, not depth.
 
 ---
 
-## The honest story (slide 17)
+## The discussion prompt (slide 18)
 
-Tell the story of a candidate you believed in who didn't get through because of interview performance, not ability. The point: interviewing is a separate skill. It's worth preparing for seriously, not because the process is fair — but because it matters.
+Open the floor: "Has anyone here been through an interview?" Let a few people share. Listen for:
+- Whether nerves came up — validate it
+- Whether the interviewer helped or made it worse — use that to land the point from slide 17
+- Any story that illustrates "interviewing is a skill separate from being able to do the job"
+
+You don't need your own story here. The room's experience is the material. Close by saying something like: "What you're describing is why this is worth preparing for separately — not because the process is fair, but because it matters."
 
 ---
 
-## One thing this week (slide 19)
+## One thing this week (slide 20)
 
 Give them exactly one of these — not all three:
 - **Option A:** Explain a project out loud to someone non-technical. Time yourself. Notice where you get stuck.
@@ -119,7 +125,7 @@ Give them exactly one of these — not all three:
 
 ---
 
-## The honest caveat (slide 20)
+## The honest caveat (slide 21)
 
 This session reflects your experience. Some companies run very different processes (FAANG-style grinding). What travels everywhere: thinking clearly and communicating well.
 
