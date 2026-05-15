@@ -7,6 +7,7 @@ This directory contains teaching materials for the React classes.
 - [Week 1](https://raw.githack.com/jesusoterogomez/hackyourfuture-session-materials/main/react/slides/react-week1.html)
 - [Week 2](https://raw.githack.com/jesusoterogomez/hackyourfuture-session-materials/main/react/slides/react-week2.html)
 - [Week 3](https://raw.githack.com/jesusoterogomez/hackyourfuture-session-materials/main/react/slides/react-week3.html)
+- [Week 4](https://raw.githack.com/jesusoterogomez/hackyourfuture-session-materials/main/react/slides/react-week4.html)
 
 ## API for Demo
 
@@ -54,6 +55,12 @@ For a refresher on how to use `fetch()` to call an API from JavaScript, see the 
 - Rules of hooks
 - useEffect — dependencies and cleanup
 - Fetching data from an API
+
+### Week 4
+
+- Context API (`createContext`, `Provider`, `useContext`)
+- Client-side routing with React Router (declarative mode)
+- Component and UI libraries — trade-offs
 
 ## Contents
 
