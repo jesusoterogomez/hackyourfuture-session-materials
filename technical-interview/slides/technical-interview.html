@@ -379,6 +379,17 @@
         background: var(--purple);
       }
 
+      .card.reveal .card-body,
+      .card.reveal .code {
+        filter: blur(5px) contrast(0.6);
+        transition: filter 0.3s ease;
+        cursor: pointer;
+      }
+      .card.reveal:hover .card-body,
+      .card.reveal:hover .code {
+        filter: blur(0) contrast(1);
+      }
+
       /* ============================================================
      PILLS
      ============================================================ */
@@ -552,7 +563,10 @@
       <div class="slide">
         <div class="band">Part 01 &middot; Why interviews vary</div>
         <h1 class="display" style="margin-bottom: 8%">Quick question</h1>
-        <div class="quote quote-purple" style="font-size: clamp(20px, 3vw, 40px)">
+        <div
+          class="quote quote-purple"
+          style="font-size: clamp(20px, 3vw, 40px)"
+        >
           What do you think an interviewer is looking for?
         </div>
         <div class="sub" style="margin-top: 5%; color: #aaaaaa">
@@ -628,8 +642,8 @@
           <div class="p-card buil">
             <div class="p-name" style="color: var(--buil)">The Builder</div>
             <div class="p-text">
-              Believes real work reveals more. Wants to see what you
-              actually produce.
+              Believes real work reveals more. Wants to see what you actually
+              produce.
             </div>
           </div>
         </div>
@@ -650,8 +664,9 @@
           <div class="p-card prof">
             <div class="p-label" style="color: var(--prof)">Who they are</div>
             <div class="p-text">
-              Has a structured, academic approach to interviews.<br><br>Believes algorithms show
-              how engineers think. Often scores answers against a fixed checklist.
+              Has a structured, academic approach to interviews.<br /><br />Believes
+              algorithms show how engineers think. Often scores answers against
+              a fixed checklist.
             </div>
           </div>
           <div class="p-card prof">
@@ -659,15 +674,16 @@
               What it looks like
             </div>
             <div class="p-text">
-              Timed coding problems.<br><br>Data structure questions. &ldquo;Write a
-              function that&hellip;&rdquo; without using built-in methods.
+              Timed coding problems.<br /><br />Data structure questions.
+              &ldquo;Write a function that&hellip;&rdquo; without using built-in
+              methods.
             </div>
           </div>
           <div class="p-card tip" style="border-color: var(--ink)">
             <div class="p-label" style="color: var(--prof)">For you</div>
             <div class="p-text">
               Hardest type without years of prep and least likely for a first
-              role.<br><br>Focus on
+              role.<br /><br />Focus on
               <strong style="color: var(--ink)"
                 >narrating your thinking, not just solving the problem.</strong
               >
@@ -688,9 +704,9 @@
           <div class="p-card mate">
             <div class="p-label" style="color: var(--mate)">Who they are</div>
             <div class="p-text">
-              Cares about how you&rsquo;ll work every day.<br><br>Pairs with their team
-              constantly. Interviews the way they&rsquo;d spend a Tuesday at the
-              office.
+              Cares about how you&rsquo;ll work every day.<br /><br />Pairs with
+              their team constantly. Interviews the way they&rsquo;d spend a
+              Tuesday at the office.
             </div>
           </div>
           <div class="p-card mate">
@@ -698,14 +714,14 @@
               What it looks like
             </div>
             <div class="p-text">
-              Pair programming on a real problem.<br><br>Walkthrough of your past
-              project. &ldquo;Let&rsquo;s look at this together.&rdquo;
+              Pair programming on a real problem.<br /><br />Walkthrough of your
+              past project. &ldquo;Let&rsquo;s look at this together.&rdquo;
             </div>
           </div>
           <div class="p-card tip">
             <div class="p-label" style="color: var(--mate)">For you</div>
             <div class="p-text">
-              This is where juniors can outshine.<br><br>
+              This is where juniors can outshine.<br /><br />
               <strong style="color: var(--ink)"
                 >Being clear and easy to work with matters more than knowing
                 every answer.</strong
@@ -727,7 +743,7 @@
           <div class="p-card buil">
             <div class="p-label" style="color: var(--buil)">Who they are</div>
             <div class="p-text">
-              Believes real work reveals more.<br><br>Wants to see what you
+              Believes real work reveals more.<br /><br />Wants to see what you
               produce when left alone with a real task, no audience.
             </div>
           </div>
@@ -743,7 +759,7 @@
           <div class="p-card tip">
             <div class="p-label" style="color: var(--buil)">For you</div>
             <div class="p-text">
-              Your HYF projects are direct prep.<br><br>
+              Your HYF projects are direct prep.<br /><br />
               <strong style="color: var(--ink)"
                 >Having a portfolio and being able to explain your decisions is
                 a real advantage here.</strong
@@ -763,22 +779,23 @@
           <div class="p-card prof">
             <div class="p-name" style="color: var(--prof)">The Professor</div>
             <div class="p-text">
-              &ldquo;You have 40 minutes.<br><br>Write a function that finds all
-              duplicates in an array. Do not use built-in dedup methods.&rdquo;
+              &ldquo;You have 40 minutes.<br /><br />Write a function that finds
+              all duplicates in an array. Do not use built-in dedup
+              methods.&rdquo;
             </div>
           </div>
           <div class="p-card mate">
             <div class="p-name" style="color: var(--mate)">The Teammate</div>
             <div class="p-text">
-              &ldquo;Walk me through the last project you built.<br><br>What decision
-              are you most proud of? What would you change?&rdquo;
+              &ldquo;Walk me through the last project you built.<br /><br />What
+              decision are you most proud of? What would you change?&rdquo;
             </div>
           </div>
           <div class="p-card buil">
             <div class="p-name" style="color: var(--buil)">The Builder</div>
             <div class="p-text">
-              &ldquo;Here&rsquo;s a small app with three failing tests.<br><br>Get them
-              passing. Send us your branch by Friday.&rdquo;
+              &ldquo;Here&rsquo;s a small app with three failing tests.<br /><br />Get
+              them passing. Send us your branch by Friday.&rdquo;
             </div>
           </div>
         </div>
@@ -814,7 +831,8 @@
           <div class="step">
             <div class="step-n">1</div>
             <div class="step-t">
-              <strong>How you think</strong> &mdash; do you reason out loud, consider tradeoffs, and get yourself unstuck?
+              <strong>How you think</strong> &mdash; do you reason out loud,
+              consider tradeoffs, and get yourself unstuck?
             </div>
           </div>
           <div class="step">
@@ -935,18 +953,64 @@
           The Professor&rsquo;s problem
         </h2>
         <div class="cols">
-          <div class="code">
-            <span class="cm">// items: array, term: string</span>
-            <span class="cm">// Return items matching term by name.</span>
-            <span class="cm">// Do NOT use .filter().</span>
-            <span class="cm">// Write the loop yourself.</span>
-            <br />
-            <span class="ck">function</span>
-            <span class="cs">search</span>(items, term) {<br />
-            &nbsp;&nbsp;<span class="cm" style="display: inline"
-              >// your solution here</span
-            ><br />
-            }
+          <div style="position: relative">
+            <button
+              onclick="event.stopPropagation();(function(btn){var showing=btn.dataset.showing==='1';var c=document.getElementById('prof-comments'),p=document.getElementById('prof-placeholder'),s=document.getElementById('prof-solution');if(!showing){c.style.display='none';p.style.display='none';s.style.display='block';btn.textContent='Hide solution';btn.dataset.showing='1';}else{c.style.display='';p.style.display='';s.style.display='none';btn.textContent='Show solution';btn.dataset.showing='0';}})(this)"
+              style="
+                position: absolute;
+                top: clamp(8px, 1vw, 14px);
+                right: clamp(8px, 1vw, 14px);
+                z-index: 10;
+                background: var(--prof);
+                color: #fff;
+                border: 2px solid var(--ink);
+                border-radius: 4px;
+                box-shadow: 2px 2px 0 var(--ink);
+                padding: 0.3em 0.9em;
+                font-family: var(--f-body);
+                font-size: clamp(11px, 1.2vw, 15px);
+                font-weight: 700;
+                cursor: pointer;
+                letter-spacing: 0.05em;
+              "
+            >
+              Show solution
+            </button>
+            <div class="code">
+              <span id="prof-comments">
+                <span class="cm">// items: array of strings</span>
+                <span class="cm">// term: string to search for</span>
+                <span class="cm">// Return items that include term.</span>
+                <span class="cm">// Do NOT use .filter().</span>
+                <br />
+              </span>
+              <span class="ck">function</span>
+              <span class="cs">search</span>(items, term) {<br />
+              <span id="prof-placeholder"
+                >&nbsp;&nbsp;<span class="cm" style="display: inline"
+                  >// your solution here</span
+                ><br
+              /></span>
+              <span id="prof-solution" style="display: none">
+                &nbsp;&nbsp;<span class="ck">const</span> results = [];<br />
+                &nbsp;&nbsp;<span class="ck">for</span> (<span class="ck"
+                  >const</span
+                >
+                item <span class="ck">of</span> items) {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">if</span> (item.<span
+                  style="color: var(--buil)"
+                  >includes</span
+                >(term)) {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;results.<span
+                  style="color: var(--buil)"
+                  >push</span
+                >(item);<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                &nbsp;&nbsp;}<br />
+                &nbsp;&nbsp;<span class="ck">return</span> results;<br />
+              </span>
+              }
+            </div>
           </div>
           <div style="display: flex; flex-direction: column; gap: 1.5vw">
             <div
@@ -962,9 +1026,9 @@
                 not sure?
               </div>
             </div>
-            <div class="card">
+            <div class="card reveal">
               <div class="card-title" style="color: var(--prof)">
-                Strong junior answer
+                Strong answer
               </div>
               <div class="card-body">
                 &ldquo;I&rsquo;d start with an empty array and loop through.
@@ -1019,14 +1083,14 @@
           </div>
           <div style="display: flex; flex-direction: column; gap: 1.5vw">
             <div
-              class="card"
+              class="card reveal"
               style="
                 border-color: var(--mate);
                 box-shadow: 4px 4px 0 var(--mate);
               "
             >
               <div class="card-title" style="color: var(--mate)">
-                Strong junior answer
+                Strong answer
               </div>
               <div class="card-body">
                 &ldquo;Can I ask what it&rsquo;s supposed to do? I&rsquo;m
@@ -1067,9 +1131,22 @@
             >
               <div class="card-title">The task (take home assignment)</div>
               <div class="card-body">
-                &ldquo;The search bar isn&rsquo;t filtering. Fix it. Add a short
-                comment explaining what was wrong. Send your branch by
-                Friday.&rdquo;
+                <div
+                  class="code"
+                  style="
+                    font-size: clamp(12px, 1.3vw, 17px);
+                    font-weight: 700;
+                    line-height: 1.8;
+                  "
+                >
+                  <span style="font-weight: 700">## Task</span><br />
+                  The search feature is broken &mdash; users report no results
+                  when typing.<br /><br />
+                  Fix the bug and open a PR against
+                  <span style="color: var(--buil)">main</span>.<br /><br />
+                  <span style="font-weight: 700">## Deadline</span><br />
+                  Friday EOD.
+                </div>
               </div>
             </div>
             <div
@@ -1088,24 +1165,28 @@
           </div>
           <div style="display: flex; flex-direction: column; gap: 1.5vw">
             <div
-              class="card"
+              class="card reveal"
               style="
                 border-color: var(--buil);
                 box-shadow: 4px 4px 0 var(--buil);
               "
             >
               <div class="card-title" style="color: var(--buil)">
-                Strong junior answer
+                Strong answer
               </div>
-              <div class="card-body">
-                Fix the filter to use <code style="font-family:var(--f-mono)">.includes()</code> instead of <code style="font-family:var(--f-mono)">===</code>. Leave a comment: <em>&ldquo;Was doing an exact match — changed to partial match so it works while typing.&rdquo;</em>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-title">The goal</div>
-              <div class="card-body">
-                Treat it like real work. Don&rsquo;t over-engineer. Leave it
-                better than you found it.
+              <div
+                class="card-body"
+                style="display: flex; flex-direction: column; gap: 0.5em"
+              >
+                <div>
+                  → Become familiar with the codebase and understand what is
+                  wrong
+                </div>
+                <div>
+                  → Follow the repo&rsquo;s conventions and instructions
+                </div>
+                <div>→ Stick to the given scope and time</div>
+                <div>→ Leave a well-described PR with organized commits</div>
               </div>
             </div>
           </div>
@@ -1401,20 +1482,24 @@
         <div class="cols">
           <div class="sub" style="color: var(--ink)">
             Every team is also asking a simpler question:
-            <strong>could I see myself working with this person?</strong> Skills
-            matter &mdash; so does how you think, communicate, and engage.
+            <strong style="color: var(--blue)"
+              >could I see myself working with this person?</strong
+            >
+            Skills matter &mdash; so does how you think, communicate, and
+            engage.
           </div>
           <div style="display: flex; flex-direction: column; gap: 0">
-            <div class="row">Being genuinely curious about the problem</div>
+            <div class="row">🔍 Being genuinely curious about the problem</div>
             <div class="row">
-              Showing genuine interest in the team and what they&rsquo;re
+              🤝 Showing genuine interest in the team and what they&rsquo;re
               building
             </div>
             <div class="row">
-              Being honest when you don&rsquo;t know something
+              💬 Being honest when you don&rsquo;t know something
             </div>
             <div class="row">
-              Showing motivation to learn and staying up to date with the field
+              📈 Showing motivation to learn and staying up to date with the
+              field
             </div>
           </div>
         </div>
@@ -1429,22 +1514,35 @@
         <div class="rows">
           <div class="row">
             <div class="dot b"></div>
-            <div>Has anyone been through a technical interview? <strong>What surprised you?</strong></div>
+            <div>
+              Has anyone been through a technical interview?
+              <strong>What surprised you?</strong>
+            </div>
           </div>
           <div class="row">
             <div class="dot b"></div>
-            <div>What&rsquo;s something that <strong>went better than you expected?</strong></div>
+            <div>
+              What&rsquo;s something that
+              <strong>went better than you expected?</strong>
+            </div>
           </div>
           <div class="row">
             <div class="dot b"></div>
-            <div>What do you <strong>wish you&rsquo;d known</strong> going in?</div>
+            <div>
+              What do you <strong>wish you&rsquo;d known</strong> going in?
+            </div>
           </div>
           <div class="row">
             <div class="dot b"></div>
-            <div>Did you recognize any of the <strong>formats or personas</strong> we covered today?</div>
+            <div>
+              Did you recognize any of the
+              <strong>formats or personas</strong> we covered today?
+            </div>
           </div>
         </div>
-        <div class="sub" style="margin-top:5%;color:var(--muted)">Interviewing is a skill. Separate from your ability to do the job.</div>
+        <div class="sub" style="margin-top: 5%; color: var(--muted)">
+          Interviewing is a skill. Separate from your ability to do the job.
+        </div>
       </div>
 
       <!-- ══════════════════════════════════
@@ -1452,27 +1550,100 @@
   ══════════════════════════════════ -->
       <div class="slide">
         <div class="band">Part 07 &middot; The landscape</div>
-        <h2 style="margin-bottom:5%">How interviews have changed</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.4vw,20px)">
-          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
-            <div style="font-size:clamp(22px,2.5vw,34px);margin-bottom:0.4em">🏢</div>
-            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.3em">In-person rounds are back</div>
-            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Partly to reduce AI-assisted cheating</div>
+        <h2 style="margin-bottom: 5%">How interviews have changed with AI</h2>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(12px, 1.4vw, 20px);
+          "
+        >
+          <div class="card" style="padding: clamp(14px, 1.8vw, 24px)">
+            <div
+              style="font-size: clamp(22px, 2.5vw, 34px); margin-bottom: 0.4em"
+            >
+              🏢
+            </div>
+            <div
+              style="
+                font-weight: 700;
+                font-size: var(--sz-body);
+                margin-bottom: 0.3em;
+              "
+            >
+              In-person rounds are back
+            </div>
+            <div
+              style="font-size: clamp(15px, 1.7vw, 22px); color: var(--muted)"
+            >
+              Partly to reduce AI-assisted cheating
+            </div>
           </div>
-          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
-            <div style="font-size:clamp(22px,2.5vw,34px);margin-bottom:0.4em">🤖</div>
-            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.3em">AI is allowed in some interviews</div>
-            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">They test how you use it, not whether you can code without it</div>
+          <div class="card" style="padding: clamp(14px, 1.8vw, 24px)">
+            <div
+              style="font-size: clamp(22px, 2.5vw, 34px); margin-bottom: 0.4em"
+            >
+              🤖
+            </div>
+            <div
+              style="
+                font-weight: 700;
+                font-size: var(--sz-body);
+                margin-bottom: 0.3em;
+              "
+            >
+              AI is allowed in some interviews
+            </div>
+            <div
+              style="font-size: clamp(15px, 1.7vw, 22px); color: var(--muted)"
+            >
+              They test how you use it, not whether you can code without it
+            </div>
           </div>
-          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
-            <div style="font-size:clamp(22px,2.5vw,34px);margin-bottom:0.4em">🐛</div>
-            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.3em">A new question is emerging</div>
-            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)"><em>&ldquo;Tell me about a time AI gave you wrong code — how did you find it?&rdquo;</em></div>
+          <div class="card" style="padding: clamp(14px, 1.8vw, 24px)">
+            <div
+              style="font-size: clamp(22px, 2.5vw, 34px); margin-bottom: 0.4em"
+            >
+              🐛
+            </div>
+            <div
+              style="
+                font-weight: 700;
+                font-size: var(--sz-body);
+                margin-bottom: 0.3em;
+              "
+            >
+              A new question is emerging
+            </div>
+            <div
+              style="font-size: clamp(15px, 1.7vw, 22px); color: var(--muted)"
+            >
+              <em
+                >&ldquo;Tell me about a time AI gave you wrong code. How did you
+                realize it?&rdquo;</em
+              >
+            </div>
           </div>
-          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
-            <div style="font-size:clamp(22px,2.5vw,34px);margin-bottom:0.4em">🧪</div>
-            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.3em">Debugging and testing are front and center</div>
-            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Generating code without being able to verify it is a liability</div>
+          <div class="card" style="padding: clamp(14px, 1.8vw, 24px)">
+            <div
+              style="font-size: clamp(22px, 2.5vw, 34px); margin-bottom: 0.4em"
+            >
+              🧪
+            </div>
+            <div
+              style="
+                font-weight: 700;
+                font-size: var(--sz-body);
+                margin-bottom: 0.3em;
+              "
+            >
+              Debugging and testing are front and center
+            </div>
+            <div
+              style="font-size: clamp(15px, 1.7vw, 22px); color: var(--muted)"
+            >
+              Generating code without being able to verify it is a liability
+            </div>
           </div>
         </div>
       </div>
@@ -1482,30 +1653,104 @@
   ══════════════════════════════════ -->
       <div class="slide">
         <div class="band">Part 07 &middot; The landscape</div>
-        <h2 style="margin-bottom:4%">What this means for you</h2>
-        <div class="sub" style="color:var(--ink);margin-bottom:5%">
-          AI tools are now the baseline. What companies actually want is someone who can <strong>direct them, catch their mistakes, and own the result.</strong>
+        <h2 style="margin-bottom: 4%">What this means for you</h2>
+        <div class="sub" style="color: var(--ink); margin-bottom: 5%">
+          AI tools are now the baseline. What companies actually want is someone
+          who can
+          <strong
+            >direct them, catch their mistakes, and own the result.</strong
+          >
         </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.1vw,16px)">
-          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
-            <div style="font-size:clamp(22px,2.8vw,38px);margin-bottom:0.4em">🛠️</div>
-            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.4em">Know your tools</div>
-            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Be ready to talk about your AI workflow</div>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(10px, 1.1vw, 16px);
+          "
+        >
+          <div class="card" style="padding: clamp(14px, 1.8vw, 24px)">
+            <div
+              style="font-size: clamp(22px, 2.8vw, 38px); margin-bottom: 0.4em"
+            >
+              🛠️
+            </div>
+            <div
+              style="
+                font-weight: 700;
+                font-size: var(--sz-body);
+                margin-bottom: 0.4em;
+              "
+            >
+              Know your tools
+            </div>
+            <div
+              style="font-size: clamp(15px, 1.7vw, 22px); color: var(--muted)"
+            >
+              Be ready to talk about your AI workflow
+            </div>
           </div>
-          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
-            <div style="font-size:clamp(22px,2.8vw,38px);margin-bottom:0.4em">🏗️</div>
-            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.4em">Fundamentals first</div>
-            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">They&rsquo;re what lets you catch what AI gets wrong</div>
+          <div class="card" style="padding: clamp(14px, 1.8vw, 24px)">
+            <div
+              style="font-size: clamp(22px, 2.8vw, 38px); margin-bottom: 0.4em"
+            >
+              🏗️
+            </div>
+            <div
+              style="
+                font-weight: 700;
+                font-size: var(--sz-body);
+                margin-bottom: 0.4em;
+              "
+            >
+              Fundamentals first
+            </div>
+            <div
+              style="font-size: clamp(15px, 1.7vw, 22px); color: var(--muted)"
+            >
+              They&rsquo;re what lets you catch what AI gets wrong
+            </div>
           </div>
-          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
-            <div style="font-size:clamp(22px,2.8vw,38px);margin-bottom:0.4em">⚡</div>
-            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.4em">Learning speed</div>
-            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Matters more than what you know today</div>
+          <div class="card" style="padding: clamp(14px, 1.8vw, 24px)">
+            <div
+              style="font-size: clamp(22px, 2.8vw, 38px); margin-bottom: 0.4em"
+            >
+              ⚡
+            </div>
+            <div
+              style="
+                font-weight: 700;
+                font-size: var(--sz-body);
+                margin-bottom: 0.4em;
+              "
+            >
+              Learning speed
+            </div>
+            <div
+              style="font-size: clamp(15px, 1.7vw, 22px); color: var(--muted)"
+            >
+              Matters more than what you know today
+            </div>
           </div>
-          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
-            <div style="font-size:clamp(22px,2.8vw,38px);margin-bottom:0.4em">💡</div>
-            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.4em">What AI doesn&rsquo;t have</div>
-            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Curiosity, judgment, and the ability to ask the right questions</div>
+          <div class="card" style="padding: clamp(14px, 1.8vw, 24px)">
+            <div
+              style="font-size: clamp(22px, 2.8vw, 38px); margin-bottom: 0.4em"
+            >
+              💡
+            </div>
+            <div
+              style="
+                font-weight: 700;
+                font-size: var(--sz-body);
+                margin-bottom: 0.4em;
+              "
+            >
+              What AI doesn&rsquo;t have
+            </div>
+            <div
+              style="font-size: clamp(15px, 1.7vw, 22px); color: var(--muted)"
+            >
+              Curiosity, judgment, and the ability to ask the right questions
+            </div>
           </div>
         </div>
       </div>
@@ -1516,33 +1761,141 @@
       <div class="slide">
         <div class="band">Close</div>
         <h2 style="margin-bottom: 4%">So, how do I prepare?</h2>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px,1.4vw,20px); margin-bottom: clamp(14px,2vw,28px)">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(12px, 1.4vw, 20px);
+            margin-bottom: clamp(14px, 2vw, 28px);
+          "
+        >
           <div class="card">
             <div class="card-title">Explain it out loud</div>
-            <div class="card-body">Walk through one of your HYF projects to someone non-technical. Notice where you get stuck.</div>
+            <div class="card-body">
+              Walk through one of your HYF projects to someone non-technical.
+              Notice where you get stuck.
+            </div>
           </div>
           <div class="card">
             <div class="card-title">Record yourself</div>
-            <div class="card-body">Answer &ldquo;what would you do differently on your last project?&rdquo; and listen back.</div>
+            <div class="card-body">
+              Answer &ldquo;what would you do differently on your last
+              project?&rdquo; and listen back.
+            </div>
           </div>
           <div class="card">
             <div class="card-title">Mock interview</div>
-            <div class="card-body">10 minutes with a classmate, each direction. Swap roles.</div>
+            <div class="card-body">
+              Watch mock interviews on YouTube. <b>freeCodeCamp</b> has solid
+              examples... You're also doing one next week!
+            </div>
           </div>
         </div>
-        <div style="margin-bottom: clamp(6px,0.8vw,10px); font-weight: 700; font-size: var(--sz-body)">Online resources:</div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px,1.4vw,20px)">
-          <div style="border: 1.5px solid var(--ink); border-radius: 4px; padding: clamp(10px,1.2vw,16px) clamp(14px,1.6vw,22px); display: flex; align-items: center; gap: clamp(10px,1.1vw,16px)">
-            <img src="https://cdn.simpleicons.org/dependabot" style="width:clamp(24px,2.8vw,40px);height:clamp(24px,2.8vw,40px);object-fit:contain" alt="interviewdb">
-            <div><div style="font-weight:700;font-size:var(--sz-body)">interviewdb.io</div><div style="color:var(--muted);font-size:clamp(13px,1.4vw,18px)">Real questions from real companies</div></div>
+        <div
+          style="
+            margin-bottom: clamp(6px, 0.8vw, 10px);
+            font-weight: 700;
+            font-size: var(--sz-body);
+          "
+        >
+          Online resources:
+        </div>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(12px, 1.4vw, 20px);
+          "
+        >
+          <div
+            style="
+              border: 1.5px solid var(--ink);
+              border-radius: 4px;
+              padding: clamp(10px, 1.2vw, 16px) clamp(14px, 1.6vw, 22px);
+              display: flex;
+              align-items: center;
+              gap: clamp(10px, 1.1vw, 16px);
+            "
+          >
+            <img
+              src="https://cdn.simpleicons.org/dependabot"
+              style="
+                width: clamp(24px, 2.8vw, 40px);
+                height: clamp(24px, 2.8vw, 40px);
+                object-fit: contain;
+              "
+              alt="interviewdb"
+            />
+            <div>
+              <div style="font-weight: 700; font-size: var(--sz-body)">
+                interviewdb.io
+              </div>
+              <div
+                style="color: var(--muted); font-size: clamp(13px, 1.4vw, 18px)"
+              >
+                Real questions from real companies
+              </div>
+            </div>
           </div>
-          <div style="border: 1.5px solid var(--ink); border-radius: 4px; padding: clamp(10px,1.2vw,16px) clamp(14px,1.6vw,22px); display: flex; align-items: center; gap: clamp(10px,1.1vw,16px)">
-            <img src="https://cdn.simpleicons.org/googlemeet" style="width:clamp(24px,2.8vw,40px);height:clamp(24px,2.8vw,40px);object-fit:contain" alt="prachub">
-            <div><div style="font-weight:700;font-size:var(--sz-body)">prachub.com</div><div style="color:var(--muted);font-size:clamp(13px,1.4vw,18px)">Mock interview practice</div></div>
+          <div
+            style="
+              border: 1.5px solid var(--ink);
+              border-radius: 4px;
+              padding: clamp(10px, 1.2vw, 16px) clamp(14px, 1.6vw, 22px);
+              display: flex;
+              align-items: center;
+              gap: clamp(10px, 1.1vw, 16px);
+            "
+          >
+            <img
+              src="https://cdn.simpleicons.org/googlemeet"
+              style="
+                width: clamp(24px, 2.8vw, 40px);
+                height: clamp(24px, 2.8vw, 40px);
+                object-fit: contain;
+              "
+              alt="prachub"
+            />
+            <div>
+              <div style="font-weight: 700; font-size: var(--sz-body)">
+                prachub.com
+              </div>
+              <div
+                style="color: var(--muted); font-size: clamp(13px, 1.4vw, 18px)"
+              >
+                Mock interviews &amp; real company questions
+              </div>
+            </div>
           </div>
-          <div style="border: 1.5px solid var(--ink); border-radius: 4px; padding: clamp(10px,1.2vw,16px) clamp(14px,1.6vw,22px); display: flex; align-items: center; gap: clamp(10px,1.1vw,16px)">
-            <img src="https://cdn.simpleicons.org/codewars" style="width:clamp(24px,2.8vw,40px);height:clamp(24px,2.8vw,40px);object-fit:contain" alt="codewars">
-            <div><div style="font-weight:700;font-size:var(--sz-body)">Codewars / LeetCode</div><div style="color:var(--muted);font-size:clamp(13px,1.4vw,18px)">Algorithm and problem-solving practice</div></div>
+          <div
+            style="
+              border: 1.5px solid var(--ink);
+              border-radius: 4px;
+              padding: clamp(10px, 1.2vw, 16px) clamp(14px, 1.6vw, 22px);
+              display: flex;
+              align-items: center;
+              gap: clamp(10px, 1.1vw, 16px);
+            "
+          >
+            <img
+              src="https://cdn.simpleicons.org/codewars"
+              style="
+                width: clamp(24px, 2.8vw, 40px);
+                height: clamp(24px, 2.8vw, 40px);
+                object-fit: contain;
+              "
+              alt="codewars"
+            />
+            <div>
+              <div style="font-weight: 700; font-size: var(--sz-body)">
+                Codewars / LeetCode
+              </div>
+              <div
+                style="color: var(--muted); font-size: clamp(13px, 1.4vw, 18px)"
+              >
+                Algorithm and problem-solving practice
+              </div>
+            </div>
           </div>
         </div>
       </div>
