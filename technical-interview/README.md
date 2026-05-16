@@ -1,6 +1,6 @@
 # Technical Interviews — Session Materials
 
-HackYourFuture Denmark — ~90–120 min session
+HackYourFuture Denmark
 
 ## Slides
 
