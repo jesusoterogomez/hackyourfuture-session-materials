@@ -1065,7 +1065,7 @@
                 background: var(--buil-2);
               "
             >
-              <div class="card-title">The task (by email)</div>
+              <div class="card-title">The task (take home assignment)</div>
               <div class="card-body">
                 &ldquo;The search bar isn&rsquo;t filtering. Fix it. Add a short
                 comment explaining what was wrong. Send your branch by
@@ -1098,10 +1098,7 @@
                 Strong junior answer
               </div>
               <div class="card-body">
-                Clean, minimal fix. One-line comment: &ldquo;Was comparing full
-                objects instead of names. Changed to
-                <code style="font-family: var(--f-mono)">item.name</code
-                >.&rdquo;
+                Fix the filter to use <code style="font-family:var(--f-mono)">.includes()</code> instead of <code style="font-family:var(--f-mono)">===</code>. Leave a comment: <em>&ldquo;Was doing an exact match — changed to partial match so it works while typing.&rdquo;</em>
               </div>
             </div>
             <div class="card">
@@ -1451,35 +1448,101 @@
       </div>
 
       <!-- ══════════════════════════════════
-       19 · ONE THING THIS WEEK
+       19 · AI AND INTERVIEWS
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 07 &middot; The landscape</div>
+        <h2 style="margin-bottom:5%">How interviews have changed</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.4vw,20px)">
+          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
+            <div style="font-size:clamp(22px,2.5vw,34px);margin-bottom:0.4em">🏢</div>
+            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.3em">In-person rounds are back</div>
+            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Partly to reduce AI-assisted cheating</div>
+          </div>
+          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
+            <div style="font-size:clamp(22px,2.5vw,34px);margin-bottom:0.4em">🤖</div>
+            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.3em">AI is allowed in some interviews</div>
+            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">They test how you use it, not whether you can code without it</div>
+          </div>
+          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
+            <div style="font-size:clamp(22px,2.5vw,34px);margin-bottom:0.4em">🐛</div>
+            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.3em">A new question is emerging</div>
+            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)"><em>&ldquo;Tell me about a time AI gave you wrong code — how did you find it?&rdquo;</em></div>
+          </div>
+          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
+            <div style="font-size:clamp(22px,2.5vw,34px);margin-bottom:0.4em">🧪</div>
+            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.3em">Debugging and testing are front and center</div>
+            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Generating code without being able to verify it is a liability</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       20 · WHAT THIS MEANS FOR YOU
+  ══════════════════════════════════ -->
+      <div class="slide">
+        <div class="band">Part 07 &middot; The landscape</div>
+        <h2 style="margin-bottom:4%">What this means for you</h2>
+        <div class="sub" style="color:var(--ink);margin-bottom:5%">
+          AI tools are now the baseline. What companies actually want is someone who can <strong>direct them, catch their mistakes, and own the result.</strong>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.1vw,16px)">
+          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
+            <div style="font-size:clamp(22px,2.8vw,38px);margin-bottom:0.4em">🛠️</div>
+            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.4em">Know your tools</div>
+            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Be ready to talk about your AI workflow</div>
+          </div>
+          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
+            <div style="font-size:clamp(22px,2.8vw,38px);margin-bottom:0.4em">🏗️</div>
+            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.4em">Fundamentals first</div>
+            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">They&rsquo;re what lets you catch what AI gets wrong</div>
+          </div>
+          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
+            <div style="font-size:clamp(22px,2.8vw,38px);margin-bottom:0.4em">⚡</div>
+            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.4em">Learning speed</div>
+            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Matters more than what you know today</div>
+          </div>
+          <div class="card" style="padding:clamp(14px,1.8vw,24px)">
+            <div style="font-size:clamp(22px,2.8vw,38px);margin-bottom:0.4em">💡</div>
+            <div style="font-weight:700;font-size:var(--sz-body);margin-bottom:0.4em">What AI doesn&rsquo;t have</div>
+            <div style="font-size:clamp(15px,1.7vw,22px);color:var(--muted)">Curiosity, judgment, and the ability to ask the right questions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+       21 · ONE THING THIS WEEK
   ══════════════════════════════════ -->
       <div class="slide">
         <div class="band">Close</div>
-        <h2 style="margin-bottom: 3%">One thing. This week.</h2>
-        <div style="display: flex; flex-direction: column; gap: 2.5vw">
-          <div
-            class="card"
-            style="border-color: var(--blue); box-shadow: 4px 4px 0 var(--blue)"
-          >
-            <div class="card-title">Option A</div>
-            <div class="card-body">
-              Explain one of your HYF projects out loud to someone
-              non-technical. Notice where you get stuck.
-            </div>
+        <h2 style="margin-bottom: 4%">So, how do I prepare?</h2>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px,1.4vw,20px); margin-bottom: clamp(14px,2vw,28px)">
+          <div class="card">
+            <div class="card-title">Explain it out loud</div>
+            <div class="card-body">Walk through one of your HYF projects to someone non-technical. Notice where you get stuck.</div>
           </div>
           <div class="card">
-            <div class="card-title">Option B</div>
-            <div class="card-body">
-              Record yourself answering &ldquo;what would you do differently on
-              your last project?&rdquo; and listen back.
-            </div>
+            <div class="card-title">Record yourself</div>
+            <div class="card-body">Answer &ldquo;what would you do differently on your last project?&rdquo; and listen back.</div>
           </div>
           <div class="card">
-            <div class="card-title">Option C</div>
-            <div class="card-body">
-              Do a mock interview with a classmate. 10 minutes each direction.
-              Swap roles.
-            </div>
+            <div class="card-title">Mock interview</div>
+            <div class="card-body">10 minutes with a classmate, each direction. Swap roles.</div>
+          </div>
+        </div>
+        <div style="margin-bottom: clamp(6px,0.8vw,10px); font-weight: 700; font-size: var(--sz-body)">Online resources:</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px,1.4vw,20px)">
+          <div style="border: 1.5px solid var(--ink); border-radius: 4px; padding: clamp(10px,1.2vw,16px) clamp(14px,1.6vw,22px); display: flex; align-items: center; gap: clamp(10px,1.1vw,16px)">
+            <img src="https://cdn.simpleicons.org/dependabot" style="width:clamp(24px,2.8vw,40px);height:clamp(24px,2.8vw,40px);object-fit:contain" alt="interviewdb">
+            <div><div style="font-weight:700;font-size:var(--sz-body)">interviewdb.io</div><div style="color:var(--muted);font-size:clamp(13px,1.4vw,18px)">Real questions from real companies</div></div>
+          </div>
+          <div style="border: 1.5px solid var(--ink); border-radius: 4px; padding: clamp(10px,1.2vw,16px) clamp(14px,1.6vw,22px); display: flex; align-items: center; gap: clamp(10px,1.1vw,16px)">
+            <img src="https://cdn.simpleicons.org/googlemeet" style="width:clamp(24px,2.8vw,40px);height:clamp(24px,2.8vw,40px);object-fit:contain" alt="prachub">
+            <div><div style="font-weight:700;font-size:var(--sz-body)">prachub.com</div><div style="color:var(--muted);font-size:clamp(13px,1.4vw,18px)">Mock interview practice</div></div>
+          </div>
+          <div style="border: 1.5px solid var(--ink); border-radius: 4px; padding: clamp(10px,1.2vw,16px) clamp(14px,1.6vw,22px); display: flex; align-items: center; gap: clamp(10px,1.1vw,16px)">
+            <img src="https://cdn.simpleicons.org/codewars" style="width:clamp(24px,2.8vw,40px);height:clamp(24px,2.8vw,40px);object-fit:contain" alt="codewars">
+            <div><div style="font-weight:700;font-size:var(--sz-body)">Codewars / LeetCode</div><div style="color:var(--muted);font-size:clamp(13px,1.4vw,18px)">Algorithm and problem-solving practice</div></div>
           </div>
         </div>
       </div>
@@ -1493,7 +1556,7 @@
         <div class="sub" style="margin-bottom: 5%; color: var(--ink)">
           One thing to hold onto:
         </div>
-        <div class="quote">
+        <div class="quote quote-purple">
           You don&rsquo;t need to know everything.<br />
           You need to show that you can think, communicate, and learn.<br />
           That&rsquo;s what gets a junior hired.
@@ -1505,9 +1568,9 @@
     </div>
 
     <script>
-      const TOTAL = 25;
+      const TOTAL = 27;
       const KEY = "ti-slide";
-      const JUMP = { 1: 2, 2: 5, 3: 10, 4: 13, 5: 16, 6: 18, 7: 22 };
+      const JUMP = { 0: 0, 1: 2, 2: 5, 3: 10, 4: 13, 5: 16, 6: 18, 7: 22 };
 
       const deck = document.getElementById("deck");
       const bar = document.getElementById("progress");
