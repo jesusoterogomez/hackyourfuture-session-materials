@@ -17,12 +17,14 @@ Problems suitable for the live demo. Each one has a "write the loop yourself" co
 
 A junior who does all of this and narrates their steps is performing well. They don't need to handle edge cases unprompted.
 
-**Junior solution**
+<details>
+<summary>Junior solution</summary>
+
 ```javascript
 function search(items, term) {
   const results = [];
   for (const item of items) {
-    if (item.name.includes(term)) {
+    if (item.includes(term)) {
       results.push(item);
     }
   }
@@ -30,7 +32,12 @@ function search(items, term) {
 }
 ```
 
-**An experienced engineer would...**
+</details>
+
+<details>
+<summary>Experienced engineer solution</summary>
+
+An experienced engineer would:
 - Ask upfront: "What property are we matching on? Should this be case-insensitive?"
 - Add a `key` parameter so the function isn't tied to `.name`
 - Guard against empty `term` with an early return
@@ -52,6 +59,8 @@ function search(items, term, key = "name") {
 }
 ```
 
+</details>
+
 **Good narration moment:** after the junior solution works, ask "what if the search term is uppercase and the names aren't?" — add `.toLowerCase()` and show how a working solution evolves naturally.
 
 ---
@@ -69,7 +78,9 @@ function search(items, term, key = "name") {
 
 A junior who gets this working for a simple array of strings or numbers is doing well. They are not expected to anticipate the object reference issue unprompted.
 
-**Junior solution**
+<details>
+<summary>Junior solution</summary>
+
 ```javascript
 function deduplicate(items) {
   const results = [];
@@ -82,9 +93,12 @@ function deduplicate(items) {
 }
 ```
 
-**The trap worth showing:** works for primitives, silently breaks for objects. `results.includes(item)` compares by reference. Run it on `[{id:1}, {id:1}]` live — both items come back. This moment lands well with an audience and opens the door to the senior solution naturally.
+</details>
 
-**An experienced engineer would...**
+<details>
+<summary>Experienced engineer solution</summary>
+
+An experienced engineer would:
 - Ask upfront: "Are these primitives or objects? If objects, what field identifies uniqueness?"
 - Use a `Set` for O(1) lookup and explain why `.includes()` is O(n)
 - Accept a `key` parameter for deduplicating objects by a specific field
@@ -105,6 +119,10 @@ function deduplicate(items, key) {
   return results;
 }
 ```
+
+</details>
+
+**The trap worth showing:** works for primitives, silently breaks for objects. `results.includes(item)` compares by reference. Run it on `[{id:1}, {id:1}]` live — both items come back. This moment lands well with an audience and opens the door to the senior solution naturally.
 
 **`Map` vs `Set` teaching moment:** use `Set` when you only need to track presence. Reach for `Map` when you need to associate data with the key — e.g. counting duplicates or tracking first-occurrence index. Most juniors have never used either in production; worth naming.
 

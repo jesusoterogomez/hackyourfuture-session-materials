@@ -44,14 +44,21 @@ function App() {
 
 A junior who does all of this — even if they need a small nudge — is performing well. They are not expected to handle edge cases, add debouncing, or refactor the component structure.
 
-**Junior fix**
+<details>
+<summary>Junior fix</summary>
+
 ```javascript
 const filtered = items.filter(item =>
   item.toLowerCase().includes(query.toLowerCase())
 );
 ```
 
-**An experienced engineer would...**
+</details>
+
+<details>
+<summary>Experienced engineer fix</summary>
+
+An experienced engineer would:
 - Ask upfront: "Should this be case-insensitive? What about partial matches at the start only, or anywhere in the string?"
 - Normalize once: extract `query.toLowerCase()` into a variable rather than calling it inside the filter callback
 - Notice whether the component re-renders on every keystroke and consider whether that's a concern at scale
@@ -82,6 +89,8 @@ function App() {
   );
 }
 ```
+
+</details>
 
 ---
 

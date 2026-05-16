@@ -23,7 +23,9 @@ function search(items, term) {
 
 A junior who finds the bug, fixes it minimally, and explains it clearly is performing well. They don't need to add a `key` parameter or handle null values unprompted.
 
-**Junior fix**
+<details>
+<summary>Junior fix</summary>
+
 ```javascript
 function search(items, term) {
   return items.filter(item =>
@@ -36,7 +38,12 @@ function search(items, term) {
 // so partial matches and different casing work as expected.
 ```
 
-**An experienced engineer would...**
+</details>
+
+<details>
+<summary>Experienced engineer fix</summary>
+
+An experienced engineer would:
 - Normalize once by extracting `term.toLowerCase()` outside the filter callback (avoid recomputing on every iteration)
 - Add `.trim()` to handle accidental whitespace
 - Consider whether to guard against an empty `term`
@@ -50,6 +57,8 @@ function search(items, term) {
   );
 }
 ```
+
+</details>
 
 ---
 
@@ -65,7 +74,9 @@ function search(items, term) {
 
 A junior who adds a working sort without mutating the original data is doing well. They are not expected to use `localeCompare` unprompted or handle complex sort cases.
 
-**Junior solution**
+<details>
+<summary>Junior solution</summary>
+
 ```javascript
 const sorted = [...items].sort((a, b) => {
   if (a.name < b.name) return -1;
@@ -74,7 +85,12 @@ const sorted = [...items].sort((a, b) => {
 });
 ```
 
-**An experienced engineer would...**
+</details>
+
+<details>
+<summary>Experienced engineer solution</summary>
+
+An experienced engineer would:
 - Use `localeCompare` which handles accented characters and locale-specific ordering
 - Spread the array first to avoid mutating the original (`[...items]`)
 - Consider whether sort should be togglable (ascending/descending)
@@ -85,6 +101,8 @@ const sorted = [...items].sort((a, b) =>
   a.name.localeCompare(b.name)
 );
 ```
+
+</details>
 
 ---
 
@@ -100,11 +118,15 @@ const sorted = [...items].sort((a, b) =>
 
 A junior who reads the tests as a spec and fixes the implementation accordingly is performing well. They don't need to add extra tests or refactor beyond what's needed.
 
-**An experienced engineer would...**
+<details>
+<summary>What an experienced engineer does differently</summary>
+
 - Read all three tests before writing a single line of code
 - Add a short note in the PR description explaining what was broken and why — not just "fixed failing tests"
 - Check whether the fix reveals any other fragile assumptions in the code
 - Leave a comment if the fix involves a non-obvious workaround
+
+</details>
 
 ---
 
