@@ -6,59 +6,18 @@ HackYourFuture Denmark — ~90–120 min session
 
 - [Technical Interviews](https://raw.githack.com/jesusoterogomez/hackyourfuture-session-materials/main/technical-interview/slides/technical-interview.html)
 
-## Topics
+## About this session
 
-### Part 01 · Why interviews vary
+A practical session on how technical interviews actually work — not as a standardized test, but as a reflection of the person running them. The session covers the different styles of interviewers you're likely to encounter, what they're each trying to learn about you, and how to show up clearly regardless of the format.
 
-- Interviews reflect the person running them, not a universal standard
-- Three interviewer archetypes and what drives each one
-- How to read the room and adapt
+It also covers the human side: nerves, recovery tactics, what teams are really assessing, and what junior candidates can do to stand out.
 
-### Part 02 · The three interviewer types
-
-- The Professor — structured, fundamentals-focused, algorithm-style problems
-- The Teammate — collaborative, pair-programming, how you work day-to-day
-- The Builder — take-home or async, judges code quality and judgment
-
-### Part 03 · What they all care about
-
-- How you think through problems
-- Technical knowledge you can apply, not memorise
-- How you communicate and collaborate
-- Three myths to stop believing
-
-### Part 04 · Live demo
-
-- One filtering problem, three styles of interview
-- Thinking out loud, asking questions, and explaining decisions
-
-### Part 05 · Common interview formats
-
-- Whiteboard, take-home, pair programming, phone screen, system design, portfolio walkthrough
-
-### Part 06 · The human side
-
-- What helps with nerves
-- When things don't go as planned — 5 recovery tactics
-- It's not just about the code — what teams are really assessing
-- Discussion: experiences in the room
-- Practical phrases to use mid-interview
-- One thing to do this week
-
-## Structure
-
-| Part | Topic | Slides |
-|------|-------|--------|
-| — | Title + Agenda | 1–2 |
-| 01 | Why interviews vary | 3–5 |
-| 02 | The three interviewer types | 6–10 |
-| 03 | What they all care about | 11–13 |
-| 04 | Live demo — one task, three styles | 14–17 |
-| 05 | Common interview formats | 18 |
-| 06 | The human side | 19–24 |
-| — | Close | 25 |
+The material is a combination of:
+- Discussions with people I have worked with and other engineers who have led hiring processes
+- My own observations and anecdotes from both sides of the table
+- A Reddit thread I started to gather perspectives from the wider community: [How are you interviewing junior software engineers?](https://www.reddit.com/r/webdev/comments/1td9t0b/how_are_you_interviewing_junior_software/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
 
 ## Contents
 
-- `slides/` — Presentation (25 slides)
-- `mentor-notes/` — Session guide with timing, demo script, and Q&A prep
+- `slides/` — Presentation (27 slides)
+- `mentor-notes/` — Demo scripts and question examples for each interviewer type
