@@ -31,7 +31,12 @@ function App() {
 }
 ```
 
-**What's wrong:** strict equality (`===`) means results only appear on an exact full match. No partial matches, no case tolerance.
+<details>
+<summary>What's wrong</summary>
+
+Strict equality (`===`) means results only appear on an exact full match. No partial matches, no case tolerance.
+
+</details>
 
 ---
 
@@ -45,7 +50,7 @@ function App() {
 A junior who does all of this — even if they need a small nudge — is performing well. They are not expected to handle edge cases, add debouncing, or refactor the component structure.
 
 <details>
-<summary>Junior fix</summary>
+<summary>Simple fix</summary>
 
 ```javascript
 const filtered = items.filter(item =>

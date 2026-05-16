@@ -24,7 +24,7 @@ function search(items, term) {
 A junior who finds the bug, fixes it minimally, and explains it clearly is performing well. They don't need to add a `key` parameter or handle null values unprompted.
 
 <details>
-<summary>Junior fix</summary>
+<summary>Simple fix</summary>
 
 ```javascript
 function search(items, term) {
@@ -75,7 +75,7 @@ function search(items, term) {
 A junior who adds a working sort without mutating the original data is doing well. They are not expected to use `localeCompare` unprompted or handle complex sort cases.
 
 <details>
-<summary>Junior solution</summary>
+<summary>Simple solution</summary>
 
 ```javascript
 const sorted = [...items].sort((a, b) => {

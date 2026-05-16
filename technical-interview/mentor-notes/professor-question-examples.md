@@ -18,7 +18,7 @@ Problems suitable for the live demo. Each one has a "write the loop yourself" co
 A junior who does all of this and narrates their steps is performing well. They don't need to handle edge cases unprompted.
 
 <details>
-<summary>Junior solution</summary>
+<summary>Simple solution</summary>
 
 ```javascript
 function search(items, term) {
@@ -79,7 +79,7 @@ function search(items, term, key = "name") {
 A junior who gets this working for a simple array of strings or numbers is doing well. They are not expected to anticipate the object reference issue unprompted.
 
 <details>
-<summary>Junior solution</summary>
+<summary>Simple solution</summary>
 
 ```javascript
 function deduplicate(items) {
